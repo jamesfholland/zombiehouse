@@ -32,7 +32,7 @@ public class Controller
 
 
     //Temporary until we build a better static map and then generated map.
-    ArrayList<Tile> tiles = new ArrayList<>();
+    ArrayList<Tile> tiles = new ArrayList();
     tiles.add(new Floor(new Point(0, 0)));
 
     Unit player = new Player(new Point(0, 0));
