@@ -12,7 +12,7 @@ public abstract class GameObject
    */
   protected Dimension size;
   /**
-   * Center of object in pixels
+   * Top Left corner of object in pixels
    */
   protected Point location;
 
