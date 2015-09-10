@@ -21,12 +21,23 @@ public abstract class GameObject
    */
   protected Rectangle2D hitbox;
 
+  /**
+   * Computes the hitbox if not already computed or returns the precomputed hitbox.
+   */
+  private void setHitbox()
+  {
+    if(hitbox == null)
+    {
+      hitbox = new Rectangle(location, size);
+    }
+  }
    /**
    * Pass object a hitbox to check intersection with. Intersection means collision.
    * @return true if a collision occurred, otherwise false
    */
   public boolean checkCollision(Rectangle2D otherHitbox)
   {
+    setHitbox();
     return this.hitbox.intersects(otherHitbox);
   }
 

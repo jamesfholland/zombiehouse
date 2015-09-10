@@ -35,7 +35,7 @@ public class Controller
     ArrayList<Tile> tiles = new ArrayList<>();
     tiles.add(new Floor(new Point(0, 0)));
 
-    Unit player = new Player();
+    Unit player = new Player(new Point(0, 0));
 
     view.setUnitsAndTiles(tiles, null, player);
 

@@ -18,5 +18,7 @@ public abstract class Tile extends GameObject
     this.size = new Dimension(Settings.TILE_SIZE, Settings.TILE_SIZE);
     this.isBurned = false;
     this.isFire = false;
+
+
   }
 }
