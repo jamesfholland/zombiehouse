@@ -14,7 +14,13 @@ public class Floor extends Tile
     super(); //Sets up shared Tile settings.
     this.location = location;
     this.isPillar = false;
+  }
 
+  public Floor(Point location, boolean isPillar)
+  {
+    super(); //Sets up shared Tile settings.
+    this.location = location;
+    this.isPillar = isPillar;
   }
 
 

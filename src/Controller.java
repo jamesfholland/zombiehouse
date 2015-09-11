@@ -1,3 +1,4 @@
+import Model.Level;
 import Model.Tile.Floor;
 import Model.Tile.Tile;
 import Model.Unit.Player;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 public class Controller
 {
   private ViewManager view;
+
+  private Level currentLevel;
+  private Player hero;
 
   //60hz loop calls
   /*
