@@ -46,7 +46,7 @@ public class Player extends Unit
   @Override
   public BufferedImage getImage()
   {
-    return null;
+    return playerFront;
   }
 
   @Override

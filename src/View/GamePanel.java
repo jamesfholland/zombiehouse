@@ -33,6 +33,8 @@ public class GamePanel extends JPanel
    */
   private Rectangle2D viewWindow;
   private Point center;
+  private Point corner;
+
   private double windowScale;
 
   /**
@@ -44,14 +46,16 @@ public class GamePanel extends JPanel
     //Set to red to distinguish from ScoreBar for now.
     setBackground(Color.RED);
 
-    viewWindow = new Rectangle(0,0, Settings.WIDTH_STANDARD, Settings.HEIGHT_STANDARD);
+    viewWindow = new Rectangle(0, 0, Settings.WIDTH_STANDARD, Settings.HEIGHT_STANDARD);
     center = new Point();
-    setPreferredSize(new Dimension(Settings.WIDTH_STANDARD,Settings.HEIGHT_STANDARD));
+    corner = new Point();
+    setPreferredSize(new Dimension(Settings.WIDTH_STANDARD, Settings.HEIGHT_STANDARD));
   }
 
   /**
    * Links list of units and tiles for drawing.
    * Called upon level load. These lists are shared with the controller.
+   *
    * @param tiles list of tiles in map
    * @param units list of units both zombies, player, fire, and traps.
    */
@@ -62,14 +66,15 @@ public class GamePanel extends JPanel
     this.player = player;
   }
 
-  private void setViewWindow(Point center)
+  private void setViewWindow()
   {
     double dynamicHeight = Settings.HEIGHT_STANDARD * windowScale;
-    viewWindow.setFrameFromCenter(center.x, center.y, center.x+Settings.WIDTH_STANDARD/2, center.y + dynamicHeight/2);
+    viewWindow.setFrameFromCenter(center, corner);
   }
 
   /**
    * Paint all the units and tiles.
+   *
    * @param graphics
    */
   @Override
@@ -80,13 +85,15 @@ public class GamePanel extends JPanel
     //Calculate scale factor of the resized window.
     windowScale = Settings.WIDTH_STANDARD / (double) this.getWidth();
 
-    if(player != null)
+    if (player != null)
     {
       center.setLocation(player.getLocation());
       //This could probably be better written.
       center.translate(player.getSize().width, player.getSize().height);
+      corner.setLocation(center);
+      corner.translate((-1) * this.getWidth() / 2, (-1) * this.getHeight() / 2);
 
-      setViewWindow(center);
+      setViewWindow();
 
       scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
 
@@ -94,7 +101,7 @@ public class GamePanel extends JPanel
       {
         for (Tile tile : tiles)
         {
-          if(tile.checkCollision(viewWindow))
+          if (tile.checkCollision(viewWindow))
           {
             //Draw tile at calculated pixel location
           }
@@ -106,7 +113,7 @@ public class GamePanel extends JPanel
 
   private void scaleAndDrawImage(BufferedImage image, Graphics graphics, Point corner, Dimension size)
   {
-    graphics.drawImage(image, corner.x, corner.y, size.width, size.height, null);
+    graphics.drawImage(image, corner.x - this.corner.x, corner.y - this.corner.y, (int) (size.width / windowScale), (int) (size.height / windowScale), null);
 
   }
 }
