@@ -21,5 +21,15 @@ public abstract class Zombie extends Unit
     this.heading = heading;
   }
 
+  protected void setHeading(double toSet)
+  {
+    heading = toSet;
+  }
+
+  protected double getHeading()
+  {
+    return heading;
+  }
+
 
 }
