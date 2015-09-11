@@ -39,9 +39,9 @@ public class Level
   public String toString()
   {
     StringBuilder houseString = new StringBuilder();
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < Settings.PRACTICE_MAP_SIZE; i++)
     {
-      for (int j = 0; j < 5; j++)
+      for (int j = 0; j < Settings.PRACTICE_MAP_SIZE; j++)
       {
         houseString.append(houseTiles[j][i].toString());
       }

@@ -1,8 +1,7 @@
 import Model.HouseGeneration.HouseGeneration;
 import Model.Level;
 import Model.Settings;
-import Model.Tile.Floor;
-import Model.Tile.Tile;
+import Model.Tile.*;
 import Model.Unit.Player;
 import Model.Unit.Unit;
 import View.ViewManager;

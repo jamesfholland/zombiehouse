@@ -58,5 +58,13 @@ public interface Settings
   double TILED_WIDTH = WIDTH_STANDARD / (double) TILE_SIZE;
 
 
+  /**
+   * Tiles on practice level - TEMPORARY VARIABLE
+   * square size - variable is length of side
+   */
+
+  final int PRACTICE_MAP_SIZE = 7;
+
+
 
 }
