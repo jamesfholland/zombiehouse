@@ -15,10 +15,10 @@ public class ZombieLine extends Zombie
   }
 
   @Override
-  public void update(long deltaTime)
+  public void update(long deltaTime, long secondsFromStart)
   {
-    double y = getLocation().getY() + Math.sin(this.heading)*0.5;
-    double x = getLocation().getX() + Math.cos(this.heading)*0.5;
+    double y = getLocation().getY() + (Math.sin(this.heading)*speed/deltaTime);
+    double x = getLocation().getX() + (Math.cos(this.heading)*speed/deltaTime);
     location.setLocation(x,y);
   }
 

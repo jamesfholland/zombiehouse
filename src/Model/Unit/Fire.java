@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public class Fire extends Unit
 {
   @Override
-  public void update(long deltaTime)
+  public void update(long deltaTime, long secondsFromStart)
   {
 
   }
