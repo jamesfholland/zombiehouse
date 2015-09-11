@@ -17,7 +17,7 @@ public class Player extends Unit
   }
 
   @Override
-  public void update()
+  public void update(long deltaTime)
   {
 
   }

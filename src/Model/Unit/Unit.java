@@ -8,8 +8,9 @@ public abstract class Unit extends GameObject
 {
   /**
    * This updates the game object's state as determined by its child class.
+   * @param deltaTime
    */
-  public abstract void update();
+  public abstract void update(long deltaTime);
 
 
   /**

@@ -3,7 +3,6 @@ package Model.Unit.Zombie;
 import Model.GameObject;
 
 import javax.sound.sampled.Clip;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 public class ZombieLine extends Zombie
@@ -16,7 +15,7 @@ public class ZombieLine extends Zombie
   }
 
   @Override
-  public void update()
+  public void update(long deltaTime)
   {
     double y = getLocation().getY() + Math.sin(this.heading)*0.5;
     double x = getLocation().getX() + Math.cos(this.heading)*0.5;

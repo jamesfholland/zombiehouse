@@ -14,7 +14,7 @@ public class ZombieRandom extends Zombie
   }
 
   @Override
-  public void update()
+  public void update(long deltaTime)
   {
 
   }
