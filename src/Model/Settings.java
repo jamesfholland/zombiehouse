@@ -53,7 +53,7 @@ public interface Settings
 
   /**
    * Tiles per Width
-   * Width is forced by requirements to be 13.5 tiles on the screen.
+   * Width is forced by requirements to be 24 tiles wide on the screen.
    */
   double TILED_WIDTH = WIDTH_STANDARD / (double) TILE_SIZE;
 
