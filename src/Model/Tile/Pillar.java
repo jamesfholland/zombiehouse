@@ -5,11 +5,13 @@ import Model.GameObject;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Floor extends Tile
+/**
+ * Pillar is a derivative of floor and wall
+ */
+public class Pillar extends Tile
 {
-  private boolean isPillar;
 
-  public Floor(Point location)
+  public Pillar(Point location)
   {
     super(); //Sets up shared Tile settings.
     this.location = location;
@@ -30,6 +32,6 @@ public class Floor extends Tile
   @Override
   public String toString()
   {
-    return ".";
+    return "I";
   }
 }

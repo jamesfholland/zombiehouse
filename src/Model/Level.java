@@ -17,6 +17,8 @@ public class Level
   //                 but when a player respawns, they should have as many as before.
   private int fireTrapCount;
 
+  // Add in a list of colliadable tiles
+
   public Level(int levelNum, Tile[][] houseTiles, ArrayList<Zombie> zombieList, int fireTrapCount)
   {
     this.levelNum = levelNum;
