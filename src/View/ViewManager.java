@@ -29,6 +29,7 @@ public class ViewManager
     this.frame.add(this.gamePanel, BorderLayout.CENTER);
 
     this.frame.setVisible(true);
+    this.frame.pack();
 
   }
 

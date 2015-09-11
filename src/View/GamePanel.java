@@ -7,6 +7,7 @@ import Model.Unit.Unit;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -32,7 +33,7 @@ public class GamePanel extends JPanel
    */
   private Rectangle2D viewWindow;
   private Point center;
-  private double viewTileSize;
+  private double windowScale;
 
   /**
    * Setup the new GamePanel
@@ -45,6 +46,7 @@ public class GamePanel extends JPanel
 
     viewWindow = new Rectangle(0,0, Settings.WIDTH_STANDARD, Settings.HEIGHT_STANDARD);
     center = new Point();
+    setPreferredSize(new Dimension(Settings.WIDTH_STANDARD,Settings.HEIGHT_STANDARD));
   }
 
   /**
@@ -62,8 +64,8 @@ public class GamePanel extends JPanel
 
   private void setViewWindow(Point center)
   {
-    //This isn't correct it needs to account for increased length as window narrows. All sizes are fixed by width.
-    viewWindow.setFrameFromCenter(center.x, center.y, center.x+Settings.WIDTH_STANDARD/2, center.y + Settings.HEIGHT_STANDARD/2);
+    double dynamicHeight = Settings.HEIGHT_STANDARD * windowScale;
+    viewWindow.setFrameFromCenter(center.x, center.y, center.x+Settings.WIDTH_STANDARD/2, center.y + dynamicHeight/2);
   }
 
   /**
@@ -73,9 +75,10 @@ public class GamePanel extends JPanel
   @Override
   public void paintComponent(Graphics graphics)
   {
+    super.paintComponent(graphics);
 
-    //Calculate tilesize based on resizable width of jPanel
-    viewTileSize = this.getWidth()/ Settings.TILED_WIDTH;
+    //Calculate scale factor of the resized window.
+    windowScale = Settings.WIDTH_STANDARD / (double) this.getWidth();
 
     if(player != null)
     {
@@ -84,6 +87,8 @@ public class GamePanel extends JPanel
       center.translate(player.getSize().width, player.getSize().height);
 
       setViewWindow(center);
+
+      scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
 
       if (tiles != null)
       {
@@ -97,5 +102,11 @@ public class GamePanel extends JPanel
       }
 
     }
+  }
+
+  private void scaleAndDrawImage(BufferedImage image, Graphics graphics, Point corner, Dimension size)
+  {
+    graphics.drawImage(image, corner.x, corner.y, size.width, size.height, null);
+
   }
 }
