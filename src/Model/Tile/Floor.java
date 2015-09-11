@@ -35,4 +35,11 @@ public class Floor extends Tile
   {
 
   }
+
+  @Override
+  public String toString()
+  {
+    if(isPillar) return "I";
+    return ".";
+  }
 }

@@ -26,4 +26,7 @@ public class Exit extends Tile
   {
 
   }
+
+  @Override
+  public String toString() { return "f"; }
 }

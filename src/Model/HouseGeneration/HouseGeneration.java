@@ -58,7 +58,7 @@ public class HouseGeneration
       houseTiles[i + 2][3] = new Wall(new Point((i + 2) * Settings.TILE_SIZE, 3 * Settings.TILE_SIZE));
     }
 
-    houseTiles[0][0] = new Floor(new Point(0 * Settings.TILE_SIZE, 0 * Settings.TILE_SIZE));
+    houseTiles[0][0] = new Floor(new Point(0 * Settings.TILE_SIZE, 0 * Settings.TILE_SIZE), true);
   }
 
   private void presetZombies()
@@ -72,5 +72,7 @@ public class HouseGeneration
   }
 
   public Level getCurrentLevel() { return currentLevel; }
+
+
 
 }

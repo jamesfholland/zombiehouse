@@ -32,4 +32,19 @@ public class Level
   public ArrayList<Zombie> getZombieList() { return zombieList; }
 
   public int getFireTrapCount() { return fireTrapCount; }
+
+  @Override
+  public String toString()
+  {
+    StringBuilder houseString = new StringBuilder();
+    for (int i = 0; i < 5; i++)
+    {
+      for (int j = 0; j < 5; j++)
+      {
+        houseString.append(houseTiles[j][i].toString());
+      }
+      houseString.append("\n");
+    }
+    return houseString.toString();
+  }
 }

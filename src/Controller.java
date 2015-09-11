@@ -42,6 +42,8 @@ public class Controller
     currentLevel = houseGenerator.getCurrentLevel();
     hero = new Player(new Point(3 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE));
 
+    System.out.println(currentLevel.toString());
+
     // a call to currentLevel.getHouseTiles() will return a 2d array with the default 5x5 map
 
 
