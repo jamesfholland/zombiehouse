@@ -9,7 +9,7 @@ public class Firetrap extends Unit
 {
 
   @Override
-  public void update(long deltaTime)
+  public void update(long deltaTime, long secondsFromStart)
   {
 
   }

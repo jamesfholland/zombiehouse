@@ -1,8 +1,9 @@
 package Model.HouseGeneration;
 
+import Model.Level;
 import Model.Settings;
 import Model.Tile.*;
-import Model.Unit.Zombie.Zombie;
+import Model.Unit.Zombie.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class HouseGeneration
   int houseWidth, houseHeight;
   Tile[][] houseTiles;
   ArrayList<Zombie> zombieArrayList;
+
+  Level currentLevel;
 
   // held for house generation: on death/respawn, last known seed is used
   //                            on new level, take new seed
@@ -59,10 +62,15 @@ public class HouseGeneration
   }
 
   private void presetZombies()
-  {}
+  {
+    zombieArrayList.add(new ZombieLine(1, 0, 0));
+  }
 
   private void createLevel()
   {
-
+    currentLevel = new Level(1, houseTiles, zombieArrayList, 3);
   }
+
+  public Level getCurrentLevel() { return currentLevel; }
+
 }
