@@ -8,6 +8,11 @@ import java.awt.image.BufferedImage;
 public class ZombieRandom extends Zombie
 {
 
+  public ZombieRandom(int x, int y, double heading)
+  {
+    super(x, y, heading);
+  }
+
   @Override
   public void update()
   {

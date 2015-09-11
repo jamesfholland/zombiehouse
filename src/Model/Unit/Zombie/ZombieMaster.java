@@ -8,6 +8,11 @@ import java.awt.image.BufferedImage;
 public class ZombieMaster extends Zombie
 {
 
+  public ZombieMaster(int x, int y, double heading)
+  {
+    super(x, y, heading);
+  }
+
   @Override
   public void update()
   {

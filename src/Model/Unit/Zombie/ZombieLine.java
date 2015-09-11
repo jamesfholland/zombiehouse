@@ -18,8 +18,9 @@ public class ZombieLine extends Zombie
   @Override
   public void update()
   {
-    //int x =
-    //location = location.setLocation();
+    double y = getLocation().getY() + Math.sin(this.heading)*0.5;
+    double x = getLocation().getX() + Math.cos(this.heading)*0.5;
+    location.setLocation(x,y);
   }
 
   @Override
