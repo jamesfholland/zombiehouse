@@ -1,13 +1,29 @@
 package Model.Tile;
 
 import Model.GameObject;
-import Model.Tile.Tile;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Exit extends Tile
 {
+  private final static BufferedImage EXIT_IMAGE;
+
+  static
+  {BufferedImage imageTemp = null;
+
+    try
+    {
+      imageTemp = ImageIO.read(Exit.class.getResourceAsStream("playerFront.png"));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    EXIT_IMAGE = imageTemp;
+  }
 
   public Exit(Point location)
   {
@@ -18,7 +34,7 @@ public class Exit extends Tile
   @Override
   public BufferedImage getImage()
   {
-    return null;
+    return EXIT_IMAGE;
   }
 
   @Override

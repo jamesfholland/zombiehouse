@@ -2,12 +2,28 @@ package Model.Tile;
 
 import Model.GameObject;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Floor extends Tile
 {
-  private boolean isPillar;
+  private final static BufferedImage FLOOR_IMAGE;
+
+  static
+  {BufferedImage imageTemp = null;
+
+    try
+    {
+      imageTemp = ImageIO.read(Floor.class.getResourceAsStream("floor.png"));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    FLOOR_IMAGE = imageTemp;
+  }
 
   public Floor(Point location)
   {
@@ -18,7 +34,7 @@ public class Floor extends Tile
   @Override
   public BufferedImage getImage()
   {
-    return null;
+    return FLOOR_IMAGE;
   }
 
   @Override
