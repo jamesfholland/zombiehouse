@@ -1,5 +1,6 @@
 package View;
 
+import Model.Level;
 import Model.Tile.Tile;
 import Model.Unit.Unit;
 
@@ -34,14 +35,12 @@ public class ViewManager
   }
 
   /**
-   * Links list of units and tiles for drawing.
+   * Links the level.
    * Called upon level load. These lists are shared with the controller.
-   * @param tiles list of tiles in map
-   * @param units list of units both zombies, player, fire, and traps.
+   * @param level the level that will now be viewed.
    */
-  public void setUnitsAndTiles(ArrayList<Tile> tiles, ArrayList<Unit> units, Unit player)
+  public void setLevel(Level level)
   {
-    this.gamePanel.setUnitsAndTiles(tiles, units, player);
+    gamePanel.setLevel(level);
   }
-
 }

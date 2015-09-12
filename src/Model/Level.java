@@ -16,15 +16,17 @@ public class Level
   // fireTrapCount - when a player enters a new level the count should carry over
   //                 but when a player respawns, they should have as many as before.
   private int fireTrapCount;
+  private Player player;
 
-  // Add in a list of colliadable tiles
+  // Add in a list of collidable tiles
 
-  public Level(int levelNum, Tile[][] houseTiles, ArrayList<Zombie> zombieList, int fireTrapCount)
+  public Level(int levelNum, Tile[][] houseTiles, ArrayList<Zombie> zombieList, int fireTrapCount, Player player)
   {
     this.levelNum = levelNum;
     this.houseTiles = houseTiles;
     this.zombieList = zombieList;
     this.fireTrapCount = fireTrapCount;
+    this.player = player;
   }
 
   public int getLevelNum() { return levelNum; }
@@ -48,5 +50,14 @@ public class Level
       houseString.append("\n");
     }
     return houseString.toString();
+  }
+
+  /**
+   * Gets the player object
+   * @return the player
+   */
+  public Player getPlayer()
+  {
+    return player;
   }
 }

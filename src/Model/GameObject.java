@@ -70,4 +70,9 @@ public abstract class GameObject
    * Collide with other object and perform actions called for.
    */
   public abstract void collide(GameObject other);
+
+  public void setLocation(Point location)
+  {
+    this.location = location;
+  }
 }

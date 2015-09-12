@@ -1,8 +1,11 @@
 package View;
 
+import Model.Level;
 import Model.Settings;
 import Model.Tile.Tile;
+import Model.Unit.Player;
 import Model.Unit.Unit;
+import Model.Unit.Zombie.Zombie;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,14 +22,7 @@ public class GamePanel extends JPanel
   /**
    * List of tiles in map. This might need to change to a different Collection type.
    */
-  private ArrayList<Tile> tiles;
-
-  /**
-   * List of units in map. Also might need to change.
-   */
-  private ArrayList<Unit> units;
-
-  private Unit player;
+  private Level level;
 
   /**
    * This will need to shift as the player moves.
@@ -36,6 +32,10 @@ public class GamePanel extends JPanel
   private Point corner;
 
   private double windowScale;
+  private Player player;
+  private Tile[][] tiles;
+  private ArrayList<Zombie> zombies;
+
 
   /**
    * Setup the new GamePanel
@@ -50,20 +50,6 @@ public class GamePanel extends JPanel
     center = new Point();
     corner = new Point();
     setPreferredSize(new Dimension(Settings.WIDTH_STANDARD, Settings.HEIGHT_STANDARD));
-  }
-
-  /**
-   * Links list of units and tiles for drawing.
-   * Called upon level load. These lists are shared with the controller.
-   *
-   * @param tiles list of tiles in map
-   * @param units list of units both zombies, player, fire, and traps.
-   */
-  void setUnitsAndTiles(ArrayList<Tile> tiles, ArrayList<Unit> units, Unit player)
-  {
-    this.tiles = tiles;
-    this.units = units;
-    this.player = player;
   }
 
   private void setViewWindow()
@@ -95,18 +81,23 @@ public class GamePanel extends JPanel
 
       setViewWindow();
 
-      scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
+
 
       if (tiles != null)
       {
-        for (Tile tile : tiles)
+        for (int i = 0; i < tiles.length; i++)
         {
-          if (tile.checkCollision(viewWindow))
+          for(int j = 0; j < tiles[i].length; j++)
           {
-            //Draw tile at calculated pixel location
+            if (tiles[i][j].checkCollision(viewWindow))
+            {
+              scaleAndDrawImage(tiles[i][j].getImage(), graphics, tiles[i][j].getLocation(), tiles[i][j].getSize());
+            }
           }
         }
       }
+
+      scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
 
     }
   }
@@ -114,6 +105,21 @@ public class GamePanel extends JPanel
   private void scaleAndDrawImage(BufferedImage image, Graphics graphics, Point corner, Dimension size)
   {
     graphics.drawImage(image, corner.x - this.corner.x, corner.y - this.corner.y, (int) (size.width / windowScale), (int) (size.height / windowScale), null);
+
+  }
+
+  /**
+   * Links list of units and tiles for drawing.
+   * Called upon level load. These lists are shared with the controller.
+   *
+   * @param level the level to display
+   */
+  void setLevel(Level level)
+  {
+    this.level = level;
+    this.player = level.getPlayer();
+    this.tiles = level.getHouseTiles();
+    this.zombies = level.getZombieList();
 
   }
 }

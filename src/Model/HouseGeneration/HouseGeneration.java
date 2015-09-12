@@ -3,6 +3,7 @@ package Model.HouseGeneration;
 import Model.Level;
 import Model.Settings;
 import Model.Tile.*;
+import Model.Unit.Player;
 import Model.Unit.Zombie.*;
 import Model.Settings;
 
@@ -18,6 +19,7 @@ public class HouseGeneration
   int houseWidth, houseHeight;
   Tile[][] houseTiles;
   ArrayList<Zombie> zombieArrayList;
+  Player player;
 
   Level currentLevel;
 
@@ -25,7 +27,7 @@ public class HouseGeneration
   //                            on new level, take new seed
   private static long lastRandomSeed;
 
-  public HouseGeneration()
+  public HouseGeneration(Player player)
   {
     // "Magic number" 5 is just a place holder to make a small house, rather than
     // the full size house.
@@ -33,7 +35,8 @@ public class HouseGeneration
     houseHeight = Settings.PRACTICE_MAP_SIZE;
     houseTiles = new Tile[Settings.PRACTICE_MAP_SIZE][Settings.PRACTICE_MAP_SIZE];
     zombieArrayList = new ArrayList<Zombie>(10);
-
+    player.setLocation(new Point(3 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE));
+    this.player = player;
     lastRandomSeed = System.nanoTime();
 
     presetHouse();
@@ -76,7 +79,7 @@ public class HouseGeneration
 
   private void createLevel()
   {
-    currentLevel = new Level(1, houseTiles, zombieArrayList, 3);
+    currentLevel = new Level(1, houseTiles, zombieArrayList, 3, player);
   }
 
   public Level getCurrentLevel() { return currentLevel; }
