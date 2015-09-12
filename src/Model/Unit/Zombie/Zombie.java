@@ -1,8 +1,9 @@
 package Model.Unit.Zombie;
 
 import Model.Unit.Unit;
+
+import java.awt.*;
 import java.util.Random;
-import java.awt.Point;
 
 public abstract class Zombie extends Unit
 {
@@ -19,6 +20,7 @@ public abstract class Zombie extends Unit
   {
     this.location = new Point(x,y);
     this.heading = heading;
+    this.size = new Dimension(50,70);
   }
 
   protected void setHeading(double toSet)

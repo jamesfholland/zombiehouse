@@ -97,6 +97,14 @@ public class GamePanel extends JPanel
         }
       }
 
+      for(Zombie zombie : zombies)
+      {
+        if(zombie.checkCollision(viewWindow))
+        {
+          scaleAndDrawImage(zombie.getImage(), graphics, zombie.getLocation(), zombie.getSize());
+        }
+      }
+
       scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
 
     }

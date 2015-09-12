@@ -2,14 +2,30 @@ package Model.Unit.Zombie;
 
 import Model.GameObject;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class ZombieLine extends Zombie
 {
 
   private boolean collided = false;
+  private final static BufferedImage ZOMBIE_IMAGE;
 
+  static
+  {BufferedImage imageTemp = null;
+
+    try
+    {
+      imageTemp = ImageIO.read(ZombieMaster.class.getResourceAsStream("zombieRight.png"));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    ZOMBIE_IMAGE = imageTemp;
+  }
   public ZombieLine(int x, int y, double heading)
   {
     super(x, y, heading);

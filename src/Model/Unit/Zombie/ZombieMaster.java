@@ -2,12 +2,28 @@ package Model.Unit.Zombie;
 
 import Model.GameObject;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class ZombieMaster extends Zombie
 {
+  private final static BufferedImage ZOMBIEMASTER_IMAGE;
 
+  static
+  {BufferedImage imageTemp = null;
+
+    try
+    {
+      imageTemp = ImageIO.read(ZombieMaster.class.getResourceAsStream("zombieMasterLeft.png"));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    ZOMBIEMASTER_IMAGE = imageTemp;
+  }
   public ZombieMaster(int x, int y, double heading)
   {
     super(x, y, heading);
@@ -48,7 +64,7 @@ public class ZombieMaster extends Zombie
   @Override
   public BufferedImage getImage()
   {
-    return null;
+    return ZOMBIEMASTER_IMAGE;
   }
 
   @Override
