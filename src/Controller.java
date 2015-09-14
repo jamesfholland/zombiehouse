@@ -7,6 +7,7 @@ import Model.Unit.Unit;
 import View.ViewManager;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class Controller
 {
   private ViewManager view;
+  private KeyboardInput keyboard = new KeyboardInput();
 
   private HouseGeneration houseGenerator;
   private Level currentLevel;
@@ -23,6 +25,8 @@ public class Controller
 
   //60hz loop calls
   /*
+  keyboard.poll();
+  processInput();
   for (u:units)
   {
     u.move();
@@ -57,4 +61,33 @@ public class Controller
   {
 
   }
+
+
+
+  /*
+
+  How the the game processes keyboard input and moves the hero around
+  need to talk to you guys about how to get model data here
+
+  protected void processInput()
+  {
+    if (keyboard.keyDown(KeyEvent.VK_DOWN))
+    {
+      model.hero.location.setLocation(model.hero.getLocationX(),model.hero.getLocationY()+2);
+    }
+    if (keyboard.keyDown(KeyEvent.VK_UP))
+    {
+      model.hero.location.setLocation(model.hero.getLocationX(), model.hero.getLocationY() - 2);
+    }
+    if (keyboard.keyDown(KeyEvent.VK_LEFT))
+    {
+      model.hero.location.setLocation(model.hero.getLocationX()-2,model.hero.getLocationY());
+    }
+    if (keyboard.keyDown(KeyEvent.VK_RIGHT))
+    {
+      model.hero.location.setLocation(model.hero.getLocationX()+2,model.hero.getLocationY());
+    }
+  }*/
+
+
 }
