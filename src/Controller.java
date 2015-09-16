@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.
@@ -22,6 +23,7 @@ public class Controller
   private HouseGeneration houseGenerator;
   private Level currentLevel;
   private Player hero;
+  private Thread gameLoop;
 
   //60hz loop calls
   /*
@@ -52,42 +54,74 @@ public class Controller
 
  view.setLevel(currentLevel);
 
-  }
+    gameLoop = new GameLoop();
 
-
-
-
-  private void gameLoop()
-  {
+    gameLoop.start();
 
   }
-
-
 
   /*
 
   How the the game processes keyboard input and moves the hero around
   need to talk to you guys about how to get model data here
-
+*/
   protected void processInput()
   {
     if (keyboard.keyDown(KeyEvent.VK_DOWN))
     {
-      model.hero.location.setLocation(model.hero.getLocationX(),model.hero.getLocationY()+2);
+      hero.moveUnit(0,2);
     }
     if (keyboard.keyDown(KeyEvent.VK_UP))
     {
-      model.hero.location.setLocation(model.hero.getLocationX(), model.hero.getLocationY() - 2);
+      hero.moveUnit(0, -2);
     }
     if (keyboard.keyDown(KeyEvent.VK_LEFT))
     {
-      model.hero.location.setLocation(model.hero.getLocationX()-2,model.hero.getLocationY());
+      hero.moveUnit(-2, 0);
     }
     if (keyboard.keyDown(KeyEvent.VK_RIGHT))
     {
-      model.hero.location.setLocation(model.hero.getLocationX()+2,model.hero.getLocationY());
+      hero.moveUnit(2, 0);
     }
-  }*/
+  }
 
+  /**
+   * This is a private class for handling the game loop.
+   */
+  private class GameLoop extends Thread
+  {
+    long lastTime;
+    long thisTime;
+    long deltaTime;
+    public void run()
+    {
+      lastTime = System.currentTimeMillis();
+      while(true)
+      {
+        do
+        {
+          try
+          {
+            Thread.sleep(1L);
+          }
+          catch (InterruptedException e)
+          {
+            break; //Something interrupted us probably application closing, break to kill refreshing.
+          }
+          thisTime = System.currentTimeMillis();
+          deltaTime = thisTime - lastTime;
+
+        }
+        while(deltaTime < Settings.REFRESH_RATE);
+
+
+        processInput();
+
+        view.repaint();
+
+      }
+    }
+
+  }
 
 }

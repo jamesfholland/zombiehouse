@@ -43,4 +43,9 @@ public class ViewManager
   {
     gamePanel.setLevel(level);
   }
+
+  public void repaint()
+  {
+    frame.repaint();
+  }
 }
