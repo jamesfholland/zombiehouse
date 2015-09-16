@@ -1,12 +1,9 @@
 package View;
 
 import Model.Level;
-import Model.Tile.Tile;
-import Model.Unit.Unit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * This class manages the view and all gui components
