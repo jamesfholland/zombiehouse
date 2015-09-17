@@ -14,6 +14,7 @@ import java.io.IOException;
 public class Player extends Unit
 {
   private static BufferedImage playerFront;
+  private static final double SQRT2 = Math.sqrt(2);
 
   public Player(Point location, Level level)
   {
@@ -44,8 +45,8 @@ public class Player extends Unit
 
     if (p.x != 0 && p.y != 0)
     {
-      newLocationX = ((p.x)*(1/Math.sqrt(2)) + location.x);
-      newLocationY = ((p.y)*(1/Math.sqrt(2)) + location.y);
+      newLocationX = (p.x*deltaTime*(speed/SQRT2)) + location.x;
+      newLocationY = (p.y*deltaTime*(speed/SQRT2)) + location.y;
       location.setLocation(newLocationX, newLocationY);
     }
     else
