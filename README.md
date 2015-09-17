@@ -1,5 +1,12 @@
 # zombiehouse
 
+
+#### Image Credits
+Floor Tiles
+http://opengameart.org/content/filth-texture-set
+Copyright: Georges Grondin
+License:  GPL
+
 #### Todo
 ###### Interface
 * Tile graphics

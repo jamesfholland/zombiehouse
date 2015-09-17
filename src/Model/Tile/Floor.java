@@ -3,6 +3,7 @@ package Model.Tile;
 import Model.GameObject;
 
 import javax.imageio.ImageIO;
+import javax.security.auth.login.FailedLoginException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -10,9 +11,11 @@ import java.io.IOException;
 public class Floor extends Tile
 {
   private final static BufferedImage FLOOR_IMAGE;
+  private final static BufferedImage FLOOR_BURNED_IMAGE;
 
   static
-  {BufferedImage imageTemp = null;
+  {
+    BufferedImage imageTemp = null;
 
     try
     {
@@ -23,6 +26,16 @@ public class Floor extends Tile
       e.printStackTrace();
     }
     FLOOR_IMAGE = imageTemp;
+
+    try
+    {
+      imageTemp = ImageIO.read(Floor.class.getResourceAsStream("floorBurned.png"));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+    FLOOR_BURNED_IMAGE = imageTemp;
   }
 
   public Floor(Point location)
@@ -34,6 +47,8 @@ public class Floor extends Tile
   @Override
   public BufferedImage getImage()
   {
+    if(burned) return FLOOR_BURNED_IMAGE;
+
     return FLOOR_IMAGE;
   }
 
