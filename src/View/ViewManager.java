@@ -13,7 +13,7 @@ public class ViewManager
   private MainFrame frame;
   private ScoreBar scoreBar;
   private GamePanel gamePanel;
-  public KeyboardInput keyboard = new KeyboardInput();
+  public KeyboardInput keyboard;
 
   public ViewManager()
   {
@@ -25,6 +25,7 @@ public class ViewManager
     this.frame.add(this.scoreBar, BorderLayout.NORTH);
 
     this.gamePanel = new GamePanel();
+    this.keyboard = new KeyboardInput();
     this.gamePanel.addKeyListener(keyboard);
     this.gamePanel.setFocusable(true);
     this.frame.add(this.gamePanel, BorderLayout.CENTER);
