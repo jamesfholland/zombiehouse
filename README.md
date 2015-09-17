@@ -39,7 +39,6 @@
             * Faster?
             * Never loses player location?
             * Spawns zombies?
-
 * Player
     * Collisions
     * Firetrap use
