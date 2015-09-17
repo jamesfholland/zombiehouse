@@ -63,26 +63,21 @@ public class Controller
 
   protected void processInput()
   {
-    int heroSpeed = hero.getSpeed();
     if (view.keyboard.keyDown(KeyEvent.VK_DOWN))
     {
       hero.moveUnit(0,1);
-      //hero.moveUnit(0,(heroSpeed/Settings.REFRESH_RATE));
     }
     if (view.keyboard.keyDown(KeyEvent.VK_UP))
     {
       hero.moveUnit(0,-1);
-      //hero.moveUnit(0, (-heroSpeed/Settings.REFRESH_RATE));
     }
     if (view.keyboard.keyDown(KeyEvent.VK_LEFT))
     {
       hero.moveUnit(-1,0);
-      //hero.moveUnit((-heroSpeed/Settings.REFRESH_RATE), 0);
     }
     if (view.keyboard.keyDown(KeyEvent.VK_RIGHT))
     {
       hero.moveUnit(1,0);
-      //hero.moveUnit((heroSpeed/Settings.REFRESH_RATE), 0);
     }
   }
 
