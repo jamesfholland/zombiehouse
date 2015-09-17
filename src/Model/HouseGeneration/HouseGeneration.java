@@ -9,6 +9,7 @@ import Model.Settings;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Class HouseGeneration is intended to be initialized one time by controller
@@ -48,12 +49,25 @@ public class HouseGeneration
 
   private void presetHouse()
   {
-    for(int i = 0; i < houseWidth; i++)
+    for(int i = 1; i < Settings.PRACTICE_MAP_SIZE; i++)
     {
-      for( int j = 0; j < houseHeight; j++)
+      for( int j = 1; j < Settings.PRACTICE_MAP_SIZE; j++)
       {
-        houseTiles[i][j] = new Wall(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
+        houseTiles[i][j] = new Floor(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
       }
+    }
+
+    for(int i = 0; i < Settings.PRACTICE_MAP_SIZE; i++)
+    {
+      int farWall = Settings.PRACTICE_MAP_SIZE -1;
+      //top wall
+      houseTiles[i][0] = new Wall(new Point(i * Settings.TILE_SIZE, 0 * Settings.TILE_SIZE));
+      //Bottom wall
+      houseTiles[i][farWall] = new Wall(new Point(i * Settings.TILE_SIZE, farWall * Settings.TILE_SIZE));
+      //left wall
+      houseTiles[0][i] = new Wall(new Point(0 * Settings.TILE_SIZE, i * Settings.TILE_SIZE));
+      //right wall
+      houseTiles[farWall][i] = new Wall(new Point(farWall * Settings.TILE_SIZE, i * Settings.TILE_SIZE));
     }
 
     for(int i = 1; i < 6; i++)

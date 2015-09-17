@@ -62,7 +62,7 @@ public interface Settings
    * Tiles on practice level - TEMPORARY VARIABLE
    * square size - variable is length of side
    */
-  int PRACTICE_MAP_SIZE = 7;
+  int PRACTICE_MAP_SIZE = 100;
 
 /**
  * The target refresh rate in milliseconds
