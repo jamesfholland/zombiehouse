@@ -61,7 +61,7 @@ public class ZombieLine extends Zombie
   @Override
   public BufferedImage getImage()
   {
-    return null;
+    return ZOMBIE_IMAGE;
   }
 
   @Override
