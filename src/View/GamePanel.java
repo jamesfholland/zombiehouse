@@ -54,7 +54,7 @@ public class GamePanel extends JPanel
 
   private void setViewWindow()
   {
-    double dynamicHeight = Settings.HEIGHT_STANDARD * windowScale;
+
     viewWindow.setFrameFromCenter(center, corner);
   }
 
@@ -74,10 +74,11 @@ public class GamePanel extends JPanel
     if (player != null)
     {
       center.setLocation(player.getLocation());
-      //This could probably be better written.
-      center.translate(player.getSize().width, player.getSize().height);
+
+      center.translate(player.getSize().width / 2, player.getSize().height / 2);
       corner.setLocation(center);
-      corner.translate((-1) * this.getWidth() / 2, (-1) * this.getHeight() / 2);
+      double dynamicHeight = Settings.HEIGHT_STANDARD * windowScale;
+      corner.translate((-1) * Settings.WIDTH_STANDARD / 2, (int)((-1) * dynamicHeight / 2));
 
       setViewWindow();
 
