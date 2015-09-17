@@ -112,7 +112,12 @@ public class GamePanel extends JPanel
 
   private void scaleAndDrawImage(BufferedImage image, Graphics graphics, Point corner, Dimension size)
   {
-    graphics.drawImage(image, corner.x - this.corner.x, corner.y - this.corner.y, (int) (size.width / windowScale), (int) (size.height / windowScale), null);
+    int newX = corner.x - this.corner.x;
+    int newY = corner.y - this.corner.y;
+
+    newX = (int)(newX/windowScale); //Scale the corner point to match resized grid.
+    newY = (int)(newY/windowScale);
+    graphics.drawImage(image, newX, newY, (int) (size.width / windowScale), (int) (size.height / windowScale), null);
 
   }
 
