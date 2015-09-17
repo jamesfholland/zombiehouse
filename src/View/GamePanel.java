@@ -120,7 +120,8 @@ public class GamePanel extends JPanel
 
     newX = (int)(newX/windowScale); //Scale the corner point to match resized grid.
     newY = (int)(newY/windowScale);
-    graphics.drawImage(image, newX, newY, (int) (size.width / windowScale), (int) (size.height / windowScale), null);
+    //Size is increased by 1 pixel to remove an off by one issue in scaling
+    graphics.drawImage(image, newX, newY, (int) (size.width / windowScale) +1, (int) (size.height / windowScale) +1, null);
 
   }
 
