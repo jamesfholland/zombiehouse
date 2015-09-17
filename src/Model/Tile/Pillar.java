@@ -32,6 +32,7 @@ public class Pillar extends Tile
   {
     super(); //Sets up shared Tile settings.
     this.location = location;
+    this.unpassable = true;
   }
 
   @Override

@@ -1,11 +1,20 @@
 package Model.Unit;
 
 import Model.GameObject;
+import Model.Level;
+import Model.Settings;
 
 import javax.sound.sampled.Clip;
+import java.awt.geom.Rectangle2D;
 
 public abstract class Unit extends GameObject
 {
+  protected Level level;
+  protected Rectangle2D nextHitbox;
+  protected int tileX;
+  protected int tileY;
+  protected double speed;
+
   /**
    * This updates the game object's state as determined by its child class.
    * @param deltaTime
@@ -27,4 +36,17 @@ public abstract class Unit extends GameObject
   {
     this.location.translate(deltaX, deltaY);
   }
+
+  public void getTileCoordinates()
+  {
+    this.tileX = (location.x/Settings.TILE_SIZE);
+    this.tileY = (location.y/Settings.TILE_SIZE);
+  }
+
+  public void checkCollideDown()
+  {
+    getTileCoordinates();
+  }
+
+
 }

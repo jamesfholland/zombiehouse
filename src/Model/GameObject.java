@@ -21,6 +21,7 @@ public abstract class GameObject
    */
   protected Rectangle2D hitbox;
 
+
   /**
    * Computes the hitbox if not already computed or returns the precomputed hitbox.
    */
@@ -51,8 +52,8 @@ public abstract class GameObject
   }
 
   /**
-   * Get the center of the object.
-   * @return Point where object is centered.
+   * Get the top left of object
+   * @return top left point of object
    */
   public Point getLocation()
   {

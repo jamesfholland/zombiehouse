@@ -2,6 +2,7 @@ import Model.HouseGeneration.HouseGeneration;
 import Model.Level;
 import Model.Settings;
 import Model.Unit.Player;
+import Model.GameObject;
 import View.KeyboardInput;
 import View.ViewManager;
 
@@ -19,6 +20,7 @@ public class Controller
   private Level currentLevel;
   private Player hero;
   private Thread gameLoop;
+  private Point heroDirection;
 
   //60hz loop calls
   /*
@@ -35,7 +37,9 @@ public class Controller
     view = new ViewManager();
     //Ask for defaults
 
-    hero = new Player(new Point(0,0));
+    hero = new Player(new Point(0,0), currentLevel);
+
+    heroDirection = new Point(0,0);
     //Run house generator
     houseGenerator = new HouseGeneration(hero);
 
@@ -63,6 +67,30 @@ public class Controller
 
   protected void processInput()
   {
+    int x = 0;
+    int y = 0;
+    if (view.keyboard.keyDown(KeyEvent.VK_DOWN))
+    {
+      y+=1;
+    }
+    if (view.keyboard.keyDown(KeyEvent.VK_UP))
+    {
+      y-=1;
+    }
+    if (view.keyboard.keyDown(KeyEvent.VK_LEFT))
+    {
+      x-=1;
+    }
+    if (view.keyboard.keyDown(KeyEvent.VK_RIGHT))
+    {
+      x+=1;
+    }
+    heroDirection.setLocation(x,y);
+  }
+
+  /*
+  protected void processInput()
+  {
     if (view.keyboard.keyDown(KeyEvent.VK_DOWN))
     {
       hero.moveUnit(0,1);
@@ -79,7 +107,7 @@ public class Controller
     {
       hero.moveUnit(1,0);
     }
-  }
+  }*/
 
   /**
    * This is a private class for handling the game loop.
@@ -112,12 +140,13 @@ public class Controller
 
         view.keyboard.poll();
         processInput();
+        hero.move(heroDirection, deltaTime);
 
         view.repaint();
-
+        lastTime = thisTime;
       }
     }
-
   }
+
 
 }
