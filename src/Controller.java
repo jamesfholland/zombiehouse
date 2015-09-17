@@ -1,16 +1,12 @@
 import Model.HouseGeneration.HouseGeneration;
 import Model.Level;
 import Model.Settings;
-import Model.Tile.*;
 import Model.Unit.Player;
-import Model.Unit.Unit;
+import View.KeyboardInput;
 import View.ViewManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.
@@ -18,7 +14,6 @@ import java.util.Set;
 public class Controller
 {
   private ViewManager view;
-  private KeyboardInput keyboard = new KeyboardInput();
 
   private HouseGeneration houseGenerator;
   private Level currentLevel;
@@ -52,7 +47,7 @@ public class Controller
 
     System.out.println(currentLevel.toString());
 
- view.setLevel(currentLevel);
+    view.setLevel(currentLevel);
 
     gameLoop = new GameLoop();
 
@@ -65,23 +60,29 @@ public class Controller
   How the the game processes keyboard input and moves the hero around
   need to talk to you guys about how to get model data here
 */
+
   protected void processInput()
   {
-    if (keyboard.keyDown(KeyEvent.VK_DOWN))
+    int heroSpeed = hero.getSpeed();
+    if (view.keyboard.keyDown(KeyEvent.VK_DOWN))
     {
-      hero.moveUnit(0,2);
+      hero.moveUnit(0,1);
+      //hero.moveUnit(0,(heroSpeed/Settings.REFRESH_RATE));
     }
-    if (keyboard.keyDown(KeyEvent.VK_UP))
+    if (view.keyboard.keyDown(KeyEvent.VK_UP))
     {
-      hero.moveUnit(0, -2);
+      hero.moveUnit(0,-1);
+      //hero.moveUnit(0, (-heroSpeed/Settings.REFRESH_RATE));
     }
-    if (keyboard.keyDown(KeyEvent.VK_LEFT))
+    if (view.keyboard.keyDown(KeyEvent.VK_LEFT))
     {
-      hero.moveUnit(-2, 0);
+      hero.moveUnit(-1,0);
+      //hero.moveUnit((-heroSpeed/Settings.REFRESH_RATE), 0);
     }
-    if (keyboard.keyDown(KeyEvent.VK_RIGHT))
+    if (view.keyboard.keyDown(KeyEvent.VK_RIGHT))
     {
-      hero.moveUnit(2, 0);
+      hero.moveUnit(1,0);
+      //hero.moveUnit((heroSpeed/Settings.REFRESH_RATE), 0);
     }
   }
 
@@ -114,7 +115,7 @@ public class Controller
         }
         while(deltaTime < Settings.REFRESH_RATE);
 
-
+        view.keyboard.poll();
         processInput();
 
         view.repaint();

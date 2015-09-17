@@ -11,6 +11,7 @@ import java.io.IOException;
 public class Player extends Unit
 {
   private static BufferedImage playerFront;
+  private int speed = 1;
 
   public Player(Point location)
   {
@@ -30,6 +31,16 @@ public class Player extends Unit
     }
 
   }
+
+  /**
+   * get the players speed
+   * @return int value of speed
+   */
+  public int getSpeed()
+  {
+    return speed;
+  }
+
 
   @Override
   public void update(long deltaTime, long secondsFromStart)
