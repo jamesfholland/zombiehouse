@@ -84,6 +84,7 @@ public class GamePanel extends JPanel
 
 
 
+      //TODO: Optimize to only draw tiles in viewport.
       if (tiles != null)
       {
         for (int i = 0; i < tiles.length; i++)
