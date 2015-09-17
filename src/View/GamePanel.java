@@ -69,6 +69,7 @@ public class GamePanel extends JPanel
     super.paintComponent(graphics);
 
     //Calculate scale factor of the resized window.
+    this.getSize();
     windowScale = Settings.WIDTH_STANDARD / (double) this.getWidth();
 
     if (player != null)
@@ -77,7 +78,7 @@ public class GamePanel extends JPanel
 
       center.translate(player.getSize().width / 2, player.getSize().height / 2);
       corner.setLocation(center);
-      double dynamicHeight = Settings.HEIGHT_STANDARD * windowScale;
+      double dynamicHeight = this.getHeight() * windowScale;
       corner.translate((-1) * Settings.WIDTH_STANDARD / 2, (int)((-1) * dynamicHeight / 2));
 
       setViewWindow();
@@ -114,8 +115,8 @@ public class GamePanel extends JPanel
 
   private void scaleAndDrawImage(BufferedImage image, Graphics graphics, Point corner, Dimension size)
   {
-    int newX = corner.x - this.corner.x;
-    int newY = corner.y - this.corner.y;
+    int newX = corner.x + (0 - this.corner.x);
+    int newY = corner.y + (0 - this.corner.y);
 
     newX = (int)(newX/windowScale); //Scale the corner point to match resized grid.
     newY = (int)(newY/windowScale);
