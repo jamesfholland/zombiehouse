@@ -2,10 +2,8 @@
 
 
 #### Image Credits
-Floor Tiles
-http://opengameart.org/content/filth-texture-set
-Copyright: Georges Grondin
-License:  GPL
+Wall Tile http://opengameart.org/node/9288
+Floor Tile http://opengameart.org/node/11950
 
 #### Todo
 ###### Interface
