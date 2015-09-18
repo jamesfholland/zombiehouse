@@ -59,12 +59,6 @@ public class Controller
 
   }
 
-  /*
-
-  How the the game processes keyboard input and moves the hero around
-  need to talk to you guys about how to get model data here
-*/
-
   protected void processInput()
   {
     int x = 0;
@@ -87,27 +81,6 @@ public class Controller
     }
     heroDirection.setLocation(x,y);
   }
-
-  /*
-  protected void processInput()
-  {
-    if (view.keyboard.keyDown(KeyEvent.VK_DOWN))
-    {
-      hero.moveUnit(0,1);
-    }
-    if (view.keyboard.keyDown(KeyEvent.VK_UP))
-    {
-      hero.moveUnit(0,-1);
-    }
-    if (view.keyboard.keyDown(KeyEvent.VK_LEFT))
-    {
-      hero.moveUnit(-1,0);
-    }
-    if (view.keyboard.keyDown(KeyEvent.VK_RIGHT))
-    {
-      hero.moveUnit(1,0);
-    }
-  }*/
 
   /**
    * This is a private class for handling the game loop.

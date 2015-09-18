@@ -6,6 +6,7 @@ import Model.Settings;
 import Model.Tile.Tile;
 
 import javax.sound.sampled.Clip;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Unit extends GameObject
@@ -43,14 +44,135 @@ public abstract class Unit extends GameObject
     this.tileY = (location.y/Settings.TILE_SIZE);
   }
 
+  public Point checkCollisionsCardinal(Point p)
+  {
+    if (p.y == -1)
+    {
+      if (checkCollideUp())
+      {
+        p.y = 0;
+        return p;
+      }
+    }
+    if (p.y == 1)
+    {
+      if (checkCollideDown())
+      {
+        p.y = 0;
+        return p;
+      }
+    }
+    if (p.x == 1)
+    {
+      if (checkCollideRight())
+      {
+        p.x = 0;
+        return p;
+      }
+    }
+    if (p.x == -1)
+    {
+      if (checkCollideLeft())
+      {
+        p.x = 0;
+        return p;
+      }
+    }
+    return p;
+  }
+
+  public Point checkCollisionsDiag(Point p)
+  {
+    if (p.x == -1 && p.y == 1)
+    {
+      if (checkCollideLeft() && checkCollideDown())
+      {
+        p.x = 0;
+        p.y = 0;
+        return p;
+      }
+      if (checkCollideLeft() && !checkCollideDown())
+      {
+        p.x = 0;
+        return p;
+      }
+      if (!checkCollideLeft() && checkCollideDown())
+      {
+        p.y = 0;
+        return p;
+      }
+    }
+
+    if(p.x == -1 && p.y == -1)
+    {
+      if (checkCollideLeft() && checkCollideUp())
+      {
+        p.x = 0;
+        p.y = 0;
+        return p;
+      }
+      if (checkCollideLeft() && !checkCollideUp())
+      {
+        p.x = 0;
+        return p;
+      }
+      if (!checkCollideLeft() && checkCollideUp())
+      {
+        p.y = 0;
+        return p;
+      }
+    }
+
+    if (p.x == 1 && p.y == 1)
+    {
+      if (checkCollideRight() && checkCollideDown())
+      {
+        p.x = 0;
+        p.y = 0;
+        return p;
+      }
+      else if (checkCollideRight() && !checkCollideDown())
+      {
+        p.x = 0;
+        return p;
+      }
+      else if (!checkCollideRight() && checkCollideDown())
+      {
+        p.y = 0;
+        return p;
+      }
+    }
+
+    if (p.x == 1 && p.y == -1)
+    {
+      if (checkCollideRight() && checkCollideUp())
+      {
+        p.x = 0;
+        p.y = 0;
+        return p;
+      }
+      if (checkCollideRight() && !checkCollideUp())
+      {
+        p.x = 0;
+        return p;
+      }
+      if (!checkCollideRight() && checkCollideUp())
+      {
+        p.y = 0;
+        return p;
+      }
+    }
+    return p;
+  }
+
   public boolean checkCollideDown()
   {
     getTileCoordinates();
-    if (!level.passable(tileX,tileY+1) && level.checkCollided(tileX,tileY+1,nextHitbox))
+    if (!level.passable(tileX,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX,tileY+1)))
     {
       return true;
     }
-    else if (!level.passable(tileX+1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+   if (!level.passable(tileX+1,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX+1, tileY + 1)))
     {
       return true;
     }
@@ -60,11 +182,11 @@ public abstract class Unit extends GameObject
   public boolean checkCollideUp()
   {
     getTileCoordinates();
-    if (!level.passable(tileX,tileY-1) && level.checkCollided(tileX,tileY-1,nextHitbox))
+    if (!level.passable(tileX,tileY-1) && nextHitbox.intersects(level.getHitbox(tileX,tileY-1)))
     {
       return true;
     }
-    else if (!level.passable(tileX+1,tileY-1) && level.checkCollided(tileX+1,tileY-1,nextHitbox))
+    if (!level.passable(tileX+1,tileY-1) && nextHitbox.intersects(level.getHitbox(tileX+1, tileY-1)))
     {
       return true;
     }
@@ -74,11 +196,11 @@ public abstract class Unit extends GameObject
   public boolean checkCollideLeft()
   {
     getTileCoordinates();
-    if (!level.passable(tileX-1,tileY) && level.checkCollided(tileX-1,tileY,nextHitbox))
+    if (!level.passable(tileX-1,tileY) && nextHitbox.intersects(level.getHitbox(tileX-1, tileY)))
     {
       return true;
     }
-    else if (!level.passable(tileX-1,tileY+1) && level.checkCollided(tileX-1,tileY+1,nextHitbox))
+    if (!level.passable(tileX-1,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX-1,tileY+1)))
     {
       return true;
     }
@@ -89,17 +211,14 @@ public abstract class Unit extends GameObject
   {
     getTileCoordinates();
 
-    if (!level.passable(tileX+1,tileY) && level.checkCollided(tileX+1,tileY,nextHitbox))
+    if (!level.passable(tileX+1,tileY) && nextHitbox.intersects(level.getHitbox(tileX+1,tileY)))
     {
       return true;
     }
-    else if (!level.passable(tileX+1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+    if (!level.passable(tileX+1,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX+1, tileY+1)))
     {
       return true;
     }
     return false;
   }
-
-
-
 }

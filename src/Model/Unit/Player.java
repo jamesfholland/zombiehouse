@@ -15,6 +15,7 @@ public class Player extends Unit
 {
   private static BufferedImage playerFront;
   private static final double SQRT2 = Math.sqrt(2);
+  private Point testPoint;
 
   public Player(Point location, Level level)
   {
@@ -26,6 +27,7 @@ public class Player extends Unit
     this.size = new Dimension(60, 70);
     this.hitbox = new Rectangle(location,size);
     this.nextHitbox = new Rectangle(location, size);
+    this.testPoint = new Point(0,0);
 
     if(playerFront == null)
     {
@@ -46,6 +48,7 @@ public class Player extends Unit
     double newLocationX;
     double newLocationY;
 
+    /*
     if (p.x != 0 && p.y != 0)
     {
       newLocationX = (p.x*deltaTime*(speed/SQRT2)) + location.x;
@@ -82,6 +85,37 @@ public class Player extends Unit
     else{
       location.setLocation(newLocationX, newLocationY);
       nextHitbox.setFrame(0,0,0,0);
+      hitbox.setFrame(location, size);
+    }*/
+
+
+    if (p.x != 0 && p.y != 0)
+    {
+      newLocationX = (p.x*deltaTime*(speed/SQRT2)) + location.x;
+      newLocationY = (p.y*deltaTime*(speed/SQRT2)) + location.y;
+
+      nextHitbox.setFrame(newLocationX,newLocationY,size.getWidth(),size.getHeight());
+      testPoint = checkCollisionsDiag(p);
+
+      newLocationX = (Math.abs(testPoint.x)*(p.x*deltaTime*(speed/SQRT2)) + location.x);
+      newLocationY = (Math.abs(testPoint.y)*(p.y*deltaTime*(speed/SQRT2)) + location.y);
+
+      location.setLocation(newLocationX,newLocationY);
+      hitbox.setFrame(location, size);
+    }
+
+    else if (p.x ==0 || p.y==0)
+    {
+      newLocationX = (p.x*speed*deltaTime) + location.x;
+      newLocationY = (p.y*speed*deltaTime) + location.y;
+      nextHitbox.setFrame(newLocationX,newLocationY,size.getWidth(),size.getHeight());
+      testPoint = checkCollisionsCardinal(p);
+
+      newLocationX = (Math.abs(testPoint.x)*(p.x*speed*deltaTime)) + location.x;
+      newLocationY = (Math.abs(testPoint.y)*(p.y*speed*deltaTime)) + location.y;
+
+
+      location.setLocation(newLocationX,newLocationY);
       hitbox.setFrame(location, size);
     }
   }

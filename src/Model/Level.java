@@ -4,6 +4,7 @@ import Model.Tile.Tile;
 import Model.Unit.Player;
 import Model.Unit.Zombie.*;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -59,11 +60,10 @@ public class Level
     return houseTiles[x][y].isPassable();
   }
 
-  public boolean checkCollided(int x, int y, Rectangle2D nextHitbox)
+  public Rectangle2D getHitbox(int x, int y)
   {
-    return houseTiles[x][y].checkCollision(nextHitbox);
+    return houseTiles[x][y].hitbox;
   }
-
 
   /**
    * Gets the player object
