@@ -78,7 +78,7 @@ public abstract class Unit extends GameObject
     {
       return true;
     }
-    else if (!level.passable(tileX-1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+    else if (!level.passable(tileX-1,tileY+1) && level.checkCollided(tileX-1,tileY+1,nextHitbox))
     {
       return true;
     }
