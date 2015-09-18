@@ -10,6 +10,8 @@ pillar.png http://opengameart.org/content/lpc-house-insides
 #### Todo
 ###### Interface
 * Tile graphics
+    * Walls
+    * Exit
 * Unit animated graphics
     * Player
     * Zombie
