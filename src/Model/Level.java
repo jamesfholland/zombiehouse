@@ -54,7 +54,7 @@ public class Level
     return houseString.toString();
   }
 
-  public boolean passsable(int x, int y)
+  public boolean passable(int x, int y)
   {
     return houseTiles[x][y].isPassable();
   }

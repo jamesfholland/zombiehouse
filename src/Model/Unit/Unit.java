@@ -46,11 +46,11 @@ public abstract class Unit extends GameObject
   public boolean checkCollideDown()
   {
     getTileCoordinates();
-    if (!level.passsable(tileX,tileY+1) && level.checkCollided(tileX,tileY+1,nextHitbox))
+    if (!level.passable(tileX,tileY+1) && level.checkCollided(tileX,tileY+1,nextHitbox))
     {
       return true;
     }
-    else if (!level.passsable(tileX+1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+    else if (!level.passable(tileX+1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
     {
       return true;
     }
@@ -60,11 +60,11 @@ public abstract class Unit extends GameObject
   public boolean checkCollideUp()
   {
     getTileCoordinates();
-    if (!level.passsable(tileX,tileY-1) && level.checkCollided(tileX,tileY-1,nextHitbox))
+    if (!level.passable(tileX,tileY-1) && level.checkCollided(tileX,tileY-1,nextHitbox))
     {
       return true;
     }
-    else if (!level.passsable(tileX+1,tileY-1) && level.checkCollided(tileX+1,tileY-1,nextHitbox))
+    else if (!level.passable(tileX+1,tileY-1) && level.checkCollided(tileX+1,tileY-1,nextHitbox))
     {
       return true;
     }
@@ -74,11 +74,11 @@ public abstract class Unit extends GameObject
   public boolean checkCollideLeft()
   {
     getTileCoordinates();
-    if (!level.passsable(tileX-1,tileY) && level.checkCollided(tileX-1,tileY,nextHitbox))
+    if (!level.passable(tileX-1,tileY) && level.checkCollided(tileX-1,tileY,nextHitbox))
     {
       return true;
     }
-    else if (!level.passsable(tileX-1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+    else if (!level.passable(tileX-1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
     {
       return true;
     }
@@ -89,11 +89,11 @@ public abstract class Unit extends GameObject
   {
     getTileCoordinates();
 
-    if (!level.passsable(tileX+1,tileY) && level.checkCollided(tileX+1,tileY,nextHitbox))
+    if (!level.passable(tileX+1,tileY) && level.checkCollided(tileX+1,tileY,nextHitbox))
     {
       return true;
     }
-    else if (!level.passsable(tileX+1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+    else if (!level.passable(tileX+1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
     {
       return true;
     }

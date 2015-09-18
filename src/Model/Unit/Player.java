@@ -20,7 +20,9 @@ public class Player extends Unit
   {
     this.location = location;
     this.level = level;
-    this.speed = Settings.TILE_SIZE/1000.0;
+    //this.speed = Settings.TILE_SIZE/1000.0;
+
+    this.speed = Settings.TILE_SIZE/60.0;
     this.size = new Dimension(60, 70);
     this.hitbox = new Rectangle(location,size);
     this.nextHitbox = new Rectangle(location, size);
@@ -79,6 +81,7 @@ public class Player extends Unit
     }
     else{
       location.setLocation(newLocationX, newLocationY);
+      nextHitbox.setFrame(0,0,0,0);
       hitbox.setFrame(location, size);
     }
   }

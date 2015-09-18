@@ -70,7 +70,8 @@ public class HouseGeneration
       //right wall
       houseTiles[farWall][i] = new Wall(new Point(farWall * Settings.TILE_SIZE, i * Settings.TILE_SIZE));
     }
-    houseTiles[1][1] = new Pillar(new Point(1 * Settings.TILE_SIZE, 1 * Settings.TILE_SIZE));
+
+    //houseTiles[1][1] = new Pillar(new Point(1 * Settings.TILE_SIZE, 1 * Settings.TILE_SIZE));
   }
 
   private void presetZombies()
