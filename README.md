@@ -2,9 +2,10 @@
 
 
 #### Image Credits
-Wall Tile http://opengameart.org/node/9288
-Floor Tile http://opengameart.org/node/11950
-Player Sprites http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
+wood.png http://opengameart.org/node/9288
+hardwood.png http://opengameart.org/node/11950
+Player and Zombie sprite sheets http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
+pillar.png http://opengameart.org/content/lpc-house-insides
 
 #### Todo
 ###### Interface

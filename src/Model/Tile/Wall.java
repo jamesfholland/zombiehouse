@@ -16,7 +16,7 @@ public class Wall extends Tile
 
     try
     {
-      imageTemp = ImageIO.read(Wall.class.getResourceAsStream("wall.png"));
+      imageTemp = ImageIO.read(Wall.class.getResourceAsStream("wood.png"));
     }
     catch (IOException e)
     {

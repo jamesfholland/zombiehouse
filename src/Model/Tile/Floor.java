@@ -19,7 +19,7 @@ public class Floor extends Tile
 
     try
     {
-      imageTemp = ImageIO.read(Floor.class.getResourceAsStream("floor.png"));
+      imageTemp = ImageIO.read(Floor.class.getResourceAsStream("hardwood.png"));
     }
     catch (IOException e)
     {
