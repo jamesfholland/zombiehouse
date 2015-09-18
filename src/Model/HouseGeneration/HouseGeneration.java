@@ -45,6 +45,7 @@ public class HouseGeneration
 
     createLevel();
 
+    this.player.setLevel(currentLevel);
   }
 
   private void presetHouse()

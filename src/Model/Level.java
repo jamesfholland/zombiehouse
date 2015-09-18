@@ -3,6 +3,8 @@ package Model;
 import Model.Tile.Tile;
 import Model.Unit.Player;
 import Model.Unit.Zombie.*;
+
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -51,6 +53,17 @@ public class Level
     }
     return houseString.toString();
   }
+
+  public boolean passsable(int x, int y)
+  {
+    return houseTiles[x][y].isPassable();
+  }
+
+  public boolean checkCollided(int x, int y, Rectangle2D nextHitbox)
+  {
+    return houseTiles[x][y].checkCollision(nextHitbox);
+  }
+
 
   /**
    * Gets the player object

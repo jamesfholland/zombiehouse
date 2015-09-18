@@ -28,9 +28,8 @@ public class Wall extends Tile
 
   public Wall(Point location)
   {
-    super(); //Sets up shared Tile settings.
-    this.location = location;
-    this.unpassable = true;
+    super(location); //Sets up shared Tile settings.
+    this.passable = false;
   }
 
   @Override

@@ -3,13 +3,13 @@ package Model.Unit;
 import Model.GameObject;
 import Model.Level;
 import Model.Settings;
+import Model.Tile.Tile;
 
 import javax.sound.sampled.Clip;
 import java.awt.geom.Rectangle2D;
 
 public abstract class Unit extends GameObject
 {
-  protected Level level;
   protected Rectangle2D nextHitbox;
   protected int tileX;
   protected int tileY;
@@ -43,10 +43,63 @@ public abstract class Unit extends GameObject
     this.tileY = (location.y/Settings.TILE_SIZE);
   }
 
-  public void checkCollideDown()
+  public boolean checkCollideDown()
   {
     getTileCoordinates();
+    if (!level.passsable(tileX,tileY+1) && level.checkCollided(tileX,tileY+1,nextHitbox))
+    {
+      return true;
+    }
+    else if (!level.passsable(tileX+1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+    {
+      return true;
+    }
+    return false;
   }
+
+  public boolean checkCollideUp()
+  {
+    getTileCoordinates();
+    if (!level.passsable(tileX,tileY-1) && level.checkCollided(tileX,tileY-1,nextHitbox))
+    {
+      return true;
+    }
+    else if (!level.passsable(tileX+1,tileY-1) && level.checkCollided(tileX+1,tileY-1,nextHitbox))
+    {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean checkCollideLeft()
+  {
+    getTileCoordinates();
+    if (!level.passsable(tileX-1,tileY) && level.checkCollided(tileX-1,tileY,nextHitbox))
+    {
+      return true;
+    }
+    else if (!level.passsable(tileX-1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+    {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean checkCollideRight()
+  {
+    getTileCoordinates();
+
+    if (!level.passsable(tileX+1,tileY) && level.checkCollided(tileX+1,tileY,nextHitbox))
+    {
+      return true;
+    }
+    else if (!level.passsable(tileX+1,tileY+1) && level.checkCollided(tileX+1,tileY+1,nextHitbox))
+    {
+      return true;
+    }
+    return false;
+  }
+
 
 
 }

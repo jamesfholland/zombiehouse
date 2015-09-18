@@ -20,6 +20,7 @@ public abstract class GameObject
    * Our hitbox, assumed rectangular for simplicity
    */
   protected Rectangle2D hitbox;
+  protected Level level;
 
 
   /**
@@ -75,5 +76,10 @@ public abstract class GameObject
   public void setLocation(Point location)
   {
     this.location = location;
+  }
+
+  public void setLevel(Level level)
+  {
+    this.level = level;
   }
 }

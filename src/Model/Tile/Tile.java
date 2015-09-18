@@ -14,12 +14,19 @@ public abstract class Tile extends GameObject
    * Used for switching to burned graphics.
    */
   protected boolean burned;
-  protected boolean unpassable;
+  protected boolean passable;
 
-  Tile()
+  Tile(Point location)
   {
     this.size = new Dimension(Settings.TILE_SIZE, Settings.TILE_SIZE);
+    this.location = location;
+    this.hitbox = new Rectangle(location, size);
     this.burned = false;
-    this.unpassable = false;
+    this.passable = true;
+  }
+
+  public boolean isPassable()
+  {
+    return passable;
   }
 }

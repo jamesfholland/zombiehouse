@@ -22,6 +22,7 @@ public class Player extends Unit
     this.level = level;
     this.speed = Settings.TILE_SIZE/1000.0;
     this.size = new Dimension(60, 70);
+    this.hitbox = new Rectangle(location,size);
     this.nextHitbox = new Rectangle(location, size);
 
     if(playerFront == null)
@@ -47,13 +48,38 @@ public class Player extends Unit
     {
       newLocationX = (p.x*deltaTime*(speed/SQRT2)) + location.x;
       newLocationY = (p.y*deltaTime*(speed/SQRT2)) + location.y;
-      location.setLocation(newLocationX, newLocationY);
+
+      nextHitbox.setFrame(newLocationX,newLocationY,size.getWidth(),size.getHeight());
     }
     else
     {
       newLocationX = (p.x*speed*deltaTime) + location.x;
       newLocationY = (p.y*speed*deltaTime) + location.y;
+      nextHitbox.setFrame(newLocationX,newLocationY,size.getWidth(),size.getHeight());
+    }
+
+    if (p.x == -1 && checkCollideLeft())
+    {
+      return;
+    }
+
+    if (p.x == 1 && checkCollideRight())
+    {
+      return;
+    }
+
+    if (p.y == -1 && checkCollideUp())
+    {
+      return;
+    }
+
+    if (p.y == 1 && checkCollideDown())
+    {
+      return;
+    }
+    else{
       location.setLocation(newLocationX, newLocationY);
+      hitbox.setFrame(location, size);
     }
   }
 

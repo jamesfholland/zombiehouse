@@ -27,8 +27,7 @@ public class Exit extends Tile
 
   public Exit(Point location)
   {
-    super(); //Sets up shared Tile settings.
-    this.location = location;
+    super(location); //Sets up shared Tile settings.
   }
 
   @Override

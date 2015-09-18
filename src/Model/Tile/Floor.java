@@ -40,8 +40,7 @@ public class Floor extends Tile
 
   public Floor(Point location)
   {
-    super(); //Sets up shared Tile settings.
-    this.location = location;
+    super(location); //Sets up shared Tile settings.
   }
 
   @Override
