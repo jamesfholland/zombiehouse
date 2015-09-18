@@ -70,19 +70,6 @@ public class HouseGeneration
       //right wall
       houseTiles[farWall][i] = new Wall(new Point(farWall * Settings.TILE_SIZE, i * Settings.TILE_SIZE));
     }
-
-    for(int i = 1; i < 6; i++)
-    {
-      houseTiles[i][1] = new Floor(new Point(i * Settings.TILE_SIZE, 1 * Settings.TILE_SIZE));
-      houseTiles[i][3] = new Floor(new Point(i * Settings.TILE_SIZE, 3 * Settings.TILE_SIZE));
-      houseTiles[i][5] = new Floor(new Point(i * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE));
-    }
-
-    houseTiles[4][2] = new Floor(new Point(5 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE));
-    houseTiles[5][2] = new Floor(new Point(6 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE));
-    houseTiles[1][4] = new Floor(new Point(1 * Settings.TILE_SIZE, 4 * Settings.TILE_SIZE));
-    houseTiles[2][4] = new Floor(new Point(2 * Settings.TILE_SIZE, 4 * Settings.TILE_SIZE));
-
     houseTiles[1][1] = new Pillar(new Point(1 * Settings.TILE_SIZE, 1 * Settings.TILE_SIZE));
   }
 
