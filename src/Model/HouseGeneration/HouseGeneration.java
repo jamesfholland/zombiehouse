@@ -44,7 +44,7 @@ public class HouseGeneration
     randGen = new Random(lastRandomSeed);
 
     presetHouse();
-    presetZombies();
+    //presetZombies();
 
     createLevel();
 
@@ -64,14 +64,12 @@ public class HouseGeneration
       }
     }
 
-    //makeRoom(1, 1, Settings.PRACTICE_MAP_SIZE - 2, Settings.PRACTICE_MAP_SIZE - 2);
+    // default used to fill house with open floor
+    // makeRoom(1, 1, Settings.PRACTICE_MAP_SIZE - 2, Settings.PRACTICE_MAP_SIZE - 2);
+
     for( int i = 0; i < Settings.DEFAULT_NUMBER_ROOMS; i++ )
     {
-      int xSize = randGen.nextInt(40);
-      int ySize = randGen.nextInt(40);
-      int xTop = randGen.nextInt(houseWidth - xSize - 2) + 1;
-      int yTop = randGen.nextInt(houseHeight - ySize - 2) + 1;
-      makeRoom(xTop, yTop, xSize, ySize);
+      makeRoom();
     }
 
     player.setLocation(new Point(playerSpawnX * Settings.TILE_SIZE, playerSpawnY * Settings.TILE_SIZE));
@@ -81,36 +79,60 @@ public class HouseGeneration
     //    houseTiles[10][10] = new Pillar(new Point(10 * Settings.TILE_SIZE, 10 * Settings.TILE_SIZE));
     //    houseTiles[12][10] = new Pillar(new Point(12 * Settings.TILE_SIZE, 10 * Settings.TILE_SIZE));
 
-
     //houseTiles[0][20] = new Exit(new Point(0 * Settings.TILE_SIZE, 20 * Settings.TILE_SIZE));
 
   }
 
-  private void makeRoom(int topX, int topY, int sizeX, int sizeY)
+  private void makeRoom()
   {
-    for( int i = 0; i < sizeX; i++ )
+    // generate size and placement of room
+    int xSize = 0;
+    while( xSize < 5 ) { xSize = randGen.nextInt(40); }
+    int ySize = 0;
+    while( ySize < 5 ) { ySize = randGen.nextInt(40); }
+    int xTop = randGen.nextInt(houseWidth - xSize - 2) + 1;
+    int yTop = randGen.nextInt(houseHeight - ySize - 2) + 1;
+
+    // fill array with floor tiles (and appropriate spawns)
+    for( int i = 0; i < xSize; i++ )
     {
-      for( int j = 0; j < sizeY; j++ )
+      for( int j = 0; j < ySize; j++ )
       {
-        houseTiles[topX + i][topY + j] = new Floor(new Point((topX + i) * Settings.TILE_SIZE, (topY + j) * Settings.TILE_SIZE));
-        playerSpawn(topX + i, topY + j);
+        houseTiles[xTop + i][yTop + j] = new Floor(new Point((xTop + i) * Settings.TILE_SIZE, (yTop + j) * Settings.TILE_SIZE));
+        boolean tileEmpty = true;
+        tileEmpty = ! zombieSpawn(xTop + i, yTop + j);
+        // fireTrapSpawn(xTop + i, yTop + j); implement when ready to test with firetraps
+        if(tileEmpty)
+        {
+          tileEmpty = ! playerSpawn(xTop + i, yTop + j);
+        }
+        if(tileEmpty && randGen.nextDouble() < 0.02)
+        {
+          houseTiles[xTop + i][yTop + j] = new Pillar(new Point((xTop + i) * Settings.TILE_SIZE, (yTop + j) * Settings.TILE_SIZE));
+        }
       }
     }
   }
 
-  private void playerSpawn(int x, int y)
+  private boolean playerSpawn(int x, int y)
   {
     if( randGen.nextInt(100) < 4 || playerSpawnX < 1 )
     {
       playerSpawnX = x;
       playerSpawnY = y;
+      return true;
     }
+    return false;
   }
 
-  private void presetZombies()
+  private boolean zombieSpawn(int x, int y)
   {
-    zombieArrayList.add(new ZombieLine(2 * Settings.TILE_SIZE, 1 * Settings.TILE_SIZE, 0));
-    zombieArrayList.add(new ZombieLine(3 * Settings.TILE_SIZE, 6 * Settings.TILE_SIZE, 0));
+    if( randGen.nextDouble() < 0.02 )
+    {
+      zombieArrayList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, 0));
+      return true;
+    }
+    return false;
   }
 
   private void createLevel()
