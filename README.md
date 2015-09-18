@@ -4,6 +4,7 @@
 #### Image Credits
 Wall Tile http://opengameart.org/node/9288
 Floor Tile http://opengameart.org/node/11950
+Player Sprites http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
 
 #### Todo
 ###### Interface
