@@ -20,7 +20,7 @@ public abstract class GameObject
    * Our hitbox, assumed rectangular for simplicity
    */
   protected Rectangle2D hitbox;
-  protected Level level;
+  protected static Level level;
 
 
   /**

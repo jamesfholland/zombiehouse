@@ -15,6 +15,7 @@ public abstract class Unit extends GameObject
   protected int tileX;
   protected int tileY;
   protected double speed;
+  protected boolean collided = false;
 
   /**
    * This updates the game object's state as determined by its child class.
@@ -51,6 +52,7 @@ public abstract class Unit extends GameObject
       if (checkCollideUp())
       {
         p.y = 0;
+        collided = true;
         return p;
       }
     }
@@ -59,6 +61,7 @@ public abstract class Unit extends GameObject
       if (checkCollideDown())
       {
         p.y = 0;
+        collided = true;
         return p;
       }
     }
@@ -67,6 +70,7 @@ public abstract class Unit extends GameObject
       if (checkCollideRight())
       {
         p.x = 0;
+        collided = true;
         return p;
       }
     }
@@ -75,6 +79,7 @@ public abstract class Unit extends GameObject
       if (checkCollideLeft())
       {
         p.x = 0;
+        collided = true;
         return p;
       }
     }

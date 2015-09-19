@@ -3,11 +3,13 @@ import Model.Level;
 import Model.Settings;
 import Model.Unit.Player;
 import Model.GameObject;
+import Model.Unit.Zombie.Zombie;
 import View.KeyboardInput;
 import View.ViewManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.
@@ -21,6 +23,7 @@ public class Controller
   private Player hero;
   private Thread gameLoop;
   private Point heroDirection;
+  private ArrayList<Zombie> zombieList;
 
   //60hz loop calls
   /*
@@ -47,6 +50,7 @@ public class Controller
 
     // First (default) house level
     currentLevel = houseGenerator.getCurrentLevel();
+    zombieList = currentLevel.getZombieList();
 
 
     System.out.println(currentLevel.toString());
@@ -90,9 +94,12 @@ public class Controller
     long lastTime;
     long thisTime;
     long deltaTime;
+    long start;
+    long secondsFromStart;
     public void run()
     {
       lastTime = System.currentTimeMillis();
+      start = System.currentTimeMillis();
       while(true)
       {
         do
@@ -106,14 +113,19 @@ public class Controller
             break; //Something interrupted us probably application closing, break to kill refreshing.
           }
           thisTime = System.currentTimeMillis();
+          secondsFromStart = (System.currentTimeMillis() - start)/1000;
           deltaTime = thisTime - lastTime;
-
         }
         while(deltaTime < Settings.REFRESH_RATE);
 
         view.keyboard.poll();
         processInput();
         hero.move(heroDirection, deltaTime);
+
+        //for (int i = 0; i < zombieList.size(); ++i)
+        //{
+          //zombieList.get(i).update(deltaTime, secondsFromStart);
+        //}
 
         view.repaint();
         lastTime = thisTime;

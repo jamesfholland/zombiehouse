@@ -102,6 +102,10 @@ public class HouseGeneration
         boolean tileEmpty = true;
         tileEmpty = ! zombieSpawn(xTop + i, yTop + j);
         // fireTrapSpawn(xTop + i, yTop + j); implement when ready to test with firetraps
+        //if (j == ySize/2 && i == xSize/2)
+        //{
+          //zombieSpawn(i,j);
+        //}
         if(tileEmpty)
         {
           tileEmpty = ! playerSpawn(xTop + i, yTop + j);
@@ -111,6 +115,7 @@ public class HouseGeneration
           houseTiles[xTop + i][yTop + j] = new Pillar(new Point((xTop + i) * Settings.TILE_SIZE, (yTop + j) * Settings.TILE_SIZE));
         }
       }
+
     }
   }
 
@@ -127,9 +132,10 @@ public class HouseGeneration
 
   private boolean zombieSpawn(int x, int y)
   {
+
     if( randGen.nextDouble() < 0.02 )
     {
-      zombieArrayList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, 0));
+     zombieArrayList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (randGen.nextInt(360)+randGen.nextDouble())));
       return true;
     }
     return false;

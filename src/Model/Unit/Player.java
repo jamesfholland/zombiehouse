@@ -104,6 +104,7 @@ public class Player extends Unit
       hitbox.setFrame(location, size);
     }
 
+
     else if (p.x ==0 || p.y==0)
     {
       newLocationX = (p.x*speed*deltaTime) + location.x;
@@ -119,8 +120,6 @@ public class Player extends Unit
       hitbox.setFrame(location, size);
     }
   }
-
-
 
   @Override
   public void update(long deltaTime, long secondsFromStart)
