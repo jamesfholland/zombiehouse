@@ -2,10 +2,10 @@
 
 
 #### Image Credits
-wood.png http://opengameart.org/node/9288
-hardwood.png http://opengameart.org/node/11950
-Player and Zombie sprite sheets http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/
-pillar.png http://opengameart.org/content/lpc-house-insides
+wood.png http://opengameart.org/node/9288<br>
+hardwood.png http://opengameart.org/node/11950<br>
+Player and Zombie sprite sheets http://gaurav.munjal.us/Universal-LPC-Spritesheet-Character-Generator/<br>
+pillar.png http://opengameart.org/content/lpc-house-insides<br>
 
 #### Todo
 ###### Interface
