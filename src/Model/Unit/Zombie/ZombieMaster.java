@@ -1,6 +1,7 @@
 package Model.Unit.Zombie;
 
 import Model.GameObject;
+import Model.Unit.SpriteParser;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
@@ -9,10 +10,10 @@ import java.io.IOException;
 
 public class ZombieMaster extends Zombie
 {
-  private static final BufferedImage[] WALK_UP_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
-  private static final BufferedImage[] WALK_RIGHT_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
-  private static final BufferedImage[] WALK_LEFT_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
-  private static final BufferedImage[] WALK_DOWN_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  private static final BufferedImage[] WALK_UP_IMAGE;
+  private static final BufferedImage[] WALK_RIGHT_IMAGE;
+  private static final BufferedImage[] WALK_LEFT_IMAGE;
+  private static final BufferedImage[] WALK_DOWN_IMAGE;
 
   static
   {
@@ -28,34 +29,17 @@ public class ZombieMaster extends Zombie
     {
       e.printStackTrace();
     }
-    spriteHeight = imageTemp.getHeight()/SPRITES_ROWS;
-    spriteWidth = imageTemp.getWidth()/SPRITES_PER_ROW;
+    spriteHeight = imageTemp.getHeight() / SPRITES_ROWS;
+    spriteWidth = imageTemp.getWidth() / SPRITES_PER_ROW;
 
     int spriteRow = WALK_SPRITE_ROW;
-    //UP
-    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
-    {
-      WALK_UP_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
-    }
-    //LEFT
+    WALK_UP_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
     spriteRow++; //Sprites rows are always in this order.
-    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
-    {
-      WALK_LEFT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
-    }
-    //DOWN
+    WALK_LEFT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
     spriteRow++; //Sprites rows are always in this order.
-    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
-    {
-      WALK_DOWN_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
-    }
-    //RIGHT
+    WALK_DOWN_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
     spriteRow++; //Sprites rows are always in this order.
-    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
-    {
-      WALK_RIGHT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
-    }
-
+    WALK_RIGHT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
   }
   public ZombieMaster(int x, int y, double heading)
   {

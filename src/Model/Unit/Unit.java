@@ -19,6 +19,11 @@ public abstract class Unit extends GameObject
   protected static final int SPRITES_ROWS = 21;
   protected static final int SPRITES_PER_ROW = 13;
 
+  protected static final int SPRITE_HORIZONTAL_OFFSET = 16;
+  protected static final int SPRITE_VERTICAL_OFFSET = 13;
+
+
+
   protected int spriteState = 0;
 
 

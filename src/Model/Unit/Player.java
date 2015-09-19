@@ -14,10 +14,10 @@ import java.io.IOException;
 public class Player extends Unit
 {
 
-  private static final BufferedImage[] WALK_UP_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
-  private static final BufferedImage[] WALK_RIGHT_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
-  private static final BufferedImage[] WALK_LEFT_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
-  private static final BufferedImage[] WALK_DOWN_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  private static final BufferedImage[] WALK_UP_IMAGE;
+  private static final BufferedImage[] WALK_RIGHT_IMAGE;
+  private static final BufferedImage[] WALK_LEFT_IMAGE;
+  private static final BufferedImage[] WALK_DOWN_IMAGE;
   private static final double SQRT2 = Math.sqrt(2);
   private Point testPoint;
 
@@ -35,34 +35,17 @@ public class Player extends Unit
     {
       e.printStackTrace();
     }
-    spriteHeight = imageTemp.getHeight()/SPRITES_ROWS;
-    spriteWidth = imageTemp.getWidth()/SPRITES_PER_ROW;
+    spriteHeight = imageTemp.getHeight() / SPRITES_ROWS;
+    spriteWidth = imageTemp.getWidth() / SPRITES_PER_ROW;
 
     int spriteRow = WALK_SPRITE_ROW;
-    //UP
-    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
-    {
-      WALK_UP_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
-    }
-    //LEFT
+    WALK_UP_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
     spriteRow++; //Sprites rows are always in this order.
-    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
-    {
-      WALK_LEFT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
-    }
-    //DOWN
+    WALK_LEFT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
     spriteRow++; //Sprites rows are always in this order.
-    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
-    {
-      WALK_DOWN_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
-    }
-    //RIGHT
+    WALK_DOWN_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
     spriteRow++; //Sprites rows are always in this order.
-    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
-    {
-      WALK_RIGHT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
-    }
-
+    WALK_RIGHT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
   }
 
   public Player(Point location, Level level)
@@ -71,11 +54,11 @@ public class Player extends Unit
     this.level = level;
     //this.speed = Settings.TILE_SIZE/1000.0;
 
-    this.speed = Settings.TILE_SIZE/60.0;
-    this.size = new Dimension(60, 70);
-    this.hitbox = new Rectangle(location,size);
+    this.speed = Settings.TILE_SIZE / 60.0;
+    this.size = new Dimension(WALK_DOWN_IMAGE[0].getWidth(), WALK_DOWN_IMAGE[0].getHeight());
+    this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location, size);
-    this.testPoint = new Point(0,0);
+    this.testPoint = new Point(0, 0);
 
   }
 
@@ -127,47 +110,56 @@ public class Player extends Unit
 
     if (p.x != 0 && p.y != 0)
     {
-      newLocationX = (p.x*deltaTime*(speed/SQRT2)) + location.x;
-      newLocationY = (p.y*deltaTime*(speed/SQRT2)) + location.y;
+      newLocationX = (p.x * deltaTime * (speed / SQRT2)) + location.x;
+      newLocationY = (p.y * deltaTime * (speed / SQRT2)) + location.y;
 
-      nextHitbox.setFrame(newLocationX,newLocationY,size.getWidth(),size.getHeight());
+      nextHitbox.setFrame(newLocationX, newLocationY, size.getWidth(), size.getHeight());
       testPoint = checkCollisionsDiag(p);
 
-      newLocationX = (Math.abs(testPoint.x)*(p.x*deltaTime*(speed/SQRT2)) + location.x);
-      newLocationY = (Math.abs(testPoint.y)*(p.y*deltaTime*(speed/SQRT2)) + location.y);
+      newLocationX = (Math.abs(testPoint.x) * (p.x * deltaTime * (speed / SQRT2)) + location.x);
+      newLocationY = (Math.abs(testPoint.y) * (p.y * deltaTime * (speed / SQRT2)) + location.y);
 
-      location.setLocation(newLocationX,newLocationY);
+      location.setLocation(newLocationX, newLocationY);
       hitbox.setFrame(location, size);
 
-    }
-
-
-    else if (p.x ==0 || p.y==0)
+    } else if (p.x == 0 || p.y == 0)
     {
-      newLocationX = (p.x*speed*deltaTime) + location.x;
-      newLocationY = (p.y*speed*deltaTime) + location.y;
-      nextHitbox.setFrame(newLocationX,newLocationY,size.getWidth(),size.getHeight());
+      newLocationX = (p.x * speed * deltaTime) + location.x;
+      newLocationY = (p.y * speed * deltaTime) + location.y;
+      nextHitbox.setFrame(newLocationX, newLocationY, size.getWidth(), size.getHeight());
       testPoint = checkCollisionsCardinal(p);
 
-      newLocationX = (Math.abs(testPoint.x)*(p.x*speed*deltaTime)) + location.x;
-      newLocationY = (Math.abs(testPoint.y)*(p.y*speed*deltaTime)) + location.y;
+      newLocationX = (Math.abs(testPoint.x) * (p.x * speed * deltaTime)) + location.x;
+      newLocationY = (Math.abs(testPoint.y) * (p.y * speed * deltaTime)) + location.y;
 
 
-      location.setLocation(newLocationX,newLocationY);
+      location.setLocation(newLocationX, newLocationY);
       hitbox.setFrame(location, size);
     }
 
     //Direction Setting
     direction = null;
-    if(p.y > 0 )     direction = Direction.DOWN;
-    else if(p.y < 0) direction = Direction.UP;
-    else if(p.x > 0) direction = Direction.RIGHT;
-    else if(p.x < 0) direction = Direction.LEFT;
+    if (p.y > 0)
+    {
+      direction = Direction.DOWN;
+    } else if (p.y < 0)
+    {
+      direction = Direction.UP;
+    } else if (p.x > 0)
+    {
+      direction = Direction.RIGHT;
+    } else if (p.x < 0)
+    {
+      direction = Direction.LEFT;
+    }
 
-    if(direction != null)
+    if (direction != null)
     {
       spriteState++;
-      if(spriteState >= WALK_SPRITE_COUNT) spriteState = 0;
+      if (spriteState >= WALK_SPRITE_COUNT)
+      {
+        spriteState = 0;
+      }
     }
   }
 
@@ -186,9 +178,12 @@ public class Player extends Unit
   @Override
   public BufferedImage getImage()
   {
-    if(direction == null) return WALK_DOWN_IMAGE[0];
+    if (direction == null)
+    {
+      return WALK_DOWN_IMAGE[0];
+    }
 
-    switch(direction)
+    switch (direction)
     {
       case UP:
         return WALK_UP_IMAGE[spriteState];
