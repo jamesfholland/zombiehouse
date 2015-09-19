@@ -68,62 +68,57 @@ public class ZombieLine extends Zombie
   @Override
   public void update(long deltaTime, long secondsFromStart)
   {
-    double nextLocationX;
-    double nextLocationY;
+    double nextDoubleX;
+    double nextDoubleY;
+
     double headingR;
 
+    /*
     if ((secondsFromStart%2)==0 && collided)
     {
       makeDecision();
       collided = false;
-    }
+      setVector();
+    }*/
 
     headingR = toRadians();
 
-    nextLocationY = (Math.sin(headingR)*speed*deltaTime) + location.y;
-    nextLocationX = (Math.cos(headingR)*speed*deltaTime) + location.x;
+    nextDoubleY = (Math.sin(headingR)*speed*deltaTime) + doubleY;
+    nextDoubleX = (Math.cos(headingR)*speed*deltaTime) + doubleX;
 
-    doubleY = (Math.sin(headingR)*speed*deltaTime) + doubleY;
-    doubleX = (Math.cos(headingR)*speed*deltaTime) + doubleX;
+    nextHitbox.setFrame(nextDoubleX,nextDoubleY,size.width,size.height);
 
+    if (vector.x != 0 && vector.y != 0)
+    {
+      testPoint = checkCollisionsDiag(vector);
 
-    //System.out.println();
-    //System.out.println(""+ heading);
-    //System.out.println(""+ nextLocationX);
-    //System.out.println(""+ nextLocationY);
+      if (testPoint.x == 0 || testPoint.y == 0) collided = true;
 
+      nextDoubleX = ((Math.abs(testPoint.x)*(Math.cos(this.heading)*speed*deltaTime)) + doubleX);
+      nextDoubleY = ((Math.abs(testPoint.y)*(Math.sin(this.heading)*speed*deltaTime)) + doubleY);
+    }
 
-    nextHitbox.setFrame(nextLocationX,nextLocationY,size.width,size.height);
+    else
+    {
+      testPoint = checkCollisionsCardinal(vector);
 
-    //if (direction.x != 0 && direction.y != 0)
-    //{
-      //testPoint = checkCollisionsDiag(direction);
-      //if (testPoint.x == 0 || testPoint.y == 0) collided = true;
+      if (testPoint.x == 0 && testPoint.y ==0) collided = true;
 
-      //nextLocationX = (Math.abs(testPoint.x)*(Math.cos(this.heading)*speed*deltaTime) + location.x);
-      //nextLocationY = (Math.abs(testPoint.y)*(Math.sin(this.heading)*speed*deltaTime) + location.y);
-    //}
-    //else
-    //{
-      //testPoint = checkCollisionsCardinal(direction);
+      nextDoubleX = (Math.abs(testPoint.x)*(Math.cos(this.heading)*speed*deltaTime) + doubleX);
+      nextDoubleY = (Math.abs(testPoint.y)*(Math.sin(this.heading)*speed*deltaTime) + doubleY);
+    }
 
-      //if (testPoint.x == 0 && testPoint.y ==0) collided = true;
-
-      //nextLocationX = (Math.abs(testPoint.x)*(Math.cos(this.heading)*speed*deltaTime) + location.x);
-      //nextLocationY = (Math.abs(testPoint.y)*(Math.sin(this.heading)*speed*deltaTime) + location.y);
-    //}
+    doubleX = nextDoubleX;
+    doubleY = nextDoubleY;
 
     location.setLocation(doubleX,doubleY);
-    //hitbox.setFrame(location, size);
+    hitbox.setFrame(location, size);
   }
 
   private void makeDecision()
   {
     heading = (RAND.nextInt(360) + RAND.nextDouble());
   }
-
-
-
 
 
   @Override
