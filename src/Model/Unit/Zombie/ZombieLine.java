@@ -67,37 +67,65 @@ public class ZombieLine extends Zombie
 
     headingR = toRadians();
 
-    nextDoubleY = (Math.sin(headingR)*speed*deltaTime) + doubleY;
     nextDoubleX = (Math.cos(headingR)*speed*deltaTime) + doubleX;
+    nextDoubleY = (Math.sin(headingR)*speed*deltaTime) + doubleY;
 
-    nextHitbox.setFrame(nextDoubleX,nextDoubleY,size.width,size.height);
+    setVector();
 
+    nextHitbox.setFrame(nextDoubleX, nextDoubleY, size.width, size.height);
+
+    checkCollisions(vector);
+
+    nextDoubleX = (Math.abs(vectorToMove.x) * (nextDoubleX - doubleX)) + doubleX;
+    nextDoubleY = (Math.abs(vectorToMove.y) * (nextDoubleY - doubleY)) + doubleY;
+
+    doubleX = nextDoubleX;
+    doubleY = nextDoubleY;
+
+    location.setLocation(doubleX, doubleY);
+    hitbox.setFrame(location,size);
+
+
+    /*
     if (vector.x != 0 && vector.y != 0)
     {
       testPoint = checkCollisionsDiag(vector);
 
-      if (testPoint.x == 0 || testPoint.y == 0) collided = true;
+      //if (testPoint.x == 0 || testPoint.y == 0) collided = true;
+      nextDoubleY = (Math.abs(testPoint.y))*(Math.sin(headingR)*speed*deltaTime) + doubleY;
+      nextDoubleX = (Math.abs(testPoint.x))*(Math.cos(headingR)*speed*deltaTime) + doubleX;
 
-      nextDoubleX = ((Math.abs(testPoint.x)*(Math.cos(this.heading)*speed*deltaTime)) + doubleX);
-      nextDoubleY = ((Math.abs(testPoint.y)*(Math.sin(this.heading)*speed*deltaTime)) + doubleY);
+      doubleX = nextDoubleX;
+      doubleY = nextDoubleY;
+
+      location.setLocation(doubleX,doubleY);
+      hitbox.setFrame(location, size);
     }
 
     else
     {
       testPoint = checkCollisionsCardinal(vector);
 
-      if (testPoint.x == 0 && testPoint.y ==0) collided = true;
+      //if (testPoint.x == 0 && testPoint.y ==0) collided = true;
 
-      nextDoubleX = (Math.abs(testPoint.x)*(Math.cos(this.heading)*speed*deltaTime) + doubleX);
-      nextDoubleY = (Math.abs(testPoint.y)*(Math.sin(this.heading)*speed*deltaTime) + doubleY);
+      nextDoubleX = (Math.abs(testPoint.x))*(Math.sin(headingR)*speed*deltaTime) + doubleY;
+      nextDoubleY = (Math.abs(testPoint.y))*(Math.cos(headingR)*speed*deltaTime) + doubleX;
+
+      doubleX = nextDoubleX;
+      doubleY = nextDoubleY;
+
+      location.setLocation(doubleX,doubleY);
+      hitbox.setFrame(location, size);
     }
 
-    doubleX = nextDoubleX;
-    doubleY = nextDoubleY;
+    //doubleX = nextDoubleX;
+    //doubleY = nextDoubleY;
 
-    location.setLocation(doubleX,doubleY);
-    hitbox.setFrame(location, size);
+    //location.setLocation(doubleX,doubleY);
+    //hitbox.setFrame(location, size);
+    */
   }
+
 
   private void makeDecision()
   {

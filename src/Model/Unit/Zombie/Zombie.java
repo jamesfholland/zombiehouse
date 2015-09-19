@@ -33,6 +33,7 @@ public abstract class Zombie extends Unit
     this.doubleX = location.x;
     this.doubleY = location.y;
     this.vector = new Point(0,0);
+    this.vectorToMove = new Point(0,0);
     setVector();
   }
 
@@ -52,56 +53,48 @@ public abstract class Zombie extends Unit
     {
       vector.x = 1;
       vector.y = 0;
-      return;
     }
 
-    if (heading > 0.0 && heading < 90.0)
+    else if (heading > 0.0 && heading < 90.0)
     {
       vector.x = 1;
       vector.y = -1;
-      return;
     }
 
-    if (heading == 90.0)
+    else if (heading == 90.0)
     {
       vector.x = 0;
       vector.y =-1;
-      return;
     }
 
-    if (heading > 90.0 && heading < 180.0)
+    else if (heading > 90.0 && heading < 180.0)
     {
       vector.x = -1;
       vector.y = -1;
-      return;
     }
 
-    if (heading == 180.0)
+    else if (heading == 180.0)
     {
       vector.x = -1;
       vector.y = 0;
-      return;
     }
 
-    if (heading >180.0 && heading < 270.0)
+    else if (heading >180.0 && heading < 270.0)
     {
       vector.x = -1;
       vector.y = 1;
-      return;
     }
 
-    if (heading == 270.0)
+    else if (heading == 270.0)
     {
       vector.y = 1;
       vector.x = 0;
-      return;
     }
 
-    if (heading >270.0 && heading < 360)
+    else if (heading >270.0 && heading < 360.0)
     {
       vector.y = 1;
       vector.x = 1;
-      return;
     }
   }
 

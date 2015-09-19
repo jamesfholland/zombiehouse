@@ -34,6 +34,7 @@ public abstract class Unit extends GameObject
   protected boolean collided = false;
 
   protected Direction direction = Direction.DOWN;
+  protected Point vectorToMove;
 
   /**
    * This updates the game object's state as determined by its child class.
@@ -63,129 +64,26 @@ public abstract class Unit extends GameObject
     this.tileY = (location.y/Settings.TILE_SIZE);
   }
 
-  public Point checkCollisionsCardinal(Point p)
+  public void checkCollisions(Point p)
   {
-    if (p.y == -1)
-    {
-      if (checkCollideUp())
-      {
-        p.y = 0;
-        collided = true;
-        return p;
-      }
-    }
-    if (p.y == 1)
-    {
-      if (checkCollideDown())
-      {
-        p.y = 0;
-        collided = true;
-        return p;
-      }
-    }
-    if (p.x == 1)
-    {
-      if (checkCollideRight())
-      {
-        p.x = 0;
-        collided = true;
-        return p;
-      }
-    }
+    vectorToMove.setLocation(p);
+
     if (p.x == -1)
     {
-      if (checkCollideLeft())
-      {
-        p.x = 0;
-        collided = true;
-        return p;
-      }
+      if (checkCollideLeft()) vectorToMove.x =0;
     }
-    return p;
-  }
-
-  public Point checkCollisionsDiag(Point p)
-  {
-    if (p.x == -1 && p.y == 1)
+    else if (p.x == 1)
     {
-      if (checkCollideLeft() && checkCollideDown())
-      {
-        p.x = 0;
-        p.y = 0;
-        return p;
-      }
-      if (checkCollideLeft() && !checkCollideDown())
-      {
-        p.x = 0;
-        return p;
-      }
-      if (!checkCollideLeft() && checkCollideDown())
-      {
-        p.y = 0;
-        return p;
-      }
+      if (checkCollideRight()) vectorToMove.x = 0;
     }
-
-    if(p.x == -1 && p.y == -1)
+    if (p.y == -1)
     {
-      if (checkCollideLeft() && checkCollideUp())
-      {
-        p.x = 0;
-        p.y = 0;
-        return p;
-      }
-      if (checkCollideLeft() && !checkCollideUp())
-      {
-        p.x = 0;
-        return p;
-      }
-      if (!checkCollideLeft() && checkCollideUp())
-      {
-        p.y = 0;
-        return p;
-      }
+      if (checkCollideUp()) vectorToMove.y =0;
     }
-
-    if (p.x == 1 && p.y == 1)
+    else if (p.y == 1)
     {
-      if (checkCollideRight() && checkCollideDown())
-      {
-        p.x = 0;
-        p.y = 0;
-        return p;
-      }
-      else if (checkCollideRight() && !checkCollideDown())
-      {
-        p.x = 0;
-        return p;
-      }
-      else if (!checkCollideRight() && checkCollideDown())
-      {
-        p.y = 0;
-        return p;
-      }
+      if (checkCollideDown()) vectorToMove.y = 0;
     }
-
-    if (p.x == 1 && p.y == -1)
-    {
-      if (checkCollideRight() && checkCollideUp())
-      {
-        p.x = 0;
-        p.y = 0;
-        return p;
-      }
-      if (checkCollideRight() && !checkCollideUp())
-      {
-        p.x = 0;
-        return p;
-      }
-      if (!checkCollideRight() && checkCollideUp())
-      {
-        p.y = 0;
-        return p;
-      }
-    }
-    return p;
   }
 
   public boolean checkCollideDown()

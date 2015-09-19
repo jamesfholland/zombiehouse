@@ -19,7 +19,6 @@ public class Player extends Unit
   private static final BufferedImage[] WALK_LEFT_IMAGE;
   private static final BufferedImage[] WALK_DOWN_IMAGE;
   private static final double SQRT2 = Math.sqrt(2);
-  private Point testPoint;
 
   static
   {
@@ -58,7 +57,7 @@ public class Player extends Unit
     this.size = Settings.PLAYER_SIZE;
     this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location, size);
-    this.testPoint = new Point(0, 0);
+    this.vectorToMove = new Point(0, 0);
 
   }
 
@@ -67,75 +66,26 @@ public class Player extends Unit
     double newLocationX;
     double newLocationY;
 
-    /*
-    if (p.x != 0 && p.y != 0)
-    {
-      newLocationX = (p.x*deltaTime*(speed/SQRT2)) + location.x;
-      newLocationY = (p.y*deltaTime*(speed/SQRT2)) + location.y;
-
-      nextHitbox.setFrame(newLocationX,newLocationY,size.getWidth(),size.getHeight());
-    }
-    else
-    {
-      newLocationX = (p.x*speed*deltaTime) + location.x;
-      newLocationY = (p.y*speed*deltaTime) + location.y;
-      nextHitbox.setFrame(newLocationX,newLocationY,size.getWidth(),size.getHeight());
-    }
-
-    if (p.x == -1 && checkCollideLeft())
-    {
-      return;
-    }
-
-    if (p.x == 1 && checkCollideRight())
-    {
-      return;
-    }
-
-    if (p.y == -1 && checkCollideUp())
-    {
-      return;
-    }
-
-    if (p.y == 1 && checkCollideDown())
-    {
-      return;
-    }
-    else{
-      location.setLocation(newLocationX, newLocationY);
-      nextHitbox.setFrame(0,0,0,0);
-      hitbox.setFrame(location, size);
-    }*/
-
-
-    if (p.x != 0 && p.y != 0)
+    if (p.x != 0 && p.y !=0)
     {
       newLocationX = (p.x * deltaTime * (speed / SQRT2)) + location.x;
       newLocationY = (p.y * deltaTime * (speed / SQRT2)) + location.y;
-
-      nextHitbox.setFrame(newLocationX, newLocationY, size.getWidth(), size.getHeight());
-      testPoint = checkCollisionsDiag(p);
-
-      newLocationX = (Math.abs(testPoint.x) * (p.x * deltaTime * (speed / SQRT2)) + location.x);
-      newLocationY = (Math.abs(testPoint.y) * (p.y * deltaTime * (speed / SQRT2)) + location.y);
-
-      location.setLocation(newLocationX, newLocationY);
-      hitbox.setFrame(location, size);
-
-    } else if (p.x == 0 || p.y == 0)
-    {
-      newLocationX = (p.x * speed * deltaTime) + location.x;
-      newLocationY = (p.y * speed * deltaTime) + location.y;
-      nextHitbox.setFrame(newLocationX, newLocationY, size.getWidth(), size.getHeight());
-      testPoint = checkCollisionsCardinal(p);
-
-      newLocationX = (Math.abs(testPoint.x) * (p.x * speed * deltaTime)) + location.x;
-      newLocationY = (Math.abs(testPoint.y) * (p.y * speed * deltaTime)) + location.y;
-
-
-      location.setLocation(newLocationX, newLocationY);
-      hitbox.setFrame(location, size);
     }
+
+    else {
+      newLocationX = (p.x * deltaTime * speed) + location.x;
+      newLocationY = (p.y * deltaTime * speed) + location.y;
+    }
+
+    nextHitbox.setFrame(newLocationX, newLocationY, size.getWidth(), size.getHeight());
+
+    checkCollisions(p);
+
+    newLocationX = (Math.abs(vectorToMove.x) * (newLocationX - location.x)) + location.x;
+    newLocationY = (Math.abs(vectorToMove.y) * (newLocationY - location.y)) + location.y;
+
+    location.setLocation(newLocationX, newLocationY);
+    hitbox.setFrame(location,size);
 
     //Direction Setting
     direction = null;
