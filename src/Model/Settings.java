@@ -87,4 +87,9 @@ public abstract class Settings
    * Player pixel size
    */
   public static final Dimension PLAYER_SIZE = new Dimension(45, 60);
+
+  /**
+   * Player sight range in pixels
+   */
+  public static final int SIGHT_RANGE = 4 * TILE_SIZE;
 }
