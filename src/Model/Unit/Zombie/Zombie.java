@@ -1,5 +1,6 @@
 package Model.Unit.Zombie;
 
+import Model.Settings;
 import Model.Unit.Unit;
 
 import java.awt.*;
@@ -26,7 +27,7 @@ public abstract class Zombie extends Unit
     this.location = new Point(x,y);
     this.testPoint = new Point(0,0);
     this.heading = heading;
-    this.size = new Dimension(50,70);
+    this.size = Settings.ZOMBIE_SIZE;
     this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location,size);
     this.doubleX = location.x;

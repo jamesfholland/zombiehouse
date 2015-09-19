@@ -55,7 +55,7 @@ public class Player extends Unit
     //this.speed = Settings.TILE_SIZE/1000.0;
 
     this.speed = Settings.TILE_SIZE / 60.0;
-    this.size = new Dimension(WALK_DOWN_IMAGE[0].getWidth(), WALK_DOWN_IMAGE[0].getHeight());
+    this.size = Settings.PLAYER_SIZE;
     this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location, size);
     this.testPoint = new Point(0, 0);

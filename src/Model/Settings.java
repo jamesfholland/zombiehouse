@@ -1,5 +1,6 @@
 package Model;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -77,4 +78,13 @@ public abstract class Settings
    */
   public static final Random RANDOM = new Random();
 
+  /**
+   * Zombie pixel size
+   */
+  public static final Dimension ZOMBIE_SIZE = new Dimension(50,70);
+
+  /**
+   * Player pixel size
+   */
+  public static final Dimension PLAYER_SIZE = new Dimension(45, 60);
 }

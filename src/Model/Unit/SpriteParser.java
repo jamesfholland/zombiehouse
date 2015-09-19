@@ -12,10 +12,13 @@ public class SpriteParser
   {
 
     BufferedImage[] returnArray = new BufferedImage[spriteCount];
-
+    BufferedImage tempImage;
     for (int i = 0; i < spriteCount; i++)
     {
-      returnArray[i] = sheet.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+      tempImage = sheet.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+
+      //-2*xOffset to get both sides trimmed
+      returnArray[i] = tempImage.getSubimage(xOffset,yOffset, spriteWidth - 2*xOffset, spriteHeight-yOffset);
     }
 
     return returnArray;
