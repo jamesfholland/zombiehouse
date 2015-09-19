@@ -1,5 +1,6 @@
 package Model.Unit;
 
+import Model.Direction;
 import Model.GameObject;
 import Model.Level;
 import Model.Settings;
@@ -11,11 +12,23 @@ import java.awt.geom.Rectangle2D;
 
 public abstract class Unit extends GameObject
 {
+
+  //Shared animation numbers. All units (except fire) share common layout in sprite sheets
+  protected static final int WALK_SPRITE_COUNT = 9;
+  protected static final int WALK_SPRITE_ROW = 8; //Row 9
+  protected static final int SPRITES_ROWS = 21;
+  protected static final int SPRITES_PER_ROW = 13;
+
+  protected int spriteState = 0;
+
+
   protected Rectangle2D nextHitbox;
   protected int tileX;
   protected int tileY;
   protected double speed;
   protected boolean collided = false;
+
+  protected Direction direction = Direction.DOWN;
 
   /**
    * This updates the game object's state as determined by its child class.
