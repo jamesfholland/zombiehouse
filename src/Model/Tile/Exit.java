@@ -12,11 +12,12 @@ public class Exit extends Tile
   private final static BufferedImage EXIT_IMAGE;
 
   static
-  {BufferedImage imageTemp = null;
+  {
+    BufferedImage imageTemp = null;
 
     try
     {
-      imageTemp = ImageIO.read(Exit.class.getResourceAsStream("playerFront.png"));
+      imageTemp = ImageIO.read(Exit.class.getResourceAsStream("exit.png"));
     }
     catch (IOException e)
     {
