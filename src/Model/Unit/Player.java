@@ -1,5 +1,6 @@
 package Model.Unit;
 
+import Model.Direction;
 import Model.GameObject;
 import Model.Level;
 import Model.Settings;
@@ -140,6 +141,7 @@ public class Player extends Unit
 
       location.setLocation(newLocationX,newLocationY);
       hitbox.setFrame(location, size);
+
     }
 
     else if (p.x ==0 || p.y==0)
@@ -155,6 +157,19 @@ public class Player extends Unit
 
       location.setLocation(newLocationX,newLocationY);
       hitbox.setFrame(location, size);
+    }
+
+    //Direction Setting
+    direction = null;
+    if(p.y > 0 )     direction = Direction.DOWN;
+    else if(p.y < 0) direction = Direction.UP;
+    else if(p.x > 0) direction = Direction.RIGHT;
+    else if(p.x < 0) direction = Direction.LEFT;
+
+    if(direction != null)
+    {
+      spriteState++;
+      if(spriteState >= WALK_SPRITE_COUNT) spriteState = 0;
     }
   }
 
@@ -175,6 +190,8 @@ public class Player extends Unit
   @Override
   public BufferedImage getImage()
   {
+    if(direction == null) return WALK_DOWN_IMAGE[0];
+
     switch(direction)
     {
       case UP:
