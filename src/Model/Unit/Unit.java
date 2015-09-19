@@ -93,10 +93,11 @@ public abstract class Unit extends GameObject
     {
       return true;
     }
-   if (!level.passable(tileX+1,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX+1, tileY + 1)))
+    if (!level.passable(tileX+1,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX+1, tileY + 1)))
     {
       return true;
     }
+
     return false;
   }
 
@@ -111,6 +112,8 @@ public abstract class Unit extends GameObject
     {
       return true;
     }
+
+
     return false;
   }
 
@@ -125,6 +128,7 @@ public abstract class Unit extends GameObject
     {
       return true;
     }
+
     return false;
   }
 
@@ -140,6 +144,7 @@ public abstract class Unit extends GameObject
     {
       return true;
     }
+
     return false;
   }
 }

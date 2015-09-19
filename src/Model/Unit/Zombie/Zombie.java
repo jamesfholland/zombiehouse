@@ -10,7 +10,6 @@ public abstract class Zombie extends Unit
 {
   protected final static Random RAND = new Random(System.nanoTime());
 
-  protected static double speed = 40.0/1000.0;
   protected static double smell = 7.0;
 
   protected double heading;
@@ -27,6 +26,7 @@ public abstract class Zombie extends Unit
     this.location = new Point(x,y);
     this.testPoint = new Point(0,0);
     this.heading = heading;
+    this.speed = Settings.TILE_SIZE/2000.0;
     this.size = Settings.ZOMBIE_SIZE;
     this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location,size);

@@ -122,10 +122,10 @@ public class Controller
         processInput();
         hero.move(heroDirection, deltaTime);
 
-        //for (int i = 0; i < zombieList.size(); ++i)
-        //{
-          //zombieList.get(i).update(deltaTime, secondsFromStart);
-        //}
+        for (int i = 0; i < zombieList.size(); ++i)
+        {
+          zombieList.get(i).update(deltaTime, secondsFromStart);
+        }
 
         view.repaint();
         lastTime = thisTime;

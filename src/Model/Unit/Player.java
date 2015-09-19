@@ -86,6 +86,7 @@ public class Player extends Unit
 
     location.setLocation(newLocationX, newLocationY);
     hitbox.setFrame(location,size);
+    nextHitbox.setFrame(hitbox);
 
     //Direction Setting
     direction = null;

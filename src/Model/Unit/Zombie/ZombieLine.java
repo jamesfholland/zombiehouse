@@ -70,9 +70,9 @@ public class ZombieLine extends Zombie
     nextDoubleX = (Math.cos(headingR)*speed*deltaTime) + doubleX;
     nextDoubleY = (Math.sin(headingR)*speed*deltaTime) + doubleY;
 
-    setVector();
-
     nextHitbox.setFrame(nextDoubleX, nextDoubleY, size.width, size.height);
+
+    setVector();
 
     checkCollisions(vector);
 
@@ -84,46 +84,6 @@ public class ZombieLine extends Zombie
 
     location.setLocation(doubleX, doubleY);
     hitbox.setFrame(location,size);
-
-
-    /*
-    if (vector.x != 0 && vector.y != 0)
-    {
-      testPoint = checkCollisionsDiag(vector);
-
-      //if (testPoint.x == 0 || testPoint.y == 0) collided = true;
-      nextDoubleY = (Math.abs(testPoint.y))*(Math.sin(headingR)*speed*deltaTime) + doubleY;
-      nextDoubleX = (Math.abs(testPoint.x))*(Math.cos(headingR)*speed*deltaTime) + doubleX;
-
-      doubleX = nextDoubleX;
-      doubleY = nextDoubleY;
-
-      location.setLocation(doubleX,doubleY);
-      hitbox.setFrame(location, size);
-    }
-
-    else
-    {
-      testPoint = checkCollisionsCardinal(vector);
-
-      //if (testPoint.x == 0 && testPoint.y ==0) collided = true;
-
-      nextDoubleX = (Math.abs(testPoint.x))*(Math.sin(headingR)*speed*deltaTime) + doubleY;
-      nextDoubleY = (Math.abs(testPoint.y))*(Math.cos(headingR)*speed*deltaTime) + doubleX;
-
-      doubleX = nextDoubleX;
-      doubleY = nextDoubleY;
-
-      location.setLocation(doubleX,doubleY);
-      hitbox.setFrame(location, size);
-    }
-
-    //doubleX = nextDoubleX;
-    //doubleY = nextDoubleY;
-
-    //location.setLocation(doubleX,doubleY);
-    //hitbox.setFrame(location, size);
-    */
   }
 
 
