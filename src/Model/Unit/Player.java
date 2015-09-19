@@ -7,15 +7,65 @@ import Model.Settings;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Unit
 {
-  private static BufferedImage playerFront;
+
+  private static final BufferedImage[] WALK_UP_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  private static final BufferedImage[] WALK_RIGHT_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  private static final BufferedImage[] WALK_LEFT_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  private static final BufferedImage[] WALK_DOWN_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
   private static final double SQRT2 = Math.sqrt(2);
   private Point testPoint;
+
+  static
+  {
+    BufferedImage imageTemp = null;
+    int spriteHeight;
+    int spriteWidth;
+
+    try
+    {
+      imageTemp = ImageIO.read(Player.class.getResourceAsStream("heroSprites.png"));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+
+    spriteHeight = imageTemp.getHeight()/SPRITES_ROWS;
+    spriteWidth = imageTemp.getWidth()/SPRITES_PER_ROW;
+
+    int spriteRow = WALK_SPRITE_ROW;
+    //UP
+    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
+    {
+      WALK_UP_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+    }
+
+    //LEFT
+    spriteRow++; //Sprites rows are always in this order.
+    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
+    {
+      WALK_LEFT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+    }
+
+    //DOWN
+    spriteRow++; //Sprites rows are always in this order.
+    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
+    {
+      WALK_DOWN_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+    }
+    //RIGHT
+    spriteRow++; //Sprites rows are always in this order.
+    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
+    {
+      WALK_RIGHT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+    }
+
+  }
 
   public Player(Point location, Level level)
   {
@@ -28,18 +78,6 @@ public class Player extends Unit
     this.hitbox = new Rectangle(location,size);
     this.nextHitbox = new Rectangle(location, size);
     this.testPoint = new Point(0,0);
-
-    if(playerFront == null)
-    {
-      try
-      {
-        playerFront = ImageIO.read(this.getClass().getResourceAsStream("playerFront.png"));
-      }
-      catch (IOException e)
-      {
-        e.printStackTrace();
-      }
-    }
 
   }
 
@@ -137,7 +175,19 @@ public class Player extends Unit
   @Override
   public BufferedImage getImage()
   {
-    return playerFront;
+    switch(direction)
+    {
+      case UP:
+        return WALK_UP_IMAGE[spriteState];
+      case DOWN:
+        return WALK_DOWN_IMAGE[spriteState];
+      case LEFT:
+        return WALK_LEFT_IMAGE[spriteState];
+      case RIGHT:
+        return WALK_RIGHT_IMAGE[spriteState];
+      default:
+        return WALK_DOWN_IMAGE[0];
+    }
   }
 
   @Override
