@@ -9,22 +9,55 @@ import java.io.IOException;
 
 public class ZombieRandom extends Zombie
 {
-
+  private static final BufferedImage[] WALK_UP_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  private static final BufferedImage[] WALK_RIGHT_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  private static final BufferedImage[] WALK_LEFT_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  private static final BufferedImage[] WALK_DOWN_IMAGE = new BufferedImage[WALK_SPRITE_COUNT];
+  
   private boolean collided;
-  private final static BufferedImage ZOMBIE_IMAGE;
 
   static
-  {BufferedImage imageTemp = null;
+  {
+    BufferedImage imageTemp = null;
+    int spriteHeight;
+    int spriteWidth;
 
     try
     {
-      imageTemp = ImageIO.read(ZombieMaster.class.getResourceAsStream("zombieLeft.png"));
+      imageTemp = ImageIO.read(ZombieMaster.class.getResourceAsStream("heroSprites.png"));
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
-    ZOMBIE_IMAGE = imageTemp;
+    spriteHeight = imageTemp.getHeight()/SPRITES_ROWS;
+    spriteWidth = imageTemp.getWidth()/SPRITES_PER_ROW;
+
+    int spriteRow = WALK_SPRITE_ROW;
+    //UP
+    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
+    {
+      WALK_UP_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+    }
+    //LEFT
+    spriteRow++; //Sprites rows are always in this order.
+    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
+    {
+      WALK_LEFT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+    }
+    //DOWN
+    spriteRow++; //Sprites rows are always in this order.
+    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
+    {
+      WALK_DOWN_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+    }
+    //RIGHT
+    spriteRow++; //Sprites rows are always in this order.
+    for (int i = 0; i < WALK_SPRITE_COUNT; i++)
+    {
+      WALK_RIGHT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
+    }
+
   }
   public ZombieRandom(int x, int y, double heading)
   {
@@ -66,7 +99,21 @@ public class ZombieRandom extends Zombie
   @Override
   public BufferedImage getImage()
   {
-    return ZOMBIE_IMAGE;
+    if(direction == null) return WALK_DOWN_IMAGE[0];
+
+    switch(direction)
+    {
+      case UP:
+        return WALK_UP_IMAGE[spriteState];
+      case DOWN:
+        return WALK_DOWN_IMAGE[spriteState];
+      case LEFT:
+        return WALK_LEFT_IMAGE[spriteState];
+      case RIGHT:
+        return WALK_RIGHT_IMAGE[spriteState];
+      default:
+        return WALK_DOWN_IMAGE[0];
+    }
   }
 
   @Override

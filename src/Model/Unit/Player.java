@@ -35,7 +35,6 @@ public class Player extends Unit
     {
       e.printStackTrace();
     }
-
     spriteHeight = imageTemp.getHeight()/SPRITES_ROWS;
     spriteWidth = imageTemp.getWidth()/SPRITES_PER_ROW;
 
@@ -45,14 +44,12 @@ public class Player extends Unit
     {
       WALK_UP_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
     }
-
     //LEFT
     spriteRow++; //Sprites rows are always in this order.
     for (int i = 0; i < WALK_SPRITE_COUNT; i++)
     {
       WALK_LEFT_IMAGE[i] = imageTemp.getSubimage(i*spriteWidth, spriteRow*spriteHeight, spriteWidth, spriteHeight);
     }
-
     //DOWN
     spriteRow++; //Sprites rows are always in this order.
     for (int i = 0; i < WALK_SPRITE_COUNT; i++)
