@@ -110,19 +110,72 @@ public class GamePanel extends JPanel
 
       scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
 
+      drawShadows(graphics, player);
+    }
+  }
+
+  private void drawShadows(Graphics graphics, Unit unit)
+  {
+
+    int unitX = scaleX(unit.getLocation().x) + unit.getSize().width/2;
+    int unitY = scaleY(unit.getLocation().y) + unit.getSize().height/2;
+    int boxX;
+    int boxY;
+
+    Rectangle2D sightBox = new Rectangle();
+    Point sightCorner = new Point(center);
+    sightCorner.translate(Settings.SIGHT_RANGE, Settings.SIGHT_RANGE);
+    sightBox.setFrameFromCenter(center, sightCorner);
+
+
+    //ArrayList<Point> corners = new ArrayList<>();
+    for (int i = 0; i < tiles.length; i++)
+    {
+      for(int j = 0; j < tiles[i].length; j++)
+      {
+        if (tiles[i][j].checkCollision(sightBox) && !tiles[i][j].isPassable())
+        {
+          boxX = scaleX(tiles[i][j].getLocation().x);
+          boxY = scaleY(tiles[i][j].getLocation().y);
+          double m = (unitY - boxY) / (double)(unitX - boxX);
+          double b = boxY - m * boxX;
+          Point wallHit = new Point();
+          double xPrime = scaleX((int) sightBox.getX());
+          if(boxX >= unitX)
+          {
+            xPrime = xPrime + sightBox.getWidth();
+            wallHit.setLocation(xPrime, m * xPrime + b);
+
+          }
+          else
+          {
+            wallHit.setLocation(xPrime, m * xPrime + b);
+          }
+
+          graphics.setColor(Color.RED);
+          graphics.drawLine(boxX, boxY, unitX, unitY);
+          graphics.setColor(Color.BLUE);
+          graphics.drawLine(wallHit.x, wallHit.y, boxX, boxY);
+
+        }
+      }
     }
   }
 
   private void scaleAndDrawImage(BufferedImage image, Graphics graphics, Point corner, Dimension size)
   {
-    int newX = corner.x + (0 - this.corner.x);
-    int newY = corner.y + (0 - this.corner.y);
-
-    newX = (int)(newX/windowScale); //Scale the corner point to match resized grid.
-    newY = (int)(newY/windowScale);
     //Size is increased by 1 pixel to remove an off by one issue in scaling
-    graphics.drawImage(image, newX, newY, (int) (size.width / windowScale) +1, (int) (size.height / windowScale) +1, null);
+    graphics.drawImage(image, scaleX(corner.x), scaleY(corner.y), (int) (size.width / windowScale) +1, (int) (size.height / windowScale) +1, null);
+  }
 
+  private int scaleX(int x)
+  {
+    return (int)((x - this.corner.x)/windowScale);
+  }
+
+  private int scaleY(int y)
+  {
+    return (int)((y - this.corner.y)/windowScale);
   }
 
   /**

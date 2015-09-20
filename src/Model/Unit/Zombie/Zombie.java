@@ -58,19 +58,19 @@ public abstract class Zombie extends Unit
     else if (heading > 0.0 && heading < 90.0)
     {
       vector.x = 1;
-      vector.y = -1;
+      vector.y = 1;
     }
 
     else if (heading == 90.0)
     {
       vector.x = 0;
-      vector.y =-1;
+      vector.y = 1;
     }
 
     else if (heading > 90.0 && heading < 180.0)
     {
       vector.x = -1;
-      vector.y = -1;
+      vector.y = 1;
     }
 
     else if (heading == 180.0)
@@ -82,19 +82,20 @@ public abstract class Zombie extends Unit
     else if (heading >180.0 && heading < 270.0)
     {
       vector.x = -1;
-      vector.y = 1;
+      vector.y = -1;
     }
 
     else if (heading == 270.0)
     {
-      vector.y = 1;
+
       vector.x = 0;
+      vector.y = -1;
     }
 
     else if (heading >270.0 && heading < 360.0)
     {
-      vector.y = 1;
       vector.x = 1;
+      vector.y = -1;
     }
   }
 

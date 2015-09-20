@@ -12,7 +12,7 @@ public abstract class Settings
   /**
    * Number of rooms to generate.
    */
-  public static final int DEFAULT_NUMBER_ROOMS = 6;
+  public static final int DEFAULT_NUMBER_ROOMS = 20;
 
   /**
    * Number of Hallways to generate.
