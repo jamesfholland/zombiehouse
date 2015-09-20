@@ -66,7 +66,6 @@ public class HouseGeneration
 
     // default used to fill house with open floor
     // makeRoom(1, 1, Settings.PRACTICE_MAP_SIZE - 2, Settings.PRACTICE_MAP_SIZE - 2);
-
     for( int i = 0; i < Settings.DEFAULT_NUMBER_ROOMS; i++ )
     {
       makeRoom();
@@ -87,9 +86,9 @@ public class HouseGeneration
   {
     // generate size and placement of room
     int xSize = 0;
-    while( xSize < 5 ) { xSize = randGen.nextInt(40); }
+    xSize = randGen.nextInt(10) +5;
     int ySize = 0;
-    while( ySize < 5 ) { ySize = randGen.nextInt(40); }
+    ySize = randGen.nextInt(10) +5;
     int xTop = randGen.nextInt(houseWidth - xSize - 2) + 1;
     int yTop = randGen.nextInt(houseHeight - ySize - 2) + 1;
 

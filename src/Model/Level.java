@@ -13,13 +13,13 @@ import java.util.ArrayList;
  */
 public class Level
 {
-  private int levelNum;
-  private Tile[][] houseTiles;
-  private ArrayList<Zombie> zombieList;
+  public int levelNum;
+  public Tile[][] houseTiles;
+  public ArrayList<Zombie> zombieList;
   // fireTrapCount - when a player enters a new level the count should carry over
   //                 but when a player respawns, they should have as many as before.
-  private int fireTrapCount;
-  private Player player;
+  public int fireTrapCount;
+  public Player player;
 
   // Add in a list of collidable tiles
 
@@ -31,14 +31,6 @@ public class Level
     this.fireTrapCount = fireTrapCount;
     this.player = player;
   }
-
-  public int getLevelNum() { return levelNum; }
-
-  public Tile[][] getHouseTiles() { return houseTiles; }
-
-  public ArrayList<Zombie> getZombieList() { return zombieList; }
-
-  public int getFireTrapCount() { return fireTrapCount; }
 
   @Override
   public String toString()
@@ -53,24 +45,5 @@ public class Level
       houseString.append("\n");
     }
     return houseString.toString();
-  }
-
-  public boolean passable(int x, int y)
-  {
-    return houseTiles[x][y].isPassable();
-  }
-
-  public Rectangle2D getHitbox(int x, int y)
-  {
-    return houseTiles[x][y].hitbox;
-  }
-
-  /**
-   * Gets the player object
-   * @return the player
-   */
-  public Player getPlayer()
-  {
-    return player;
   }
 }

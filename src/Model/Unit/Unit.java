@@ -64,23 +64,29 @@ public abstract class Unit extends GameObject
     this.tileY = (location.y/Settings.TILE_SIZE);
   }
 
-  public void checkCollisions(Point p)
+  /**
+   *
+   * @param vectorPoint
+   */
+  public void checkCollisions(Point vectorPoint)
   {
-    vectorToMove.setLocation(p);
+    //nextHitbox.setFrame(newLocationX, newLocationY, size.getWidth(), size.getHeight());
 
-    if (p.x == -1)
+    vectorToMove.setLocation(vectorPoint);
+
+    if (vectorPoint.x == -1)
     {
       if (checkCollideLeft()) vectorToMove.x =0;
     }
-    else if (p.x == 1)
+    else if (vectorPoint.x == 1)
     {
       if (checkCollideRight()) vectorToMove.x = 0;
     }
-    if (p.y == -1)
+    if (vectorPoint.y == -1)
     {
       if (checkCollideUp()) vectorToMove.y =0;
     }
-    else if (p.y == 1)
+    else if (vectorPoint.y == 1)
     {
       if (checkCollideDown()) vectorToMove.y = 0;
     }
@@ -89,11 +95,11 @@ public abstract class Unit extends GameObject
   public boolean checkCollideDown()
   {
     getTileCoordinates();
-    if (!level.passable(tileX,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX,tileY+1)))
+    if (!level.houseTiles[tileX][tileY+1].isPassable() && level.houseTiles[tileX][tileY +1].checkCollision(nextHitbox))
     {
       return true;
     }
-    if (!level.passable(tileX+1,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX+1, tileY + 1)))
+    if (!level.houseTiles[tileX+1][tileY+1].isPassable() && level.houseTiles[tileX+1][tileY +1].checkCollision(nextHitbox))
     {
       return true;
     }
@@ -104,11 +110,11 @@ public abstract class Unit extends GameObject
   public boolean checkCollideUp()
   {
     getTileCoordinates();
-    if (!level.passable(tileX,tileY-1) && nextHitbox.intersects(level.getHitbox(tileX,tileY-1)))
+    if (!level.houseTiles[tileX][tileY-1].isPassable() && level.houseTiles[tileX][tileY - 1].checkCollision(nextHitbox))
     {
       return true;
     }
-    if (!level.passable(tileX+1,tileY-1) && nextHitbox.intersects(level.getHitbox(tileX+1, tileY-1)))
+    if (!level.houseTiles[tileX+1][tileY-1].isPassable() && level.houseTiles[tileX +1][tileY - 1].checkCollision(nextHitbox))
     {
       return true;
     }
@@ -120,11 +126,11 @@ public abstract class Unit extends GameObject
   public boolean checkCollideLeft()
   {
     getTileCoordinates();
-    if (!level.passable(tileX-1,tileY) && nextHitbox.intersects(level.getHitbox(tileX-1, tileY)))
+    if (!level.houseTiles[tileX-1][tileY].isPassable() && level.houseTiles[tileX -1][tileY].checkCollision(nextHitbox))
     {
       return true;
     }
-    if (!level.passable(tileX-1,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX-1,tileY+1)))
+    if (!level.houseTiles[tileX - 1][tileY+1].isPassable() && level.houseTiles[tileX-1][tileY +1].checkCollision(nextHitbox))
     {
       return true;
     }
@@ -136,11 +142,11 @@ public abstract class Unit extends GameObject
   {
     getTileCoordinates();
 
-    if (!level.passable(tileX+1,tileY) && nextHitbox.intersects(level.getHitbox(tileX+1,tileY)))
+    if (!level.houseTiles[tileX+1][tileY].isPassable() && level.houseTiles[tileX+1][tileY].checkCollision(nextHitbox))
     {
       return true;
     }
-    if (!level.passable(tileX+1,tileY+1) && nextHitbox.intersects(level.getHitbox(tileX+1, tileY+1)))
+    if (!level.houseTiles[tileX + 1][tileY+1].isPassable() && level.houseTiles[tileX+1][tileY + 1].checkCollision(nextHitbox))
     {
       return true;
     }

@@ -50,7 +50,7 @@ public class Controller
 
     // First (default) house level
     currentLevel = houseGenerator.getCurrentLevel();
-    zombieList = currentLevel.getZombieList();
+    zombieList = currentLevel.zombieList;
 
 
     System.out.println(currentLevel.toString());

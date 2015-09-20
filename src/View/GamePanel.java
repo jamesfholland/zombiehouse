@@ -187,9 +187,9 @@ public class GamePanel extends JPanel
   void setLevel(Level level)
   {
     this.level = level;
-    this.player = level.getPlayer();
-    this.tiles = level.getHouseTiles();
-    this.zombies = level.getZombieList();
+    this.player = level.player;
+    this.tiles = level.houseTiles;
+    this.zombies = level.zombieList;
 
   }
 }
