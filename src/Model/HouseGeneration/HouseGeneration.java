@@ -64,6 +64,23 @@ public class HouseGeneration
       }
     }
 
+    // not perment but want to be able to traverse rooms
+    // placing a grid of hallways such that you can visit each room
+    for( int i = 4; i < houseHeight - 1; i += 10 )
+    {
+      for( int j = 1; j < houseWidth - 1; j++)
+      {
+        houseTiles[i][j] = new Floor(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
+      }
+    }
+    for( int i = 4; i < houseWidth - 1; i += 10 )
+    {
+      for( int j = 1; j < houseHeight - 1; j++)
+      {
+        houseTiles[j][i] = new Floor(new Point(j * Settings.TILE_SIZE, i * Settings.TILE_SIZE));
+      }
+    }
+
     // default used to fill house with open floor
     // makeRoom(1, 1, Settings.PRACTICE_MAP_SIZE - 2, Settings.PRACTICE_MAP_SIZE - 2);
     for( int i = 0; i < Settings.DEFAULT_NUMBER_ROOMS; i++ )
