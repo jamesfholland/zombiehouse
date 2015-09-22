@@ -18,7 +18,8 @@ public class Player extends Unit
   private static final BufferedImage[] WALK_RIGHT_IMAGE;
   private static final BufferedImage[] WALK_LEFT_IMAGE;
   private static final BufferedImage[] WALK_DOWN_IMAGE;
-  private static final double SQRT2 = Math.sqrt(2);
+
+  private Point inputVector;
 
   static
   {
@@ -57,49 +58,82 @@ public class Player extends Unit
     this.size = Settings.PLAYER_SIZE;
     this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location, size);
-    this.vectorToMove = new Point(0, 0);
-
+    this.headingVector = new Point(0, 0);
+    this.inputVector = new Point(0,0);
   }
 
-  public void move(Point p, long deltaTime)
+  /**
+   * sets the player's heading based on what direction was inputted on the keyboard
+   * @param p direction the of the player's input
+   */
+  private void setHeading(Point p)
   {
-    double newLocationX;
-    double newLocationY;
-
-    if (p.x != 0 && p.y !=0)
+    if (p.x == 0 & p.y == 0)
     {
-      newLocationX = (p.x * deltaTime * (speed / SQRT2)) + location.x;
-      newLocationY = (p.y * deltaTime * (speed / SQRT2)) + location.y;
+      heading = -1;
     }
 
-    else {
-      newLocationX = (p.x * deltaTime * speed) + location.x;
-      newLocationY = (p.y * deltaTime * speed) + location.y;
+    else if (p.x == 1 && p.y == 0)
+    {
+      heading = 0.0;
     }
+    else if (p.x == 1 && p.y == 1)
+    {
+      heading = 45.0;
+    }
+    else if (p.x == 0 && p.y == 1)
+    {
+      heading = 90.0;
+    }
+    else if (p.x == -1 && p.y == 1)
+    {
+      heading = 135.0;
+    }
+    else if (p.x == -1 && p.y == 0)
+    {
+      heading = 180.0;
+    }
+    else if (p.x == -1 && p.y == -1)
+    {
+      heading = 225.0;
+    }
+    else if (p.x == 0 && p.y == -1)
+    {
+      heading = 270.0;
+    }
+    else if (p.x == 1 && p.y == -1)
+    {
+      heading = 315.0;
+    }
+  }
 
-    nextHitbox.setFrame(newLocationX, newLocationY, size.getWidth(), size.getHeight());
+  /**
+   * called by the controller to pass the player the keyboard input
+   * @param p
+   */
+  public void setInputVector(Point p)
+  {
+    inputVector.setLocation(p);
+  }
 
-    checkCollisions(p);
 
-    newLocationX = (Math.abs(vectorToMove.x) * (newLocationX - location.x)) + location.x;
-    newLocationY = (Math.abs(vectorToMove.y) * (newLocationY - location.y)) + location.y;
+  @Override
+  public void update(long deltaTime, long secondsFromStart)
+  {
+    setHeading(inputVector);
+    move(speed, heading, deltaTime);
 
-    location.setLocation(newLocationX, newLocationY);
-    hitbox.setFrame(location,size);
-    nextHitbox.setFrame(hitbox);
-
-    //Direction Setting
     direction = null;
-    if (p.y > 0)
+    if (inputVector.y > 0)
     {
       direction = Direction.DOWN;
-    } else if (p.y < 0)
+    } else if (inputVector.y < 0)
     {
       direction = Direction.UP;
-    } else if (p.x > 0)
+    } else if (inputVector.x > 0)
     {
       direction = Direction.RIGHT;
-    } else if (p.x < 0)
+    } else if (inputVector.x < 0)
     {
       direction = Direction.LEFT;
     }
@@ -112,12 +146,6 @@ public class Player extends Unit
         spriteState = 0;
       }
     }
-  }
-
-  @Override
-  public void update(long deltaTime, long secondsFromStart)
-  {
-
   }
 
   @Override

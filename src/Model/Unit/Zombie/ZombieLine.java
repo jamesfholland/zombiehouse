@@ -1,5 +1,6 @@
 package Model.Unit.Zombie;
 
+import Model.Direction;
 import Model.GameObject;
 import Model.Unit.SpriteParser;
 
@@ -15,8 +16,6 @@ public class ZombieLine extends Zombie
   private static final BufferedImage[] WALK_RIGHT_IMAGE;
   private static final BufferedImage[] WALK_LEFT_IMAGE;
   private static final BufferedImage[] WALK_DOWN_IMAGE;
-
-  private boolean collided = false;
 
   static
   {
@@ -52,38 +51,40 @@ public class ZombieLine extends Zombie
   @Override
   public void update(long deltaTime, long secondsFromStart)
   {
-    double nextDoubleX;
-    double nextDoubleY;
 
-    double headingR;
-
-    /*
     if ((secondsFromStart%2)==0 && collided)
     {
       makeDecision();
       collided = false;
-      setVector();
-    }*/
+      setHeadingVector();
+    }
 
-    headingR = toRadians();
+    move(speed,heading,deltaTime);
 
-    nextDoubleX = (Math.cos(headingR)*speed*deltaTime) + doubleX;
-    nextDoubleY = (Math.sin(headingR)*speed*deltaTime) + doubleY;
 
-    nextHitbox.setFrame(nextDoubleX, nextDoubleY, size.width, size.height);
+    direction = null;
+    if (headingVector.y > 0)
+    {
+      direction = Direction.DOWN;
+    } else if (headingVector.y < 0)
+    {
+      direction = Direction.UP;
+    } else if (headingVector.x > 0)
+    {
+      direction = Direction.RIGHT;
+    } else if (headingVector.x < 0)
+    {
+      direction = Direction.LEFT;
+    }
 
-    setVector();
-
-    checkCollisions(vector);
-
-    nextDoubleX = (Math.abs(vectorToMove.x) * (nextDoubleX - doubleX)) + doubleX;
-    nextDoubleY = (Math.abs(vectorToMove.y) * (nextDoubleY - doubleY)) + doubleY;
-
-    doubleX = nextDoubleX;
-    doubleY = nextDoubleY;
-
-    location.setLocation(doubleX, doubleY);
-    hitbox.setFrame(location,size);
+    if (direction != null)
+    {
+      spriteState++;
+      if (spriteState >= WALK_SPRITE_COUNT)
+      {
+        spriteState = 0;
+      }
+    }
   }
 
 

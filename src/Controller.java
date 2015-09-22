@@ -56,6 +56,7 @@ public class Controller
     System.out.println(currentLevel.toString());
 
     view.setLevel(currentLevel);
+    hero.setDoubleLocation();
 
     gameLoop = new GameLoop();
 
@@ -120,7 +121,8 @@ public class Controller
 
         view.keyboard.poll();
         processInput();
-        hero.move(heroDirection, deltaTime);
+        hero.setInputVector(heroDirection);
+        hero.update(deltaTime, secondsFromStart);
 
         for (int i = 0; i < zombieList.size(); ++i)
         {

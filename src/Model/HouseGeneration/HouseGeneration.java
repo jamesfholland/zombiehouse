@@ -151,7 +151,7 @@ public class HouseGeneration
 
     if( randGen.nextDouble() < 0.02 )
     {
-     zombieArrayList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (randGen.nextInt(360)+randGen.nextDouble())));
+      zombieArrayList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (randGen.nextInt(360)+randGen.nextDouble())));
       return true;
     }
     return false;
