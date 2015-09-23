@@ -1,22 +1,15 @@
 package View;
 
-import Model.Level;
-import Model.Settings;
-import Model.Tile.Tile;
-import Model.Unit.Player;
-import Model.Unit.Unit;
-import Model.Unit.Zombie.Zombie;
+import Model.*;
+import Model.Tile.*;
+import Model.Unit.*;
+import Model.Unit.Zombie.*;
 
-import javax.sound.sampled.Line;
 import javax.swing.*;
-import javax.swing.text.html.HTMLDocument;
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+import java.awt.image.*;
+import java.util.*;
 
 /**
  * This class handles drawing the actual game window. It is always centered on the player.
@@ -137,7 +130,7 @@ public class GamePanel extends JPanel
     //Store the two closest intersections.
     Point[][] intersections = new Point[4][2];
     Point tempIntersection;
-    double distanceSq = Double.POSITIVE_INFINITY;
+    double distanceSq[] = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY};
 
     Polygon polygon = new Polygon();
 
@@ -181,12 +174,17 @@ public class GamePanel extends JPanel
           tempIntersection = IntersectionFinder.getNearIntersection(unitP, destinations[i], subTile.getHitbox());
           if(tempIntersection != null)
           {
-            if(center.distanceSq(tempIntersection) < distanceSq)
+            if (center.distanceSq(tempIntersection) < distanceSq[0])
             {
-                distanceSq = center.distanceSq(tempIntersection);
-                intersections[i][1] = intersections[i][0]; //Move last closest to next position.
-                intersections[i][0] = tempIntersection;
-
+              distanceSq[1] = distanceSq[0];
+              distanceSq[0] = center.distanceSq(tempIntersection);
+              intersections[i][1] = intersections[i][0]; //Move last closest to next position.
+              intersections[i][0] = tempIntersection;
+            }//Now check second to last point.
+            else if (center.distanceSq(tempIntersection) < distanceSq[1])
+            {
+              distanceSq[1] = center.distanceSq(tempIntersection);
+              intersections[i][1] = tempIntersection;
             }
           }
         }
@@ -194,19 +192,26 @@ public class GamePanel extends JPanel
 
       for(int i = 0; i < destinations.length; i++)
       {
-        intersectPoints.add(intersections[i][0]);
-        //Check if intersection is also the wall corner that our destination was based on.
-        //This means we are on a corner and need the wall hit assuming it doesn't intersect the far side of the tile.
-        if(intersections[i][0].equals(boxCorners[i]))
+        if(intersections[i][0] != null)
         {
-            if(intersections[i][1] == null)
+          intersectPoints.add(intersections[i][0]);
+          //Check if intersection is also the wall corner that our destination was based on.
+          //This means we are on a corner and need the wall hit assuming it doesn't intersect the far side of the tile.
+          if (intersections[i][0].equals(boxCorners[i]))
+          {
+            if (intersections[i][1] == null)
             {
               intersectPoints.add(destinations[i]); //Add our wall point.
             }
-          else
+            else
             {
               intersectPoints.add(intersections[i][1]); //Add the next closest intersection.
             }
+          }
+        }
+        else
+        { //Since intersections[i][0] is null add the destination since there was no intersect.
+          intersectPoints.add(destinations[i]);
         }
       }
 
@@ -229,6 +234,8 @@ public class GamePanel extends JPanel
     polygon.addPoint(scaleX(previous.x), scaleY(previous.y));
     polygon.addPoint(scaleX(center.x), scaleY(center.y));
     graphics.drawPolygon(polygon);
+
+    previous = current;
     }
   }
 
