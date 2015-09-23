@@ -28,10 +28,20 @@ public abstract class GameObject
    */
   private void setHitbox()
   {
-    if(hitbox == null)
+    if(hitbox == null || location.x != (int)hitbox.getX() || location.y != (int)hitbox.getY())
     {
       hitbox = new Rectangle(location, size);
     }
+  }
+
+  /**
+   * Gets the hitbox of the object.
+   * @return hitbox
+   */
+  public Rectangle2D getHitbox()
+  {
+    setHitbox();
+    return this.hitbox;
   }
    /**
    * Pass object a hitbox to check intersection with. Intersection means collision.
