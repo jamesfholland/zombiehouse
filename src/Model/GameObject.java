@@ -49,7 +49,7 @@ public abstract class GameObject
    */
   public boolean checkCollision(Rectangle2D otherHitbox)
   {
-    setHitbox();
+    //setHitbox();
     return this.hitbox.intersects(otherHitbox);
   }
 

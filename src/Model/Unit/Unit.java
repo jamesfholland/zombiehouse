@@ -3,6 +3,8 @@ package Model.Unit;
 import Model.Direction;
 import Model.GameObject;
 import Model.Settings;
+import Model.Unit.Zombie.Zombie;
+import Model.Unit.Zombie.ZombieLine;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
@@ -106,8 +108,17 @@ public abstract class Unit extends GameObject
     //check for collisions
     checkCollisions();
 
+
+    if (this instanceof Zombie)
+    {
+      //checkZombieZombieCollision();
+    }
+
     //set the unit at the appropriate place
-    location.setLocation(locationXD, locationYD);
+    location.setLocation(nextLocationX, nextLocationY);
+    hitbox.setFrame(nextLocationX, nextLocationY, size.width, size.height);
+    locationXD = nextLocationX;
+    locationYD = nextLocationY;
   }
 
   public void checkCollisions()
@@ -239,8 +250,8 @@ public abstract class Unit extends GameObject
       }
     }
 
-    locationXD = nextLocationX;
-    locationYD = nextLocationY;
+    //locationXD = nextLocationX;
+    //locationYD = nextLocationY;
 
   }
 
@@ -315,6 +326,26 @@ public abstract class Unit extends GameObject
     }
     return false;
   }
+
+  /*
+  private void checkZombieZombieCollision()
+  {
+    for (int i = 0; i < level.zombieList.size(); ++i)
+    {
+      if (this.nextHitbox.intersects(level.zombieList.get(i).hitbox))
+      {
+        if (this == level.zombieList.get(i))
+        {
+          return;
+        }
+        else
+        {
+          nextLocationX = locationXD;
+          nextLocationY = locationYD;
+        }
+      }
+    }
+  }*/
 
   /*
   private boolean checkCollideDown()

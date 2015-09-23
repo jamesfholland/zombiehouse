@@ -84,6 +84,14 @@ public class Controller
     {
       x+=1;
     }
+    if (view.keyboard.keyDown(KeyEvent.VK_R))
+    {
+      hero.setSpeedRun();
+    }
+    else
+    {
+      hero.setSpeedWalk();
+    }
     heroDirection.setLocation(x,y);
   }
 
@@ -100,7 +108,7 @@ public class Controller
     public void run()
     {
       lastTime = System.currentTimeMillis();
-      start = System.currentTimeMillis();
+      start = lastTime;
       while(true)
       {
         do
@@ -114,7 +122,7 @@ public class Controller
             break; //Something interrupted us probably application closing, break to kill refreshing.
           }
           thisTime = System.currentTimeMillis();
-          secondsFromStart = (System.currentTimeMillis() - start)/1000;
+          secondsFromStart = (thisTime - start)/1000;
           deltaTime = thisTime - lastTime;
         }
         while(deltaTime < Settings.REFRESH_RATE);
@@ -128,6 +136,15 @@ public class Controller
         {
           zombieList.get(i).update(deltaTime, secondsFromStart);
         }
+
+        /*
+        for (int i = 0; i < zombieList.size(); ++i)
+        {
+          if (hero.checkCollision(zombieList.get(i).getHitbox()))
+          {
+            System.out.println("GAME OVER");
+          }
+        }*/
 
         view.repaint();
         lastTime = thisTime;

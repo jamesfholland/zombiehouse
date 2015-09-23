@@ -19,6 +19,9 @@ public class Player extends Unit
   private static final BufferedImage[] WALK_LEFT_IMAGE;
   private static final BufferedImage[] WALK_DOWN_IMAGE;
 
+  private static final double SPEED_WALK = Settings.TILE_SIZE / 1000.0;
+  private static final double SPEED_RUN = Settings.TILE_SIZE / 500.0;
+
   private Point inputVector;
 
   static
@@ -54,7 +57,7 @@ public class Player extends Unit
     this.level = level;
     //this.speed = Settings.TILE_SIZE/1000.0;
 
-    this.speed = Settings.TILE_SIZE / 60.0;
+    this.speed = SPEED_WALK;
     this.size = Settings.PLAYER_SIZE;
     this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location, size);
@@ -114,6 +117,16 @@ public class Player extends Unit
   public void setInputVector(Point p)
   {
     inputVector.setLocation(p);
+  }
+
+  public void setSpeedRun()
+  {
+    speed = SPEED_RUN;
+  }
+
+  public void setSpeedWalk()
+  {
+    speed = SPEED_WALK;
   }
 
 
