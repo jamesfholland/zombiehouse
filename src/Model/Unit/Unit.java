@@ -111,7 +111,7 @@ public abstract class Unit extends GameObject
 
     if (this instanceof Zombie)
     {
-      //checkZombieZombieCollision();
+      checkZombieZombieCollision();
     }
 
     //set the unit at the appropriate place
@@ -137,6 +137,14 @@ public abstract class Unit extends GameObject
     //this check is still really buggy, gets units stuck on corners when moving SE
     else if (headingVector.x == 1 && headingVector.y == 1)
     {
+      /*
+      if (checkCollideSE() && (!checkCollideS() && !checkCollideE()))
+      {
+        nextLocationX = locationXD;
+        nextLocationY = locationYD;
+      }*/
+
+
       if ((checkCollideE()|| checkCollideSE()) && level.houseTiles[tileX][tileY+1].isPassable())
       {
         nextLocationX = locationXD;
@@ -201,7 +209,13 @@ public abstract class Unit extends GameObject
     //moving north west
     else if (headingVector.x == -1 && headingVector.y == -1)
     {
-      if ((checkCollideSW() || checkCollideW()) && !checkCollideN())
+      if (checkCollideNW() && (!checkCollideW() && !checkCollideN()))
+      {
+        nextLocationX = locationXD;
+        nextLocationY = locationYD;
+        collided = true;
+      }
+      else if ((checkCollideSW() || checkCollideW()) && !checkCollideN())
       {
         nextLocationX = locationXD;
         collided = true;
@@ -249,10 +263,6 @@ public abstract class Unit extends GameObject
         collided = true;
       }
     }
-
-    //locationXD = nextLocationX;
-    //locationYD = nextLocationY;
-
   }
 
   private boolean checkCollideE()
@@ -327,25 +337,19 @@ public abstract class Unit extends GameObject
     return false;
   }
 
-  /*
+
   private void checkZombieZombieCollision()
   {
     for (int i = 0; i < level.zombieList.size(); ++i)
     {
-      if (this.nextHitbox.intersects(level.zombieList.get(i).hitbox))
+      if (this != level.zombieList.get(i) && this.nextHitbox.intersects(level.zombieList.get(i).hitbox))
       {
-        if (this == level.zombieList.get(i))
-        {
-          return;
-        }
-        else
-        {
-          nextLocationX = locationXD;
-          nextLocationY = locationYD;
-        }
+        nextLocationX = locationXD;
+        nextLocationY = locationYD;
+        collided = true;
       }
     }
-  }*/
+  }
 
   /*
   private boolean checkCollideDown()
