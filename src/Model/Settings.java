@@ -91,5 +91,5 @@ public abstract class Settings
   /**
    * Player sight range in pixels
    */
-  public static final int SIGHT_RANGE = 4 * TILE_SIZE;
+  public static final int SIGHT_RANGE = 5 * TILE_SIZE;
 }
