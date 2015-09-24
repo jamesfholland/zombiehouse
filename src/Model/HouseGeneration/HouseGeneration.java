@@ -43,8 +43,8 @@ public class HouseGeneration
     lastRandomSeed = System.nanoTime();
     randGen = new Random(lastRandomSeed);
 
-    presetHouse();
-    //presetZombies();
+    //presetHouse();
+    aStarTestRoom();
 
     createLevel();
 
@@ -165,5 +165,39 @@ public class HouseGeneration
   public Level getCurrentLevel()
   {
     return currentLevel;
+  }
+
+
+
+  // Quick aStar test case.
+  // 5x11 room, with wall seperating halfs
+  private void aStarTestRoom()
+  {
+    playerSpawnX = 3;
+    playerSpawnY = 2;
+
+    for( int i = 0; i < houseWidth; i++ )
+    {
+      for( int j = 0; j < houseHeight; j++ )
+      {
+        houseTiles[i][j] = new Wall(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
+      }
+    }
+
+    // default used to fill house with open floor
+    // makeRoom(1, 1, Settings.PRACTICE_MAP_SIZE - 2, Settings.PRACTICE_MAP_SIZE - 2);
+    for( int i = 1; i < 6; i++ )
+    {
+      for( int j = 1; j < 6; j++)
+      {
+        houseTiles[i][j] = new Floor(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
+        houseTiles[i + 6][j] = new Floor(new Point((i + 6) * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
+      }
+    }
+    houseTiles[6][5] = new Floor(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE));
+
+    player.setLocation(new Point(playerSpawnX * Settings.TILE_SIZE, playerSpawnY * Settings.TILE_SIZE));
+
+    zombieArrayList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (randGen.nextInt(360) + randGen.nextDouble())));
   }
 }

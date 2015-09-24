@@ -53,7 +53,7 @@ public class Controller
     zombieList = currentLevel.zombieList;
 
 
-    System.out.println(currentLevel.toString());
+    //System.out.println(currentLevel.toString());
 
     view.setLevel(currentLevel);
     hero.setDoubleLocation();
