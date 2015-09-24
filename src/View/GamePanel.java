@@ -5,10 +5,12 @@ import Model.Tile.*;
 import Model.Unit.*;
 import Model.Unit.Zombie.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -31,11 +33,28 @@ public class GamePanel extends JPanel
 
   private Area blackMask;
   private Area circleMask;
+  private static BufferedImage circularGradient;
 
   private double windowScale;
   private Player player;
   private Tile[][] tiles;
   private ArrayList<Zombie> zombies;
+
+  static
+  {
+    BufferedImage imageTemp = null;
+
+    try
+    {
+      imageTemp = ImageIO.read(GamePanel.class.getResourceAsStream("CircularGradient.png"));
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+
+    circularGradient = imageTemp;
+  }
 
 
   /**
@@ -68,6 +87,8 @@ public class GamePanel extends JPanel
   public void paintComponent(Graphics graphics)
   {
     super.paintComponent(graphics);
+
+    Graphics2D graphics2D = (Graphics2D) graphics;
 
     //Calculate scale factor of the resized window.
     this.getSize();
@@ -104,7 +125,7 @@ public class GamePanel extends JPanel
       circleMask.subtract(new Area(new Ellipse2D.Double(scaleX((int) sightBox.getX()), scaleY((int) sightBox.getY()), sightBox.getWidth() / windowScale, sightBox.getHeight() / windowScale)));
 
       LinkedList<Tile> walls = new LinkedList<>();
-      //TODO: Optimize to only draw tiles in viewport.
+
       for (int i = 0; i < tiles.length; i++)
       {
         for (int j = 0; j < tiles[i].length; j++)
@@ -135,14 +156,20 @@ public class GamePanel extends JPanel
       detectShadows(player, sightBox, walls);
 
       graphics.setColor(Color.BLACK);
-      ((Graphics2D) graphics).fill(blackMask);
+      graphics2D.fill(blackMask);
 
       for(Tile wall : walls)
       {
         scaleAndDrawImage(wall.getImage(), graphics, wall.getLocation(), wall.getSize());
       }
       graphics.setColor(Color.BLACK);
-      ((Graphics2D) graphics).fill(circleMask);
+      graphics2D.fill(circleMask);
+
+      scaleAndDrawImage(
+          circularGradient,
+          graphics,
+          new Point((int)sightBox.getX(), (int)sightBox.getY()),
+          new Dimension((int)sightBox.getWidth(), (int)sightBox.getHeight()));
     }
   }
 
