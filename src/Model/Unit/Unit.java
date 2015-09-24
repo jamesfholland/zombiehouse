@@ -134,8 +134,6 @@ public abstract class Unit extends GameObject
 
   public void checkCollisions()
   {
-
-
     //if moving straight east
     if (headingVector.x == 1 && headingVector.y == 0)
     {
@@ -359,9 +357,7 @@ public abstract class Unit extends GameObject
       nextLocationX = locationXD;
       collided = true;
     }
-
   }
-
 
   private void checkZombieZombieCollision()
   {

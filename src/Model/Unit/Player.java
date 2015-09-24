@@ -19,10 +19,10 @@ public class Player extends Unit
   private static final BufferedImage[] WALK_LEFT_IMAGE;
   private static final BufferedImage[] WALK_DOWN_IMAGE;
 
-  private static final double SPEED_WALK = Settings.TILE_SIZE / 1000.0;
-  private static final double SPEED_RUN = Settings.TILE_SIZE / 500.0;
-
   private Point inputVector;
+  private double speed;
+  private boolean running;
+  private int stamina;
 
   static
   {
@@ -55,10 +55,12 @@ public class Player extends Unit
   {
     this.location = location;
     this.level = level;
-    //this.speed = Settings.TILE_SIZE/1000.0;
 
-    this.speed = SPEED_WALK;
+    this.speed = Settings.SPEED_WALK;
+    this.running = false;
     this.size = Settings.PLAYER_SIZE;
+    this.stamina = Settings.PLAYER_STAMINA;
+
     this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location, size);
     this.headingVector = new Point(0, 0);
@@ -121,12 +123,17 @@ public class Player extends Unit
 
   public void setSpeedRun()
   {
-    speed = SPEED_RUN;
+    if (stamina > 0)
+    {
+      speed = Settings.RUN_SPEED;
+      running = true;
+    }
   }
 
   public void setSpeedWalk()
   {
-    speed = SPEED_WALK;
+    speed = Settings.SPEED_WALK;
+    running = false;
   }
 
 
@@ -134,6 +141,27 @@ public class Player extends Unit
   public void update(long deltaTime, long secondsFromStart)
   {
     setHeading(inputVector);
+
+    if (!running)
+    {
+      if (stamina < Settings.PLAYER_STAMINA)
+      {
+        stamina += (deltaTime*0.2);
+        System.out.println("" + stamina);
+      }
+    }
+
+    if (stamina == 0)
+    {
+      speed = Settings.SPEED_WALK;
+      running = false;
+    }
+
+    if (running)
+    {
+      stamina = Math.max(stamina-(int)deltaTime, 0);
+    }
+
     move(speed, heading, deltaTime);
 
     direction = null;
@@ -188,6 +216,11 @@ public class Player extends Unit
       default:
         return WALK_DOWN_IMAGE[0];
     }
+  }
+
+  public int getStamina()
+  {
+    return stamina;
   }
 
   @Override

@@ -92,4 +92,24 @@ public abstract class Settings
    * Player sight range in pixels
    */
   public static final int SIGHT_RANGE = 5 * TILE_SIZE;
+
+  /**
+   * Player walk speed in pixels per second
+   */
+  public static final double SPEED_WALK = Settings.TILE_SIZE/1000.0;
+
+  /**
+   * Player run speed in pixels per second
+   */
+  public static final double RUN_SPEED = Settings.TILE_SIZE/500.0;
+
+  /**
+   * Zombie speed in pixels per second
+   */
+  public static final double ZOMBIE_SPEED = Settings.TILE_SIZE/2000.0;
+
+  /**
+   * Player stamina for running
+   */
+  public static final int PLAYER_STAMINA = 5000;
 }

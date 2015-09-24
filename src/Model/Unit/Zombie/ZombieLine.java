@@ -2,6 +2,7 @@ package Model.Unit.Zombie;
 
 import Model.Direction;
 import Model.GameObject;
+import Model.Settings;
 import Model.Unit.SpriteParser;
 
 import javax.imageio.ImageIO;
@@ -59,7 +60,7 @@ public class ZombieLine extends Zombie
       setHeadingVector();
     }
 
-    move(speed,heading,deltaTime);
+    move(Settings.ZOMBIE_SPEED,heading,deltaTime);
 
 
     direction = null;
