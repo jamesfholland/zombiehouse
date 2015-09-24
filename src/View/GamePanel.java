@@ -77,7 +77,7 @@ public class GamePanel extends JPanel
       center.translate(player.getSize().width / 2, player.getSize().height / 2);
       corner.setLocation(center);
       double dynamicHeight = this.getHeight() * windowScale;
-      corner.translate((-1) * Settings.WIDTH_STANDARD / 2, (int)((-1) * dynamicHeight / 2));
+      corner.translate((-1) * Settings.WIDTH_STANDARD / 2, (int) ((-1) * dynamicHeight / 2));
 
       setViewWindow();
 
@@ -92,9 +92,9 @@ public class GamePanel extends JPanel
       {
         for (int i = 0; i < tiles.length; i++)
         {
-          for(int j = 0; j < tiles[i].length; j++)
+          for (int j = 0; j < tiles[i].length; j++)
           {
-            if (tiles[i][j].checkCollision(viewWindow))
+            if (tiles[i][j].checkCollision(sightBox))
             {
               scaleAndDrawImage(tiles[i][j].getImage(), graphics, tiles[i][j].getLocation(), tiles[i][j].getSize());
             }
@@ -102,9 +102,9 @@ public class GamePanel extends JPanel
         }
       }
 
-      for(Zombie zombie : zombies)
+      for (Zombie zombie : zombies)
       {
-        if(zombie.checkCollision(viewWindow))
+        if (zombie.checkCollision(sightBox))
         {
           scaleAndDrawImage(zombie.getImage(), graphics, zombie.getLocation(), zombie.getSize());
         }
@@ -112,153 +112,149 @@ public class GamePanel extends JPanel
 
       scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
 
-      //drawShadows(graphics, player, sightBox);
+      drawShadows((Graphics2D)graphics, player, sightBox);
     }
   }
 
-  private void drawShadows(Graphics graphics, Unit unit, Rectangle2D sightBox)
+  private void drawShadows(Graphics2D graphics, Unit unit, Rectangle2D sightBox)
   {
 
-    int unitX = unit.getLocation().x + unit.getSize().width/2;
-    int unitY = unit.getLocation().y + unit.getSize().height/2;
+    int unitX = unit.getLocation().x + unit.getSize().width / 2;
+    int unitY = unit.getLocation().y + unit.getSize().height / 2;
     Point unitP = new Point(unitX, unitY);
     int boxX;
     int boxY;
 
-    Point[] destinations = new Point[4];
+    LinkedList<Point> destinations = new LinkedList<>();
     Point[] boxCorners = new Point[4];
     //Store the two closest intersections.
-    Point[][] intersections = new Point[4][2];
-    Point tempIntersection;
-    double distanceSq[] = {Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY};
+    Point intersections;
+    Point tempIntersections;
+    double distanceSq = Double.POSITIVE_INFINITY;
 
+    graphics.setColor(Color.GREEN);
     Polygon polygon = new Polygon();
+    Area blackMask = new Area(
+        new Rectangle(
+            scaleX((int)viewWindow.getX()),
+            scaleY((int)viewWindow.getY()),
+            (int)(viewWindow.getWidth()/windowScale),
+            (int)(viewWindow.getHeight()/windowScale)));
 
     LinkedList<Tile> visibleTiles = new LinkedList<>();
 
     for (int i = 0; i < tiles.length; i++)
     {
-      for(int j = 0; j < tiles[i].length; j++)
+      for (int j = 0; j < tiles[i].length; j++)
       {
-        if (tiles[i][j].checkCollision(sightBox) && !tiles[i][j].isPassable())
+        if (tiles[i][j].checkCollision(sightBox))
         {
-          visibleTiles.add(tiles[i][j]);
+          if (!tiles[i][j].isPassable())
+          {
+            visibleTiles.add(tiles[i][j]);
+            boxX = tiles[i][j].getLocation().x;
+            boxY = tiles[i][j].getLocation().y;
+
+
+            //Calculate line from unit to box corner
+            boxCorners[0] = new Point(boxX, boxY);
+            boxCorners[1] = new Point(boxX + Settings.TILE_SIZE, boxY);
+            boxCorners[2] = new Point(boxX, boxY + Settings.TILE_SIZE);
+            boxCorners[3] = new Point(boxX + Settings.TILE_SIZE, boxY + Settings.TILE_SIZE);
+
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[0].x, boxCorners[0].y, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[1].x, boxCorners[1].y, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[2].x, boxCorners[2].y, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[3].x, boxCorners[3].y, sightBox));
+
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[0].x+1, boxCorners[0].y+1, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[1].x+1, boxCorners[1].y+1, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[2].x+1, boxCorners[2].y+1, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[3].x+1, boxCorners[3].y+1, sightBox));
+
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[0].x-1, boxCorners[0].y-1, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[1].x-1, boxCorners[1].y-1, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[2].x-1, boxCorners[2].y-1, sightBox));
+            destinations.add(getWallPoint(unitX, unitY, boxCorners[3].x-1, boxCorners[3].y-1, sightBox));
+
+          }
         }
       }
+      destinations.add(new Point((int)sightBox.getX(), (int)sightBox.getY()));
+      destinations.add(new Point((int)sightBox.getMaxX(), (int)sightBox.getY()));
+      destinations.add(new Point((int)sightBox.getX(), (int)sightBox.getMaxY()));
+      destinations.add(new Point((int)sightBox.getMaxX(), (int)sightBox.getMaxY()));
     }
 
     PriorityQueue<Point> intersectPoints = new PriorityQueue<>(visibleTiles.size() * 4, new ClockwisePointComparator(center));
 
-    graphics.setColor(Color.RED);
-    for(Iterator<Tile> iterator= visibleTiles.iterator(); iterator.hasNext();)
+
+    for (Point destination : destinations)
     {
-      Tile tile = iterator.next();
-      boxX = tile.getLocation().x;
-      boxY = tile.getLocation().y;
-
-
-      //Calculate line from unit to box corner
-      boxCorners[0] = new Point(boxX, boxY);
-      boxCorners[1] = new Point(boxX + Settings.TILE_SIZE, boxY);
-      boxCorners[2] = new Point(boxX, boxY + Settings.TILE_SIZE);
-      boxCorners[3] = new Point(boxX + Settings.TILE_SIZE, boxY + Settings.TILE_SIZE);
-
-      destinations[0] = getWallPoint(unitX, unitY, boxCorners[0].x, boxCorners[0].y, sightBox);
-      destinations[1] = getWallPoint(unitX, unitY, boxCorners[1].x, boxCorners[1].y, sightBox);
-      destinations[2] = getWallPoint(unitX, unitY, boxCorners[2].x, boxCorners[2].y, sightBox);
-      destinations[3] = getWallPoint(unitX, unitY, boxCorners[3].x, boxCorners[3].y, sightBox);
-      for(Tile subTile: visibleTiles)
+      distanceSq = Double.POSITIVE_INFINITY;
+      intersections = destination;
+      for (Tile subTile : visibleTiles)
       {
-        for(int i = 0; i < destinations.length; i++)
-        {
-          tempIntersection = IntersectionFinder.getNearIntersection(unitP, destinations[i], subTile.getHitbox());
-          if(tempIntersection != null)
+        tempIntersections = IntersectionFinder.getIntersections(unitP, destination, subTile.getHitbox());
+          if (tempIntersections != null)
           {
-            if (center.distanceSq(tempIntersection) < distanceSq[0])
+            if (center.distanceSq(tempIntersections) < distanceSq)
             {
-              distanceSq[1] = distanceSq[0];
-              distanceSq[0] = center.distanceSq(tempIntersection);
-              intersections[i][1] = intersections[i][0]; //Move last closest to next position.
-              intersections[i][0] = tempIntersection;
-            }//Now check second to last point.
-            else if (center.distanceSq(tempIntersection) < distanceSq[1])
-            {
-              distanceSq[1] = center.distanceSq(tempIntersection);
-              intersections[i][1] = tempIntersection;
+              distanceSq = center.distanceSq(tempIntersections);
+              intersections = tempIntersections;
             }
           }
-        }
       }
-
-      for(int i = 0; i < destinations.length; i++)
-      {
-        if(intersections[i][0] != null)
-        {
-          intersectPoints.add(intersections[i][0]);
-          //Check if intersection is also the wall corner that our destination was based on.
-          //This means we are on a corner and need the wall hit assuming it doesn't intersect the far side of the tile.
-          if (intersections[i][0].equals(boxCorners[i]))
-          {
-            if (intersections[i][1] == null)
-            {
-              intersectPoints.add(destinations[i]); //Add our wall point.
-            }
-            else
-            {
-              intersectPoints.add(intersections[i][1]); //Add the next closest intersection.
-            }
-          }
-        }
-        else
-        { //Since intersections[i][0] is null add the destination since there was no intersect.
-          intersectPoints.add(destinations[i]);
-        }
-      }
-
+        intersectPoints.add(intersections);
     }
 
     Point current = null;
     Point previous = null;
     Point first = null;
-  while (! intersectPoints.isEmpty())
-  {
-    //Setup initial loop (If we ever have only 1 point at start, there are bigger problems than our empty queue.
-    if(current == null)
+    while (!intersectPoints.isEmpty())
     {
-      first = intersectPoints.poll();
-      previous = first;
+      //Setup initial loop (If we ever have only 1 point at start, there are bigger problems than our empty queue.
+      if (current == null)
+      {
+        first = intersectPoints.poll();
+        previous = first;
+      }
+      current = intersectPoints.poll();
+      polygon.addPoint(scaleX(current.x), scaleY(current.y));
+      //polygon.addPoint(scaleX(previous.x), scaleY(previous.y));
+      //polygon.addPoint(scaleX(center.x), scaleY(center.y));
+      //blackMask.subtract(new Area(polygon));
+      previous = current;
+      //graphics.drawLine(scaleX(unitX), scaleY(unitY), scaleX(current.x), scaleY(current.y));
     }
-    current = intersectPoints.poll();
-    polygon.reset();
-    polygon.addPoint(scaleX(current.x), scaleY(current.y));
-    polygon.addPoint(scaleX(previous.x), scaleY(previous.y));
-    polygon.addPoint(scaleX(center.x), scaleY(center.y));
-    graphics.drawPolygon(polygon);
+    polygon.addPoint(scaleX(first.x), scaleY(first.y));
+    //polygon.addPoint(scaleX(previous.x), scaleY(previous.y));
+    //polygon.addPoint(scaleX(center.x), scaleY(center.y));
+    blackMask.subtract(new Area(polygon));
+    graphics.setColor(Color.BLACK);
+    graphics.fill(blackMask);
 
-    previous = current;
-    }
   }
 
   private Point getWallPoint(int unitX, int unitY, int boxX, int boxY, Rectangle2D sightBox)
   {
-    double m = (unitY - boxY) / (double)(unitX - boxX);
+    double m = (unitY - boxY) / (double) (unitX - boxX);
     double b = boxY - m * boxX;
     Point wallHit = new Point();
     double xPrime = sightBox.getX();
-    if(boxX >= unitX)
+    if (boxX >= unitX)
     {
       xPrime = xPrime + (sightBox.getWidth());
       wallHit.setLocation(xPrime, m * xPrime + b);
-    }
-    else
+    } else
     {
       wallHit.setLocation(xPrime, m * xPrime + b);
     }
 
     //Our x intercept is outside of the sighbox, means it intersects horizontal lines first.
-    if(wallHit.y > sightBox.getMaxY() || wallHit.y < sightBox.getY())
+    if (wallHit.y > sightBox.getMaxY() || wallHit.y < sightBox.getY())
     {
-      wallHit = IntersectionFinder.getNearIntersection(new Point(unitX, unitY), wallHit, sightBox);
+      wallHit = IntersectionFinder.getIntersections(new Point(unitX, unitY), wallHit, sightBox);
     }
     return wallHit;
   }
@@ -271,12 +267,12 @@ public class GamePanel extends JPanel
 
   private int scaleX(int x)
   {
-    return (int)((x - this.corner.x)/windowScale);
+    return (int) ((x - this.corner.x) / windowScale);
   }
 
   private int scaleY(int y)
   {
-    return (int)((y - this.corner.y)/windowScale);
+    return (int) ((y - this.corner.y) / windowScale);
   }
 
   /**

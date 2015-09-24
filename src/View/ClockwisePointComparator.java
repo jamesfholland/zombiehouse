@@ -19,8 +19,15 @@ class ClockwisePointComparator implements Comparator<Point>
   @Override
   public int compare(Point pointA, Point pointB)
   {
-    return Double.compare(
+    int angleCompare = Double.compare(
         Math.atan2(pointA.y - center.y, pointA.x - center.x),
         Math.atan2(pointB.y - center.y, pointB.x - center.x));
+
+    if(angleCompare == 0)
+    {
+      return (1) * Double.compare(center.distanceSq(pointA), center.distanceSq(pointB));
+    }
+    return angleCompare;
   }
+
 }

@@ -18,9 +18,8 @@ class IntersectionFinder
    * @param rectangle The rectangle we are intersecting.
    * @return The closest point to the source that intersects the rectangle, null if no intersection is found.
    */
-  static Point getNearIntersection(Point source, Point destination, Rectangle2D rectangle)
+  static Point getIntersections(Point source, Point destination, Rectangle2D rectangle)
   {
-
     //Compute intersections for 4 cardinal corners of rectangle.
     Point topLeft = new Point((int)rectangle.getX(), (int)rectangle.getY());
     Point topRight = new Point((int)rectangle.getMaxX(), (int)rectangle.getY());
