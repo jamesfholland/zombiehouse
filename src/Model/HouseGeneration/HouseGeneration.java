@@ -56,8 +56,8 @@ public class HouseGeneration
     randGen = new Random(lastRandomSeed);
 
     //presetHouse(); // delete when makeNewHouse is ready
-    aStarTestRoom();
-    //makeNewHouse(); // uncomment when ready to use
+    //aStarTestRoom();
+    makeNewHouse(); // uncomment when ready to use
 
     createLevel();
 
@@ -78,7 +78,9 @@ public class HouseGeneration
 
     // 3 - find wall segment to build off of
     // the major recurring section of algorithm
-    boolean houseNotDone = false;                 /// DO NOT WANT TO TEST THIS SEGMENT YET --> change to true when ready
+    boolean houseNotDone = true;                 /// DO NOT WANT TO TEST THIS SEGMENT YET --> change to true when ready
+    int thingsCarved = 0;
+    int failedCarvings = 0;
     while( houseNotDone )
     {
       boolean needWallSeg = true;
@@ -86,6 +88,7 @@ public class HouseGeneration
       {
         needWallSeg = lookForBuildWall();
       }
+      //System.out.println("found build wall: (" + currentWallX + "," + currentWallY + ")");
 
     // 4 - decide on what to build (corridor or room)
     //   - after deciding, guess a possible size (within the min/max set above)
@@ -94,8 +97,11 @@ public class HouseGeneration
       if ( randGen.nextDouble() < percentRoomChance ) { buildRoom = true; }
       else { buildRoom = false; }
 
-      int neededWidth, neededHeight;
-      int cornerX, cornerY;
+      // the 4 variables that will be passed to check
+      int neededWidth = 0;
+      int neededHeight = 0;
+      int cornerX = 0;
+      int cornerY = 0;
 
       if(buildRoom)
       {
@@ -104,7 +110,7 @@ public class HouseGeneration
         if(currentDir == Direction.NORTH)
         {
           cornerX = currentWallX - randGen.nextInt(neededWidth);
-          cornerY = currentWallY - neededHeight + currentDir.getDY();
+          cornerY = currentWallY - neededHeight;
         }
         if(currentDir == Direction.EAST)
         {
@@ -114,26 +120,26 @@ public class HouseGeneration
         if(currentDir == Direction.SOUTH)
         {
           cornerX = currentWallX - randGen.nextInt(neededWidth);
-          cornerY = currentWallY + currentDir.getDY();
+          cornerY = currentWallY + 1;
         }
         if(currentDir == Direction.WEST)
         {
-          cornerX = currentWallX - neededWidth - 1;
+          cornerX = currentWallX - neededWidth;
           cornerY = currentWallY - randGen.nextInt(neededHeight);
         }
       }
-      else
+      if(!buildRoom)
       {
         if(currentDir == Direction.NORTH)
         {
           neededWidth = 1;
-          neededHeight = minFeatX + randGen.nextInt(maxFeatX - minFeatX);
+          neededHeight = minFeatY + randGen.nextInt(maxFeatY - minFeatY) - 1;
           cornerX = currentWallX;
           cornerY = currentWallY - neededHeight;
         }
         if(currentDir == Direction.EAST)
         {
-          neededWidth = minFeatY + randGen.nextInt(maxFeatY - minFeatY);
+          neededWidth = minFeatX + randGen.nextInt(maxFeatX - minFeatX) - 1;
           neededHeight = 1;
           cornerX = currentWallX + 1;
           cornerY = currentWallY;
@@ -141,23 +147,37 @@ public class HouseGeneration
         if(currentDir == Direction.SOUTH)
         {
           neededWidth = 1;
-          neededHeight = minFeatX + randGen.nextInt(maxFeatX - minFeatX);
-          cornerX = currentWallX - randGen.nextInt(neededWidth);
-          cornerY = currentWallY - 1;
+          neededHeight = minFeatX + randGen.nextInt(maxFeatX - minFeatX) - 1;
+          cornerX = currentWallX;
+          cornerY = currentWallY + 1;
         }
         if(currentDir == Direction.WEST)
         {
-          neededWidth = 1;
-          neededHeight = minFeatX + randGen.nextInt(maxFeatX - minFeatX);
-          cornerX = currentWallX - 1;
-          cornerY = currentWallY - randGen.nextInt(neededHeight);
+          neededWidth = minFeatX + randGen.nextInt(maxFeatX - minFeatX) - 1;
+          neededHeight = 1;
+          cornerX = currentWallX - neededHeight;
+          cornerY = currentWallY;
         }
       }
 
-
-
+      //System.out.println("checking : Cx=" + cornerX + " Cy=" + cornerY + " xSize=" + neededWidth + " ySize= " + neededHeight);
+      //System.out.print("result : ");
 
     // 5 - check to see if the thing decided in step 4 can fit (without overwriting any other floors)
+      if( isSpaceClear(cornerX, cornerY, neededWidth, neededHeight) )
+      {
+        carveRoom(cornerX, cornerY, neededWidth, neededHeight);
+        houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
+        // stupid end.. things carved.. just to test
+        thingsCarved++;
+      }
+      else
+      {
+        failedCarvings++;
+      }
+      if (thingsCarved > 20) { houseNotDone = false; }
+      if (failedCarvings > 100) { houseNotDone = false; }
+
 
     }
 
@@ -200,6 +220,8 @@ public class HouseGeneration
     int ySize = minFeatY + randGen.nextInt(maxFeatY - minFeatY);
 
     carveRoom(xTop, yTop, xSize, ySize);
+
+    //System.out.println("Top corner : (" + xTop + "," + yTop + ") and xSize = " + xSize + " and ySize = " + ySize);
   }
 
   // carveRoom is the generalized room carving
@@ -222,16 +244,17 @@ public class HouseGeneration
     {
       for( Direction dir : Direction.values() )
       {
+        if ( offMap ( xRand + dir.getDX(), yRand + dir.getDY() ) ) { return true; }
         if ( houseTiles[xRand + dir.getDX()][yRand + dir.getDY()].isFloor() )
         {
           currentWallX = xRand;
           currentWallY = yRand;
-          currentDir = dir;
-          return true;
+          currentDir = dir.inverseDir();
+          return false;
         }
       }
     }
-    return false;
+    return true;
   }
 
   private boolean isSpaceClear(int xTop, int yTop, int xSize, int ySize)
@@ -240,10 +263,19 @@ public class HouseGeneration
     {
       for( int j = yTop - 1; j < ySize + yTop + 1; j++)
       {
-        if( offMap(i, j) ) { return false; }
-        if( houseTiles[i][j].isFloor() ) { return false; }
+        if( offMap(i, j) )
+        {
+          //System.out.println("space goes off map @ (" + i + "," + j + ")");
+          return false;
+        }
+        if( houseTiles[i][j].isFloor() )
+        {
+          //System.out.println("space intersects with room @ (" + i + "," + j + ")");
+          return false;
+        }
       }
     }
+    //System.out.println("space is legal");
     return true;
   }
 
