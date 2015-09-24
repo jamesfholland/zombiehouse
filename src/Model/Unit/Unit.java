@@ -36,6 +36,10 @@ public abstract class Unit extends GameObject
 
   protected int tileX;
   protected int tileY;
+
+  protected int bottomRightCornerX;
+  protected int bottomRightCornerY;
+
   protected double speed;
   protected boolean collided = false;
 
@@ -75,6 +79,12 @@ public abstract class Unit extends GameObject
   {
     locationXD = (double) location.x;
     locationYD = (double) location.y;
+  }
+
+  public void setBottomRightCorner()
+  {
+    bottomRightCornerX = location.x + size.width;
+    bottomRightCornerY = location.y + size.height;
   }
 
   /**
@@ -121,6 +131,7 @@ public abstract class Unit extends GameObject
     locationYD = nextLocationY;
   }
 
+
   public void checkCollisions()
   {
     //if moving straight east
@@ -134,17 +145,93 @@ public abstract class Unit extends GameObject
     }
 
     //if moving south east
-    //this check is still really buggy, gets units stuck on corners when moving SE
+    //this check is still buggy, gets units stuck on corners when moving SE
     else if (headingVector.x == 1 && headingVector.y == 1)
     {
+
+      if (checkCollideSE())
+      {
+        int bottomRightTileX;
+        int bottomRightTileY;
+
+        setBottomRightCorner();
+
+        bottomRightTileX = bottomRightCornerX/ Settings.TILE_SIZE;
+        bottomRightTileY = bottomRightCornerY/Settings.TILE_SIZE;
+
+        if (!level.houseTiles[bottomRightTileX+1][bottomRightTileY].isPassable() && !checkCollideE())
+        {
+          nextLocationX = locationXD;
+          collided = true;
+        }
+
+        else if (!level.houseTiles[bottomRightTileX][bottomRightTileY+1].isPassable() && !checkCollideS())
+        {
+          nextLocationY = locationYD;
+          collided = true;
+        }
+
+        if (checkCollideS())
+        {
+          nextLocationY = locationYD;
+          collided = true;
+        }
+
+        if (checkCollideE())
+        {
+          nextLocationX = locationXD;
+          collided = true;
+        }
+      }
+
+      else if (checkCollideS())
+      {
+        nextLocationY = locationYD;
+        collided = true;
+      }
+
+      else if (checkCollideE())
+      {
+        nextLocationX = locationXD;
+        collided = true;
+      }
+
       /*
       if (checkCollideSE() && (!checkCollideS() && !checkCollideE()))
+      {
+        setBottomRightCorner();
+        bottomRightTileX = bottomRightCornerX/ Settings.TILE_SIZE;
+        bottomRightTileY = bottomRightCornerY/Settings.TILE_SIZE;
+
+        if (!level.houseTiles[bottomRightTileX][bottomRightTileY+1].isPassable())
+        {
+          nextLocationY = locationYD;
+        }
+
+        else if (!level.houseTiles[bottomRightTileX+1][bottomRightTileY].isPassable())
+        {
+          nextLocationX = locationXD;
+        }
+      }
+
+      /*
+      else if ((checkCollideS()||checkCollideSE()) && !checkCollideE())
+      {
+        nextLocationY = locationYD;
+      }
+
+      else if ((checkCollideE()||checkCollideSE()) && !checkCollideS())
+      {
+        nextLocationX = locationXD;
+      }
+
+      else if (checkCollideS() && checkCollideE())
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
       }*/
 
-
+      /*
       if ((checkCollideE()|| checkCollideSE()) && level.houseTiles[tileX][tileY+1].isPassable())
       {
         nextLocationX = locationXD;
@@ -162,7 +249,7 @@ public abstract class Unit extends GameObject
         nextLocationX = locationXD;
         nextLocationY = locationYD;
         collided = true;
-      }
+      }*/
     }
 
     //moving south
