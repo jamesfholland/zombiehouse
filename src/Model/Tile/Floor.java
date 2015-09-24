@@ -13,6 +13,13 @@ public class Floor extends Tile
   private final static BufferedImage FLOOR_IMAGE;
   private final static BufferedImage FLOOR_BURNED_IMAGE;
 
+  // floor tiles are created either in rooms or hallways
+  // by numbering the floor tiles, we can assess which room a floor is part of
+  // 0 = hallway - special rule - hallways may not have obstructions
+  // 1+ = rooms
+  private int roomNum;
+  private boolean empty;
+
   static
   {
     BufferedImage imageTemp = null;
@@ -40,7 +47,15 @@ public class Floor extends Tile
 
   public Floor(Point location)
   {
+    super(location); /*Sets up shared Tile settings*/
+    empty = true;
+  }
+
+  public Floor(Point location, int roomNum)
+  {
     super(location); //Sets up shared Tile settings.
+    this.roomNum = roomNum;
+    empty = true;
   }
 
   @Override
@@ -62,4 +77,14 @@ public class Floor extends Tile
   {
     return ".";
   }
+
+  @Override
+  public boolean isFloor() { return true; }
+
+  @Override
+  public boolean isEmptyFloor() { return empty; }
+
+  public void setEmpty(boolean empty) { this.empty = empty; }
+
+  public int getRoomNum() { return roomNum; }
 }

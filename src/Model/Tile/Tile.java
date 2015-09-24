@@ -29,4 +29,10 @@ public abstract class Tile extends GameObject
   {
     return passable;
   }
+
+  public boolean isWall() { return false; }
+
+  public boolean isFloor() { return false; }
+
+  public boolean isEmptyFloor() { return false; }
 }

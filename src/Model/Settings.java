@@ -65,7 +65,7 @@ public abstract class Settings
    * Tiles on practice level - TEMPORARY VARIABLE
    * square size - variable is length of side
    */
-  public static final int PRACTICE_MAP_SIZE = 100;
+  public static final int PRACTICE_MAP_SIZE = 40;
 
   /**
    * The target refresh rate in milliseconds

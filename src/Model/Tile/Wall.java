@@ -45,5 +45,8 @@ public class Wall extends Tile
   }
 
   @Override
+  public boolean isWall() { return true; }
+
+  @Override
   public String toString() { return "x"; }
 }
