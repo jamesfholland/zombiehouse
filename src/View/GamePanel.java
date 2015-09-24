@@ -30,6 +30,7 @@ public class GamePanel extends JPanel
   private Point corner;
 
   private Area blackMask;
+  private Area circleMask;
 
   private double windowScale;
   private Player player;
@@ -74,12 +75,7 @@ public class GamePanel extends JPanel
 
     if (player != null)
     {
-      blackMask = new Area(
-          new Rectangle(
-              scaleX((int) viewWindow.getX()),
-              scaleY((int) viewWindow.getY()),
-              (int) (viewWindow.getWidth() / windowScale),
-              (int) (viewWindow.getHeight() / windowScale)));
+
       center.setLocation(player.getLocation());
 
       center.translate(player.getSize().width / 2, player.getSize().height / 2);
@@ -93,6 +89,19 @@ public class GamePanel extends JPanel
       Point sightCorner = new Point(center);
       sightCorner.translate(Settings.SIGHT_RANGE, Settings.SIGHT_RANGE);
       sightBox.setFrameFromCenter(center, sightCorner);
+      blackMask = new Area(
+          new Rectangle(
+              scaleX((int) viewWindow.getX()),
+              scaleY((int) viewWindow.getY()),
+              (int) (viewWindow.getWidth() / windowScale),
+              (int) (viewWindow.getHeight() / windowScale)));
+      circleMask = new Area(
+          new Rectangle(
+              scaleX((int) viewWindow.getX()),
+              scaleY((int) viewWindow.getY()),
+              (int) (viewWindow.getWidth() / windowScale),
+              (int) (viewWindow.getHeight() / windowScale)));
+      circleMask.subtract(new Area(new Ellipse2D.Double(scaleX((int) sightBox.getX()), scaleY((int) sightBox.getY()), sightBox.getWidth() / windowScale, sightBox.getHeight() / windowScale)));
 
       LinkedList<Tile> walls = new LinkedList<>();
       //TODO: Optimize to only draw tiles in viewport.
@@ -132,6 +141,8 @@ public class GamePanel extends JPanel
       {
         scaleAndDrawImage(wall.getImage(), graphics, wall.getLocation(), wall.getSize());
       }
+      graphics.setColor(Color.BLACK);
+      ((Graphics2D) graphics).fill(circleMask);
     }
   }
 
