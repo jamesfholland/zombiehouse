@@ -147,7 +147,6 @@ public class Player extends Unit
       if (stamina < Settings.PLAYER_STAMINA)
       {
         stamina += (deltaTime*0.2);
-        System.out.println("" + stamina);
       }
     }
 
