@@ -1,9 +1,12 @@
 package View;
 
-import Model.*;
-import Model.Tile.*;
-import Model.Unit.*;
-import Model.Unit.Zombie.*;
+import Model.Level;
+import Model.Settings;
+import Model.Tile.Tile;
+import Model.Tile.Wall;
+import Model.Unit.Player;
+import Model.Unit.Unit;
+import Model.Unit.Zombie.Zombie;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -81,7 +84,7 @@ public class GamePanel extends JPanel
   /**
    * Paint all the units and tiles.
    *
-   * @param graphics
+   * @param graphics the graphics of the jpanel.
    */
   @Override
   public void paintComponent(Graphics graphics)
@@ -132,7 +135,7 @@ public class GamePanel extends JPanel
         {
           if (tiles[i][j].checkCollision(sightBox))
           {
-            if (tiles[i][j].isPassable())
+            if (!(tiles[i][j] instanceof Wall))
             {
               scaleAndDrawImage(tiles[i][j].getImage(), graphics, tiles[i][j].getLocation(), tiles[i][j].getSize());
             } else
@@ -232,7 +235,8 @@ public class GamePanel extends JPanel
     destinations.add(new Point((int) sightBox.getX() - 1, (int) sightBox.getMaxY() - 1));
     destinations.add(new Point((int) sightBox.getMaxX() - 1, (int) sightBox.getMaxY() - 1));
 
-    PriorityQueue<Point> intersectPoints = new PriorityQueue<>(walls.size() * 4, new ClockwisePointComparator(center));
+
+    PriorityQueue<Point> intersectPoints = new PriorityQueue<>(5, new ClockwisePointComparator(center));
 
     for (Point destination : destinations)
     {
