@@ -37,8 +37,8 @@ public abstract class Unit extends GameObject
   protected int tileX;
   protected int tileY;
 
-  protected int bottomRightCornerX;
-  protected int bottomRightCornerY;
+  protected double bottomRightCornerX;
+  protected double bottomRightCornerY;
 
   protected double speed;
   protected boolean collided = false;
@@ -134,6 +134,8 @@ public abstract class Unit extends GameObject
 
   public void checkCollisions()
   {
+
+
     //if moving straight east
     if (headingVector.x == 1 && headingVector.y == 0)
     {
@@ -148,108 +150,7 @@ public abstract class Unit extends GameObject
     //this check is still buggy, gets units stuck on corners when moving SE
     else if (headingVector.x == 1 && headingVector.y == 1)
     {
-
-      if (checkCollideSE())
-      {
-        int bottomRightTileX;
-        int bottomRightTileY;
-
-        setBottomRightCorner();
-
-        bottomRightTileX = bottomRightCornerX/ Settings.TILE_SIZE;
-        bottomRightTileY = bottomRightCornerY/Settings.TILE_SIZE;
-
-        if (!level.houseTiles[bottomRightTileX+1][bottomRightTileY].isPassable() && !checkCollideE())
-        {
-          nextLocationX = locationXD;
-          collided = true;
-        }
-
-        else if (!level.houseTiles[bottomRightTileX][bottomRightTileY+1].isPassable() && !checkCollideS())
-        {
-          nextLocationY = locationYD;
-          collided = true;
-        }
-
-        if (checkCollideS())
-        {
-          nextLocationY = locationYD;
-          collided = true;
-        }
-
-        if (checkCollideE())
-        {
-          nextLocationX = locationXD;
-          collided = true;
-        }
-      }
-
-      else if (checkCollideS())
-      {
-        nextLocationY = locationYD;
-        collided = true;
-      }
-
-      else if (checkCollideE())
-      {
-        nextLocationX = locationXD;
-        collided = true;
-      }
-
-      /*
-      if (checkCollideSE() && (!checkCollideS() && !checkCollideE()))
-      {
-        setBottomRightCorner();
-        bottomRightTileX = bottomRightCornerX/ Settings.TILE_SIZE;
-        bottomRightTileY = bottomRightCornerY/Settings.TILE_SIZE;
-
-        if (!level.houseTiles[bottomRightTileX][bottomRightTileY+1].isPassable())
-        {
-          nextLocationY = locationYD;
-        }
-
-        else if (!level.houseTiles[bottomRightTileX+1][bottomRightTileY].isPassable())
-        {
-          nextLocationX = locationXD;
-        }
-      }
-
-      /*
-      else if ((checkCollideS()||checkCollideSE()) && !checkCollideE())
-      {
-        nextLocationY = locationYD;
-      }
-
-      else if ((checkCollideE()||checkCollideSE()) && !checkCollideS())
-      {
-        nextLocationX = locationXD;
-      }
-
-      else if (checkCollideS() && checkCollideE())
-      {
-        nextLocationX = locationXD;
-        nextLocationY = locationYD;
-      }*/
-
-      /*
-      if ((checkCollideE()|| checkCollideSE()) && level.houseTiles[tileX][tileY+1].isPassable())
-      {
-        nextLocationX = locationXD;
-        collided = true;
-      }
-
-      if ((checkCollideS()||checkCollideSE()) && level.houseTiles[tileX+1][tileY].isPassable())
-      {
-        nextLocationY = locationYD;
-        collided = true;
-      }
-
-      if (!level.houseTiles[tileX+1][tileY].isPassable() && !level.houseTiles[tileX][tileY+1].isPassable())
-      {
-        nextLocationX = locationXD;
-        nextLocationY = locationYD;
-        collided = true;
-      }*/
+      checkSE();
     }
 
     //moving south
@@ -424,6 +325,43 @@ public abstract class Unit extends GameObject
     return false;
   }
 
+  private void checkSE()
+  {
+    int brTileX;
+    int brTileY;
+
+    setBottomRightCorner();
+
+    brTileX = (int) bottomRightCornerX/Settings.TILE_SIZE;
+    brTileY = (int) bottomRightCornerY/Settings.TILE_SIZE;
+
+    if (!level.houseTiles[brTileX][brTileY+1].isPassable() && level.houseTiles[brTileX][brTileY+1].checkCollision(nextHitbox))
+    {
+      nextLocationY = locationYD;
+      collided = true;
+    }
+
+    else if (!level.houseTiles[brTileX+1][brTileY].isPassable() && level.houseTiles[brTileX+1][brTileY].checkCollision((nextHitbox)))
+    {
+      nextLocationX = locationXD;
+      collided = true;
+    }
+
+    if (checkCollideS())
+    {
+      nextLocationY = locationYD;
+      collided = true;
+    }
+
+
+    if (checkCollideE())
+    {
+      nextLocationX = locationXD;
+      collided = true;
+    }
+
+  }
+
 
   private void checkZombieZombieCollision()
   {
@@ -437,62 +375,6 @@ public abstract class Unit extends GameObject
       }
     }
   }
-
-  /*
-  private boolean checkCollideDown()
-  {
-    if (!level.houseTiles[tileX][tileY+1].isPassable() && level.houseTiles[tileX][tileY+1].checkCollision(nextHitbox))
-    {
-      return true;
-    }
-    if (!level.houseTiles[tileX][tileY+1].isPassable() && level.houseTiles[tileX][tileY+1].checkCollision(nextHitbox))
-    {
-      return true;
-    }
-    return false;
-  }
-
-  private boolean checkCollideUp()
-  {
-    if (!level.houseTiles[tileX][tileY-1].isPassable() && level.houseTiles[tileX][tileY-1].checkCollision(nextHitbox))
-    {
-      return true;
-    }
-    if (!level.houseTiles[tileX+1][tileY-1].isPassable() && level.houseTiles[tileX][tileY-1].checkCollision(nextHitbox))
-    {
-      return true;
-    }
-    return false;
-  }
-
-  private boolean checkCollideLeft()
-  {
-    if (!level.houseTiles[tileX-1][tileY].isPassable() && level.houseTiles[tileX-1][tileY].checkCollision(nextHitbox))
-    {
-      return true;
-    }
-    if (!level.houseTiles[tileX-1][tileY].isPassable() && level.houseTiles[tileX-1][tileY].checkCollision(nextHitbox))
-    {
-      return true;
-    }
-
-    return false;
-  }
-
-  private boolean checkCollideRight()
-  {
-
-    if (!level.houseTiles[tileX+1][tileY].isPassable() && level.houseTiles[tileX+1][tileY].checkCollision(nextHitbox))
-    {
-      return true;
-    }
-    if (!level.houseTiles[tileX+1][tileY+1].isPassable() && level.houseTiles[tileX+1][tileY+1].checkCollision(nextHitbox))
-    {
-      return true;
-    }
-
-    return false;
-  }*/
 
   //sets the heading vector to whatever direction the unit is moving
   public void setHeadingVector()
