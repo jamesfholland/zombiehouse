@@ -373,7 +373,7 @@ public class HouseGeneration
         int wallAdjacent = 0;
         for( Direction dir : Direction.values() )
         {
-          if ( houseTiles[i][j].isWall() ) { wallAdjacent++; }
+          if ( houseTiles[i + dir.getDX()][j + dir.getDY()].isWall() ) { wallAdjacent++; }
         }
         if( wallAdjacent == 4 ) { houseTiles[i][j] = null; }
       }
