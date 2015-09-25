@@ -24,7 +24,7 @@ public class HouseGeneration
   LinkedList<Firetrap> firetrapList;
   Player player;
 
-  Random randGen;
+  //Random Settings.RANDOM;
 
   int minFeatX, minFeatY;
   int maxFeatX, maxFeatY;
@@ -62,7 +62,7 @@ public class HouseGeneration
 
     this.player = player;
     lastRandomSeed = System.nanoTime();
-    randGen = new Random(lastRandomSeed);
+    Settings.RANDOM.setSeed(lastRandomSeed);
 
     // bug fix: currentDir must be initialized or else first room
     currentDir = Direction.NORTH;
@@ -104,7 +104,7 @@ public class HouseGeneration
     //   - after deciding, guess a possible size (within the min/max set above)
       double percentRoomChance = 0.65;
       boolean buildRoom;
-      if ( randGen.nextDouble() < percentRoomChance ) { buildRoom = true; }
+      if ( Settings.RANDOM.nextDouble() < percentRoomChance ) { buildRoom = true; }
       else { buildRoom = false; }
 
       // the 4 variables that will be passed to check
@@ -115,27 +115,27 @@ public class HouseGeneration
 
       if(buildRoom)
       {
-        neededWidth = minFeatX + randGen.nextInt(maxFeatX - minFeatX);
-        neededHeight = minFeatY + randGen.nextInt(maxFeatY - minFeatY);
+        neededWidth = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX);
+        neededHeight = minFeatY + Settings.RANDOM.nextInt(maxFeatY - minFeatY);
         if(currentDir == Direction.NORTH)
         {
-          cornerX = currentWallX - randGen.nextInt(neededWidth);
+          cornerX = currentWallX - Settings.RANDOM.nextInt(neededWidth);
           cornerY = currentWallY - neededHeight;
         }
         if(currentDir == Direction.EAST)
         {
           cornerX = currentWallX + 1;
-          cornerY = currentWallY - randGen.nextInt(neededHeight);
+          cornerY = currentWallY - Settings.RANDOM.nextInt(neededHeight);
         }
         if(currentDir == Direction.SOUTH)
         {
-          cornerX = currentWallX - randGen.nextInt(neededWidth);
+          cornerX = currentWallX - Settings.RANDOM.nextInt(neededWidth);
           cornerY = currentWallY + 1;
         }
         if(currentDir == Direction.WEST)
         {
           cornerX = currentWallX - neededWidth;
-          cornerY = currentWallY - randGen.nextInt(neededHeight);
+          cornerY = currentWallY - Settings.RANDOM.nextInt(neededHeight);
         }
       }
       if(!buildRoom)
@@ -143,13 +143,13 @@ public class HouseGeneration
         if(currentDir == Direction.NORTH)
         {
           neededWidth = 1;
-          neededHeight = minFeatY + randGen.nextInt(maxFeatY - minFeatY) - 1;
+          neededHeight = minFeatY + Settings.RANDOM.nextInt(maxFeatY - minFeatY) - 1;
           cornerX = currentWallX;
           cornerY = currentWallY - neededHeight;
         }
         if(currentDir == Direction.EAST)
         {
-          neededWidth = minFeatX + randGen.nextInt(maxFeatX - minFeatX) - 1;
+          neededWidth = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX) - 1;
           neededHeight = 1;
           cornerX = currentWallX + 1;
           cornerY = currentWallY;
@@ -157,13 +157,13 @@ public class HouseGeneration
         if(currentDir == Direction.SOUTH)
         {
           neededWidth = 1;
-          neededHeight = minFeatX + randGen.nextInt(maxFeatX - minFeatX) - 1;
+          neededHeight = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX) - 1;
           cornerX = currentWallX;
           cornerY = currentWallY + 1;
         }
         if(currentDir == Direction.WEST)
         {
-          neededWidth = minFeatX + randGen.nextInt(maxFeatX - minFeatX) - 1;
+          neededWidth = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX) - 1;
           neededHeight = 1;
           cornerX = currentWallX - neededHeight;
           cornerY = currentWallY;
@@ -211,10 +211,10 @@ public class HouseGeneration
     int houseMidX = houseWidth / 2;
     int houseMidY = houseHeight / 2;
 
-    int xTop = houseMidX - randGen.nextInt(houseWidth / 4);
-    int yTop = houseMidY - randGen.nextInt(houseWidth / 4);
-    int xSize = minFeatX + randGen.nextInt(maxFeatX - minFeatX);
-    int ySize = minFeatY + randGen.nextInt(maxFeatY - minFeatY);
+    int xTop = houseMidX - Settings.RANDOM.nextInt(houseWidth / 4);
+    int yTop = houseMidY - Settings.RANDOM.nextInt(houseWidth / 4);
+    int xSize = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX);
+    int ySize = minFeatY + Settings.RANDOM.nextInt(maxFeatY - minFeatY);
 
     carveRoom(xTop, yTop, xSize, ySize, true);
   }
@@ -246,8 +246,8 @@ public class HouseGeneration
 
   private boolean lookForBuildWall()
   {
-    int xRand = randGen.nextInt(houseWidth);
-    int yRand = randGen.nextInt(houseHeight);
+    int xRand = Settings.RANDOM.nextInt(houseWidth);
+    int yRand = Settings.RANDOM.nextInt(houseHeight);
     int floorAdjacent = 0;
     if ( houseTiles[xRand][yRand].isWall() )
     {
@@ -292,8 +292,8 @@ public class HouseGeneration
     boolean playerNotPlaced = true;
     while( playerNotPlaced )
     {
-      playerX = randGen.nextInt(houseWidth);
-      playerY = randGen.nextInt(houseHeight);
+      playerX = Settings.RANDOM.nextInt(houseWidth);
+      playerY = Settings.RANDOM.nextInt(houseHeight);
       if ( houseTiles[playerX][playerY].isEmptyFloor() )
       {
         player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
@@ -304,10 +304,16 @@ public class HouseGeneration
 
   private boolean zombieSpawn(int x, int y)
   {
-    if( randGen.nextDouble() < Settings.zombieSpawnRate )
+    if( Settings.RANDOM.nextDouble() < Settings.zombieSpawnRate )
     {
-      // find new way to select zombie type
-      zombieList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (randGen.nextInt(360)+randGen.nextDouble())));
+      if( Settings.RANDOM.nextBoolean() )
+      {
+        zombieList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360)+Settings.RANDOM.nextDouble())));
+      }
+      else
+      {
+        zombieList.add(new ZombieRandom(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360)+Settings.RANDOM.nextDouble())));
+      }
       return true;
     }
     return false;
@@ -315,7 +321,7 @@ public class HouseGeneration
 
   private boolean obstacleSpawn(int x, int y)
   {
-    if( randGen.nextDouble() < Settings.obstacleSpawnRate )
+    if( Settings.RANDOM.nextDouble() < Settings.obstacleSpawnRate )
     {
       houseTiles[x][y] = new Pillar(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE));
       return true;
@@ -353,12 +359,28 @@ public class HouseGeneration
 
   private void createLevel()
   {
-    currentLevel = new Level(1, houseTiles, zombieList, 3, player);
+    currentLevel = new Level(currentLevelNum, houseTiles, zombieList, 3, player);
   }
 
   public Level getCurrentLevel()
   {
     return currentLevel;
+  }
+
+  public void respawnSameMap()
+  {
+    Settings.RANDOM.setSeed(lastRandomSeed);
+    makeNewHouse();
+    createLevel();
+  }
+
+  public void spawnNewLevel()
+  {
+    lastRandomSeed = System.nanoTime();
+    Settings.RANDOM.setSeed(lastRandomSeed);
+    makeNewHouse();
+    currentLevelNum++;
+    createLevel();
   }
 
 
@@ -392,6 +414,6 @@ public class HouseGeneration
 
     player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
 
-    zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (randGen.nextInt(360) + randGen.nextDouble())));
+    zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
   }
 }
