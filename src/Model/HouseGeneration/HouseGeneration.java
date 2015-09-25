@@ -61,6 +61,9 @@ public class HouseGeneration
     lastRandomSeed = System.nanoTime();
     randGen = new Random(lastRandomSeed);
 
+    // bug fix: currentDir must be initialized or else first room
+    currentDir = Direction.NORTH;
+
     //presetHouse(); // delete when makeNewHouse is ready
     //aStarTestRoom();
     makeNewHouse(); // uncomment when ready to use
@@ -269,6 +272,7 @@ public class HouseGeneration
           houseTiles[i][j].setEmpty( !zombieSpawn(i, j) );
           if( houseTiles[i][j].isEmptyFloor() )
           {
+            if( (i == (currentWallX + currentDir.getDX())) && (j == (currentWallY + currentDir.getDY())) ) { continue; }
             houseTiles[i][j].setEmpty( !obstacleSpawn(i, j) );
           }
 
