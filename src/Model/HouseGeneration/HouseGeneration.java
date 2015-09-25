@@ -56,8 +56,8 @@ public class HouseGeneration
     randGen = new Random(lastRandomSeed);
 
     //presetHouse(); // delete when makeNewHouse is ready
-    //aStarTestRoom();
-    makeNewHouse(); // uncomment when ready to use
+    aStarTestRoom();
+    //makeNewHouse(); // uncomment when ready to use
 
     createLevel();
 

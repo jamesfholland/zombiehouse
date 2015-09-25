@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
 
 public abstract class Unit extends GameObject
 {
-
   //Shared animation numbers. All units (except fire) share common layout in sprite sheets
   protected static final int WALK_SPRITE_COUNT = 9;
   protected static final int WALK_SPRITE_ROW = 8; //Row 9
@@ -83,8 +82,8 @@ public abstract class Unit extends GameObject
 
   public void setBottomRightCorner()
   {
-    bottomRightCornerX = location.x + size.width;
-    bottomRightCornerY = location.y + size.height;
+    bottomRightCornerX = location.x + size.width-1;
+    bottomRightCornerY = location.y + size.height-1;
   }
 
   /**
@@ -140,7 +139,6 @@ public abstract class Unit extends GameObject
       if (checkCollideE() || checkCollideSE())
       {
         nextLocationX = locationXD;
-        collided = true;
       }
     }
 
@@ -157,7 +155,6 @@ public abstract class Unit extends GameObject
       if (checkCollideS() || checkCollideSE())
       {
         nextLocationY = locationYD;
-        collided = true;
       }
     }
 
@@ -167,18 +164,15 @@ public abstract class Unit extends GameObject
       if ((checkCollideW() || checkCollideSW()) && !checkCollideS())
       {
         nextLocationX = locationXD;
-        collided = true;
       }
       else if ((checkCollideS() || checkCollideSE()) && !checkCollideW())
       {
         nextLocationY = locationYD;
-        collided = true;
       }
       else if ((checkCollideS() && checkCollideW()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
-        collided = true;
       }
     }
 
@@ -188,7 +182,6 @@ public abstract class Unit extends GameObject
       if (checkCollideW() || checkCollideSW())
       {
         nextLocationX = locationXD;
-        collided = true;
       }
     }
 
@@ -199,23 +192,19 @@ public abstract class Unit extends GameObject
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
-        collided = true;
       }
       else if ((checkCollideSW() || checkCollideW()) && !checkCollideN())
       {
         nextLocationX = locationXD;
-        collided = true;
       }
       else if ((checkCollideN() || checkCollideNE()) && !checkCollideW())
       {
         nextLocationY = locationYD;
-        collided = true;
       }
       else if ((checkCollideN() && checkCollideW()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
-        collided = true;
       }
     }
 
@@ -225,7 +214,6 @@ public abstract class Unit extends GameObject
       if (checkCollideN() || checkCollideNE())
       {
         nextLocationY = locationYD;
-        collided = true;
       }
     }
 
@@ -235,18 +223,15 @@ public abstract class Unit extends GameObject
       if ((checkCollideE() || checkCollideSE()) && !checkCollideN())
       {
         nextLocationX = locationXD;
-        collided = true;
       }
       else if ((checkCollideN() || checkCollideNE()) && !checkCollideE())
       {
         nextLocationY = locationYD;
-        collided = true;
       }
       else if (checkCollideE() && checkCollideN())
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
-        collided = true;
       }
     }
   }
@@ -255,6 +240,7 @@ public abstract class Unit extends GameObject
   {
     if (!level.houseTiles[tileX+1][tileY].isPassable() && level.houseTiles[tileX+1][tileY].checkCollision(this.nextHitbox))
     {
+      collided = true;
       return true;
     }
     return false;
@@ -264,6 +250,7 @@ public abstract class Unit extends GameObject
   {
     if (!level.houseTiles[tileX+1][tileY+1].isPassable() && level.houseTiles[tileX+1][tileY+1].checkCollision(this.nextHitbox))
     {
+      collided = true;
       return true;
     }
     return false;
@@ -273,6 +260,7 @@ public abstract class Unit extends GameObject
   {
     if (!level.houseTiles[tileX][tileY+1].isPassable() && level.houseTiles[tileX][tileY+1].checkCollision(this.nextHitbox))
     {
+      collided = true;
       return true;
     }
     return false;
@@ -282,6 +270,7 @@ public abstract class Unit extends GameObject
   {
     if (!level.houseTiles[tileX-1][tileY+1].isPassable() && level.houseTiles[tileX-1][tileY+1].checkCollision(this.nextHitbox))
     {
+      collided = true;
       return true;
     }
     return false;
@@ -291,6 +280,7 @@ public abstract class Unit extends GameObject
   {
     if (!level.houseTiles[tileX-1][tileY].isPassable() && level.houseTiles[tileX-1][tileY].checkCollision(this.nextHitbox))
     {
+      collided = true;
       return true;
     }
     return false;
@@ -300,6 +290,7 @@ public abstract class Unit extends GameObject
   {
     if (!level.houseTiles[tileX-1][tileY-1].isPassable() && level.houseTiles[tileX-1][tileY-1].checkCollision(this.nextHitbox))
     {
+      collided = true;
       return true;
     }
     return false;
@@ -309,6 +300,7 @@ public abstract class Unit extends GameObject
   {
     if (!level.houseTiles[tileX][tileY-1].isPassable() && level.houseTiles[tileX][tileY-1].checkCollision(this.nextHitbox))
     {
+      collided = true;
       return true;
     }
     return false;
@@ -318,6 +310,7 @@ public abstract class Unit extends GameObject
   {
     if (!level.houseTiles[tileX+1][tileY-1].isPassable() && level.houseTiles[tileX+1][tileY-1].checkCollision(this.nextHitbox))
     {
+      collided = true;
       return true;
     }
     return false;
@@ -333,29 +326,36 @@ public abstract class Unit extends GameObject
     brTileX = (int) bottomRightCornerX/Settings.TILE_SIZE;
     brTileY = (int) bottomRightCornerY/Settings.TILE_SIZE;
 
-    if (!level.houseTiles[brTileX][brTileY+1].isPassable() && level.houseTiles[brTileX][brTileY+1].checkCollision(nextHitbox))
+
+    if (checkCollideSE() && !(checkCollideE()||checkCollideS()))
     {
-      nextLocationY = locationYD;
-      collided = true;
+      if (brTileY == tileY && brTileX == tileX)
+      {
+        nextLocationY = locationYD;
+        nextLocationX = locationXD;
+        collided = true;
+      }
+
+      if (brTileX == tileX +1)
+      {
+        nextLocationY = locationYD;
+        collided = true;
+      }
+      if (brTileY == tileY+1)
+      {
+        nextLocationX = locationXD;
+        collided = true;
+      }
     }
 
-    else if (!level.houseTiles[brTileX+1][brTileY].isPassable() && level.houseTiles[brTileX+1][brTileY].checkCollision((nextHitbox)))
+    if (checkCollideE())
     {
       nextLocationX = locationXD;
-      collided = true;
     }
 
     if (checkCollideS())
     {
       nextLocationY = locationYD;
-      collided = true;
-    }
-
-
-    if (checkCollideE())
-    {
-      nextLocationX = locationXD;
-      collided = true;
     }
   }
 
