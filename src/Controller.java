@@ -5,6 +5,7 @@ import Model.Unit.Player;
 import Model.GameObject;
 import Model.Unit.Zombie.Zombie;
 import View.KeyboardInput;
+import View.SoundManager;
 import View.ViewManager;
 
 import java.awt.*;
@@ -125,6 +126,10 @@ public class Controller
         view.keyboard.poll();
         processInput();
         hero.setInputVector(heroDirection);
+        if(heroDirection.x != 0 || heroDirection.y != 0)
+        {
+          //SoundManager.playWalk(hero.getLocation(), hero);
+        }
         hero.update(deltaTime, secondsFromStart);
 
         for (int i = 0; i < zombieList.size(); ++i)

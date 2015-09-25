@@ -8,6 +8,10 @@ Player and Zombie sprite sheets http://gaurav.munjal.us/Universal-LPC-Spriteshee
 pillar.png http://opengameart.org/content/lpc-house-insides<br>
 Fire graphics http://opengameart.org/content/animated-particle-effects-2
 
+#### Audio credits
+Footsteps and Bumps http://opengameart.org/content/foot-walking-step-sounds-on-stone-water-snow-wood-and-dirt
+Fire trap ignite and burn http://www.freesound.org/people/Nic3_one/sounds/166542/
+Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 #### Todo
 ###### Interface
 * Tile graphics
