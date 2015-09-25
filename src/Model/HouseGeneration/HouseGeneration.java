@@ -3,15 +3,14 @@ package Model.HouseGeneration;
 import Model.Level;
 import Model.Settings;
 import Model.Tile.*;
+import Model.Unit.Firetrap;
 import Model.Unit.Player;
 import Model.Unit.Zombie.*;
 
 import java.lang.Math;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.Set;
 
 /**
  * Class HouseGeneration is intended to be initialized one time by controller
@@ -22,10 +21,10 @@ public class HouseGeneration
   int houseWidth, houseHeight;
   Tile[][] houseTiles;
   LinkedList<Zombie> zombieList;
+  LinkedList<Firetrap> firetrapList;
   Player player;
-  int playerSpawnX, playerSpawnY;
+
   Random randGen;
-  Math calculator;
 
   int minFeatX, minFeatY;
   int maxFeatX, maxFeatY;
@@ -39,6 +38,9 @@ public class HouseGeneration
 
   int currentLevelNum;
   Level currentLevel;
+
+  // NOTE - with new design may not need to hold lastRandomSeed
+  //      - new design = houseGeneration will hold a copy of the current house as basic start
 
   // held for house generation: on death/respawn, last known seed is used
   //                            on new level, take new seed
@@ -75,7 +77,6 @@ public class HouseGeneration
   }
 
 
-
   // THE NEW APPROACH
   // using roguebasin.com's algorithm
   private void makeNewHouse()
@@ -88,7 +89,7 @@ public class HouseGeneration
 
     // 3 - find wall segment to build off of
     // the major recurring section of algorithm
-    boolean houseNotDone = true;                 /// DO NOT WANT TO TEST THIS SEGMENT YET --> change to true when ready
+    boolean houseNotDone = true;
     int thingsCarved = 0;
     int failedCarvings = 0;
     while( houseNotDone )
@@ -98,7 +99,6 @@ public class HouseGeneration
       {
         needWallSeg = lookForBuildWall();
       }
-      //System.out.println("found build wall: (" + currentWallX + "," + currentWallY + ")");
 
     // 4 - decide on what to build (corridor or room)
     //   - after deciding, guess a possible size (within the min/max set above)
@@ -170,9 +170,6 @@ public class HouseGeneration
         }
       }
 
-      //System.out.println("checking : Cx=" + cornerX + " Cy=" + cornerY + " xSize=" + neededWidth + " ySize= " + neededHeight);
-      //System.out.print("result : ");
-
     // 5 - check to see if the thing decided in step 4 can fit (without overwriting any other floors)
       if( isSpaceClear(cornerX, cornerY, neededWidth, neededHeight) )
       {
@@ -187,45 +184,14 @@ public class HouseGeneration
       }
       if (thingsCarved > 20) { houseNotDone = false; }
       if (failedCarvings > 100) { houseNotDone = false; }
-
     }
 
     // late step - place player (needed for quick testing)
-    boolean playerNotPlaced = true;
-    while( playerNotPlaced )
-    {
-      playerX = randGen.nextInt(houseWidth);
-      playerY = randGen.nextInt(houseHeight);
-      if ( houseTiles[playerX][playerY].isEmptyFloor() )
-      {
-        player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
-        playerNotPlaced = false;
-      }
-    }
+    playerSpawn();
 
     // last step - place exit
     // trying to keep at a distance of at least some percentage distance of the map size (can't spawn next to player)
-    boolean exitNotPlaced = true;
-    double percentMapMin = 0.3;
-
-    int minMapDist = ((int)(houseWidth * percentMapMin)) + ((int)(houseHeight * percentMapMin));
-
-    while( exitNotPlaced )
-    {
-      lookForBuildWall();
-      int playerExitDistance = Math.abs(playerX - currentWallX) + Math.abs(playerY - currentWallY);
-      if( playerExitDistance < minMapDist ) { continue; }
-      exitX = currentWallX + currentDir.getDX();
-      exitY = currentWallY + currentDir.getDY();
-      exitDir = currentDir.inverseDir();
-      if( isSpaceClear(exitX, exitY, 1, 1) )
-      {
-        houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
-        houseTiles[exitX][exitY] = new Exit(new Point(exitX * Settings.TILE_SIZE, exitY * Settings.TILE_SIZE));
-        exitNotPlaced = false;
-      }
-
-    }
+    exitSpawn();
   }
 
   // allWalls is used to initialize all of house to wall
@@ -251,8 +217,6 @@ public class HouseGeneration
     int ySize = minFeatY + randGen.nextInt(maxFeatY - minFeatY);
 
     carveRoom(xTop, yTop, xSize, ySize, true);
-
-    //System.out.println("Top corner : (" + xTop + "," + yTop + ") and xSize = " + xSize + " and ySize = " + ySize);
   }
 
   // carveRoom is the generalized room carving
@@ -323,6 +287,21 @@ public class HouseGeneration
     return false;
   }
 
+  private void playerSpawn()
+  {
+    boolean playerNotPlaced = true;
+    while( playerNotPlaced )
+    {
+      playerX = randGen.nextInt(houseWidth);
+      playerY = randGen.nextInt(houseHeight);
+      if ( houseTiles[playerX][playerY].isEmptyFloor() )
+      {
+        player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
+        playerNotPlaced = false;
+      }
+    }
+  }
+
   private boolean zombieSpawn(int x, int y)
   {
     if( randGen.nextDouble() < Settings.zombieSpawnRate )
@@ -344,6 +323,33 @@ public class HouseGeneration
     return false;
   }
 
+  private void exitSpawn()
+  {
+    boolean exitNotPlaced = true;
+    double percentMapMin = 0.3;
+
+    int minMapDist = ((int)(houseWidth * percentMapMin)) + ((int)(houseHeight * percentMapMin));
+
+    while( exitNotPlaced )
+    {
+      lookForBuildWall();
+      int playerExitDistance = Math.abs(playerX - currentWallX) + Math.abs(playerY - currentWallY);
+      if( playerExitDistance < minMapDist )
+      {
+        continue;
+      }
+      exitX = currentWallX + currentDir.getDX();
+      exitY = currentWallY + currentDir.getDY();
+      exitDir = currentDir.inverseDir();
+      if( isSpaceClear(exitX, exitY, 1, 1) )
+      {
+        houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
+        houseTiles[exitX][exitY] = new Exit(new Point(exitX * Settings.TILE_SIZE, exitY * Settings.TILE_SIZE));
+        exitNotPlaced = false;
+      }
+    }
+  }
+
 
   private void createLevel()
   {
@@ -357,14 +363,15 @@ public class HouseGeneration
 
 
 
+  // DEMO + PRACTICE MAP below.  to be deleted on completion.
 
 
   // Quick aStar test case.
   // 5x11 room, with wall seperating halfs
   private void aStarTestRoom()
   {
-    playerSpawnX = 3;
-    playerSpawnY = 2;
+    playerX = 3;
+    playerY = 2;
 
     allWalls();
 
@@ -383,7 +390,7 @@ public class HouseGeneration
     houseTiles[12][1] = new Exit(new Point(12 * Settings.TILE_SIZE, 1 * Settings.TILE_SIZE));
     houseTiles[12][2] = new Exit(new Point(12 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE));
 
-    player.setLocation(new Point(playerSpawnX * Settings.TILE_SIZE, playerSpawnY * Settings.TILE_SIZE));
+    player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
 
     zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (randGen.nextInt(360) + randGen.nextDouble())));
   }

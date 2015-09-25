@@ -44,17 +44,11 @@ public class Controller
     hero = new Player(new Point(0,0), currentLevel);
 
     heroDirection = new Point(0,0);
-    //Run house generator
+    // Run house generator
     houseGenerator = new HouseGeneration(hero);
 
-
-
-    // First (default) house level
     currentLevel = houseGenerator.getCurrentLevel();
     zombieList = currentLevel.zombieList;
-
-
-    //System.out.println(currentLevel.toString());
 
     view.setLevel(currentLevel);
     hero.setDoubleLocation();
