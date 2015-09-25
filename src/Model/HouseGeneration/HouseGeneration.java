@@ -66,8 +66,8 @@ public class HouseGeneration
     currentDir = Direction.NORTH;
 
     //presetHouse(); // delete when makeNewHouse is ready
-    //aStarTestRoom();
-    makeNewHouse(); // uncomment when ready to use
+    aStarTestRoom();
+    //makeNewHouse(); // uncomment when ready to use
 
     createLevel();
 

@@ -54,21 +54,21 @@ public class ZombieLine extends Zombie
   {
     canSmellCharacter();
 
-    if ((secondsFromStart%2)==0 && collided)
+    if ((secondsFromStart%2)==0 && collided && !knowsPlayerLocation)
     {
-      if (knowsPlayerLocation)
-      {
-        collided = false;
-        //heading = level.aStar.getHeading();
-      }
+      makeDecision();
+      collided = false;
+      setHeadingVector();
 
-      else {
-        makeDecision();
-        collided = false;
-        setHeadingVector();
-      }
     }
 
+    /*
+    if (knowsPlayerLocation)
+    {
+      System.out.println("I CAN SMELL YOU");
+      collided = false;
+      heading = level.aStar.getHeading(this.location);
+    }*/
 
     move(Settings.ZOMBIE_SPEED,heading,deltaTime);
 
