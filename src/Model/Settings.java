@@ -25,9 +25,19 @@ public abstract class Settings
   public static final int DEFAULT_NUMBER_OBSTACLES = 5;
 
   /**
+   * Chance of zombie spawn in a given floor tile
+   */
+  public static double zombieSpawnRate = 0.02;
+
+  /**
    * Chance of firetrap in a given floor tile.
    */
-  public static final double DEFAULT_FIRETRAP_CHANCE = 0.10; //10%
+  public static double firetrapSpawnRate = 0.02;
+
+  /**
+   * Chance of obstacle spawn rate
+   */
+  public static double obstacleSpawnRate = 0.02;
 
   /**
    * Default width (tiles)

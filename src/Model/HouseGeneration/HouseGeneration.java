@@ -33,6 +33,8 @@ public class HouseGeneration
   Direction currentDir;
 
   int playerX, playerY;
+  int exitX, exitY;
+  Direction exitDir;
 
   int currentLevelNum;
   Level currentLevel;
@@ -60,8 +62,8 @@ public class HouseGeneration
     randGen = new Random(lastRandomSeed);
 
     //presetHouse(); // delete when makeNewHouse is ready
-    aStarTestRoom();
-    //makeNewHouse(); // uncomment when ready to use
+    //aStarTestRoom();
+    makeNewHouse(); // uncomment when ready to use
 
     createLevel();
 
@@ -170,7 +172,7 @@ public class HouseGeneration
     // 5 - check to see if the thing decided in step 4 can fit (without overwriting any other floors)
       if( isSpaceClear(cornerX, cornerY, neededWidth, neededHeight) )
       {
-        carveRoom(cornerX, cornerY, neededWidth, neededHeight);
+        carveRoom(cornerX, cornerY, neededWidth, neededHeight, buildRoom);
         houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
         // stupid end.. things carved.. just to test
         thingsCarved++;
@@ -202,18 +204,25 @@ public class HouseGeneration
 
     // last step - place exit
     // trying to keep at a distance of at least some percentage distance of the map size (can't spawn next to player)
-    boolean exitNotPlaced = false;
+    boolean exitNotPlaced = true;
     double percentMapMin = 0.3;
 
     int minMapDist = ((int)(houseWidth * percentMapMin)) + ((int)(houseHeight * percentMapMin));
-    System.out.println("min distance = " +  minMapDist);
 
     while( exitNotPlaced )
     {
       lookForBuildWall();
       int playerExitDistance = Math.abs(playerX - currentWallX) + Math.abs(playerY - currentWallY);
-
-
+      if( playerExitDistance < minMapDist ) { continue; }
+      exitX = currentWallX + currentDir.getDX();
+      exitY = currentWallY + currentDir.getDY();
+      exitDir = currentDir.inverseDir();
+      if( isSpaceClear(exitX, exitY, 1, 1) )
+      {
+        houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
+        houseTiles[exitX][exitY] = new Exit(new Point(exitX * Settings.TILE_SIZE, exitY * Settings.TILE_SIZE));
+        exitNotPlaced = false;
+      }
 
     }
   }
@@ -240,19 +249,30 @@ public class HouseGeneration
     int xSize = minFeatX + randGen.nextInt(maxFeatX - minFeatX);
     int ySize = minFeatY + randGen.nextInt(maxFeatY - minFeatY);
 
-    carveRoom(xTop, yTop, xSize, ySize);
+    carveRoom(xTop, yTop, xSize, ySize, true);
 
     //System.out.println("Top corner : (" + xTop + "," + yTop + ") and xSize = " + xSize + " and ySize = " + ySize);
   }
 
   // carveRoom is the generalized room carving
-  private void carveRoom(int xTop, int yTop, int xSize, int ySize)
+  // room variable --> rooms can spawn pillars and zombies (might allow zombies in cooridors - seems unfair, but closer to .002)
+  // room = false --> corridors can spawn firetraps
+  private void carveRoom(int xTop, int yTop, int xSize, int ySize, boolean room)
   {
     for( int i = xTop; i < xSize + xTop; i++)
     {
       for( int j = yTop; j < ySize + yTop; j++)
       {
         houseTiles[i][j] = new Floor(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
+        if( room )
+        {
+          houseTiles[i][j].setEmpty( !zombieSpawn(i, j) );
+          if( houseTiles[i][j].isEmptyFloor() )
+          {
+            houseTiles[i][j].setEmpty( !obstacleSpawn(i, j) );
+          }
+
+        }
       }
     }
   }
@@ -261,6 +281,7 @@ public class HouseGeneration
   {
     int xRand = randGen.nextInt(houseWidth);
     int yRand = randGen.nextInt(houseHeight);
+    int floorAdjacent = 0;
     if ( houseTiles[xRand][yRand].isWall() )
     {
       for( Direction dir : Direction.values() )
@@ -271,9 +292,10 @@ public class HouseGeneration
           currentWallX = xRand;
           currentWallY = yRand;
           currentDir = dir.inverseDir();
-          return false;
+          floorAdjacent++;
         }
       }
+      if( floorAdjacent == 1) { return false; }
     }
     return true;
   }
@@ -407,10 +429,20 @@ public class HouseGeneration
   // maybe keep with new algorithm
   private boolean zombieSpawn(int x, int y)
   {
-
-    if( randGen.nextDouble() < 0.02 )
+    if( randGen.nextDouble() < Settings.zombieSpawnRate )
     {
+      // find new way to select zombie type
       zombieArrayList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (randGen.nextInt(360)+randGen.nextDouble())));
+      return true;
+    }
+    return false;
+  }
+
+  private boolean obstacleSpawn(int x, int y)
+  {
+    if( randGen.nextDouble() < Settings.obstacleSpawnRate )
+    {
+      houseTiles[x][y] = new Pillar(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE));
       return true;
     }
     return false;

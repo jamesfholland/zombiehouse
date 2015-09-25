@@ -35,4 +35,6 @@ public abstract class Tile extends GameObject
   public boolean isFloor() { return false; }
 
   public boolean isEmptyFloor() { return false; }
+
+  public void setEmpty(boolean unused) {}
 }

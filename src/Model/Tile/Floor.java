@@ -84,6 +84,7 @@ public class Floor extends Tile
   @Override
   public boolean isEmptyFloor() { return empty; }
 
+  @Override
   public void setEmpty(boolean empty) { this.empty = empty; }
 
   public int getRoomNum() { return roomNum; }
