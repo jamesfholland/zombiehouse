@@ -214,6 +214,7 @@ public class HouseGeneration
       int playerExitDistance = Math.abs(playerX - currentWallX) + Math.abs(playerY - currentWallY);
 
 
+
     }
   }
 
