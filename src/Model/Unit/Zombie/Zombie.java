@@ -29,4 +29,14 @@ public abstract class Zombie extends Unit
     this.nextHitbox = new Rectangle(location,size);
   }
 
+  public void canSmellCharacter()
+  {
+    if (level.aStar.eculiDistanceFromPlayer(this.location) < Settings.ZOMBIE_SMELL)
+    {
+      knowsPlayerLocation = true;
+    } else
+    {
+      knowsPlayerLocation = false;
+    }
+  }
 }

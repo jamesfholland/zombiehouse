@@ -64,7 +64,7 @@ public abstract class Unit extends GameObject
   /**
    * Finds the units x,y coordinates on the tilesArray
    */
-  private void getTileCoordinates()
+  private void setTileCoordinates()
   {
     this.tileX = (location.x/Settings.TILE_SIZE);
     this.tileY = (location.y/Settings.TILE_SIZE);
@@ -112,7 +112,7 @@ public abstract class Unit extends GameObject
     //set the headingVector to know which way to check for collisions
     setHeadingVector();
 
-    getTileCoordinates();
+    setTileCoordinates();
 
     //check for collisions
     checkCollisions();
