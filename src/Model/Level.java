@@ -20,6 +20,7 @@ public class Level
   //                 but when a player respawns, they should have as many as before.
   public int fireTrapCount;
   public Player player;
+  public final AStar aStar;
 
   // Add in a list of collidable tiles
 
@@ -30,6 +31,7 @@ public class Level
     this.zombieList = zombieList;
     this.fireTrapCount = fireTrapCount;
     this.player = player;
+    this.aStar = new AStar(this);
   }
 
   @Override
@@ -46,4 +48,5 @@ public class Level
     }
     return houseString.toString();
   }
+
 }

@@ -112,4 +112,9 @@ public abstract class Settings
    * Player stamina for running
    */
   public static final int PLAYER_STAMINA = 5000;
+
+  /**
+   * Zombie smell distance
+   */
+  public static final double ZOMBIE_SMELL = 7.0 * TILE_SIZE;
 }

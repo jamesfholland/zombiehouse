@@ -52,13 +52,26 @@ public class ZombieLine extends Zombie
   @Override
   public void update(long deltaTime, long secondsFromStart)
   {
+    if (level.aStar.eculiDistanceFromPlayer(this.location)<Settings.ZOMBIE_SMELL)
+    {
+      System.out.println("I CAN SMELL YOU");
+    }
 
     if ((secondsFromStart%2)==0 && collided)
     {
-      makeDecision();
-      collided = false;
-      setHeadingVector();
+      if (knowsPlayerLocation)
+      {
+        collided = false;
+        //heading = aStarSetHeading();
+      }
+
+      else {
+        makeDecision();
+        collided = false;
+        setHeadingVector();
+      }
     }
+
 
     move(Settings.ZOMBIE_SPEED,heading,deltaTime);
 

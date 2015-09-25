@@ -10,7 +10,7 @@ public abstract class Zombie extends Unit
 {
   protected final static Random RAND = new Random(System.nanoTime());
 
-  protected static double smell = 7.0;
+  protected boolean knowsPlayerLocation = false;
 
 
   public Zombie(int x, int y, double heading)
@@ -28,4 +28,5 @@ public abstract class Zombie extends Unit
     this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location,size);
   }
+
 }
