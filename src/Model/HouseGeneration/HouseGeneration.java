@@ -6,6 +6,7 @@ import Model.Tile.*;
 import Model.Unit.Player;
 import Model.Unit.Zombie.*;
 
+import java.lang.Math;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,12 +24,15 @@ public class HouseGeneration
   Player player;
   int playerSpawnX, playerSpawnY;
   Random randGen;
+  Math calculator;
 
   int minFeatX, minFeatY;
   int maxFeatX, maxFeatY;
 
   int currentWallX, currentWallY;
   Direction currentDir;
+
+  int playerX, playerY;
 
   int currentLevelNum;
   Level currentLevel;
@@ -92,7 +96,7 @@ public class HouseGeneration
 
     // 4 - decide on what to build (corridor or room)
     //   - after deciding, guess a possible size (within the min/max set above)
-      double percentRoomChance = 0.6;
+      double percentRoomChance = 0.65;
       boolean buildRoom;
       if ( randGen.nextDouble() < percentRoomChance ) { buildRoom = true; }
       else { buildRoom = false; }
@@ -187,13 +191,29 @@ public class HouseGeneration
     boolean playerNotPlaced = true;
     while( playerNotPlaced )
     {
-      int xRand = randGen.nextInt(houseWidth);
-      int yRand = randGen.nextInt(houseHeight);
-      if ( houseTiles[xRand][yRand].isEmptyFloor() )
+      playerX = randGen.nextInt(houseWidth);
+      playerY = randGen.nextInt(houseHeight);
+      if ( houseTiles[playerX][playerY].isEmptyFloor() )
       {
-        player.setLocation(new Point(xRand * Settings.TILE_SIZE, yRand * Settings.TILE_SIZE));
+        player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
         playerNotPlaced = false;
       }
+    }
+
+    // last step - place exit
+    // trying to keep at a distance of at least some percentage distance of the map size (can't spawn next to player)
+    boolean exitNotPlaced = false;
+    double percentMapMin = 0.3;
+
+    int minMapDist = ((int)(houseWidth * percentMapMin)) + ((int)(houseHeight * percentMapMin));
+    System.out.println("min distance = " +  minMapDist);
+
+    while( exitNotPlaced )
+    {
+      lookForBuildWall();
+      int playerExitDistance = Math.abs(playerX - currentWallX) + Math.abs(playerY - currentWallY);
+
+
     }
   }
 
@@ -427,6 +447,9 @@ public class HouseGeneration
       }
     }
     houseTiles[6][5] = new Floor(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE));
+
+    houseTiles[12][1] = new Exit(new Point(12 * Settings.TILE_SIZE, 1 * Settings.TILE_SIZE));
+    houseTiles[12][2] = new Exit(new Point(12 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE));
 
     player.setLocation(new Point(playerSpawnX * Settings.TILE_SIZE, playerSpawnY * Settings.TILE_SIZE));
 
