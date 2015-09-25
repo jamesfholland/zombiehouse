@@ -41,7 +41,7 @@ public class GamePanel extends JPanel
   private double windowScale;
   private Player player;
   private Tile[][] tiles;
-  private ArrayList<Zombie> zombies;
+  private LinkedList<Zombie> zombies;
 
   static
   {

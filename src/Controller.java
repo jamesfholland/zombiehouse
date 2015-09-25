@@ -10,6 +10,7 @@ import View.ViewManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.
@@ -23,7 +24,7 @@ public class Controller
   private Player hero;
   private Thread gameLoop;
   private Point heroDirection;
-  private ArrayList<Zombie> zombieList;
+  private LinkedList<Zombie> zombieList;
 
   //60hz loop calls
   /*
