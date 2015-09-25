@@ -1,5 +1,6 @@
 package Model;
 
+import Model.HouseGeneration.HouseGeneration;
 import Model.Tile.Tile;
 import Model.Unit.Player;
 import Model.Unit.Zombie.*;
@@ -33,6 +34,23 @@ public class Level
     this.fireTrapCount = fireTrapCount;
     this.player = player;
     this.aStar = new AStar(this);
+  }
+
+  public void respawnLevel(HouseGeneration houseGen)
+  {
+    houseGen.respawnSameMap();
+    houseTiles = houseGen.getHouseTiles();
+    zombieList = houseGen.getZombieList();
+    fireTrapCount = houseGen.getFireTrapCount();
+  }
+
+  public void newLevel(HouseGeneration houseGen)
+  {
+    houseGen.spawnNewLevel();
+    levelNum = houseGen.getCurrentLevelNum();
+    houseTiles = houseGen.getHouseTiles();
+    zombieList = houseGen.getZombieList();
+
   }
 
   @Override

@@ -22,7 +22,9 @@ public class HouseGeneration
   Tile[][] houseTiles;
   LinkedList<Zombie> zombieList;
   LinkedList<Firetrap> firetrapList;
+
   Player player;
+  int levelInitFireTrapCount = 0;
 
   //Random Settings.RANDOM;
 
@@ -192,6 +194,9 @@ public class HouseGeneration
     // last step - place exit
     // trying to keep at a distance of at least some percentage distance of the map size (can't spawn next to player)
     exitSpawn();
+
+    // last last step - remove excess walls (should help search/sight algorithms) --> is not working yet! breaks other codes..
+    // removeHiddenWalls();
   }
 
   // allWalls is used to initialize all of house to wall
@@ -356,15 +361,29 @@ public class HouseGeneration
     }
   }
 
+  // Always always breaks...
+  // mark for deletion
+  // check all 8 directions before removal
+  private void removeHiddenWalls()
+  {
+    for( int i = 0; i < houseWidth; i++ )
+    {
+      for( int j = 0; j < houseHeight; j++ )
+      {
+        int wallAdjacent = 0;
+        for( Direction dir : Direction.values() )
+        {
+          if ( houseTiles[i][j].isWall() ) { wallAdjacent++; }
+        }
+        if( wallAdjacent == 4 ) { houseTiles[i][j] = null; }
+      }
+    }
+  }
+
 
   private void createLevel()
   {
     currentLevel = new Level(currentLevelNum, houseTiles, zombieList, 3, player);
-  }
-
-  public Level getCurrentLevel()
-  {
-    return currentLevel;
   }
 
   public void respawnSameMap()
@@ -380,9 +399,17 @@ public class HouseGeneration
     Settings.RANDOM.setSeed(lastRandomSeed);
     makeNewHouse();
     currentLevelNum++;
-    createLevel();
   }
 
+  public Tile[][] getHouseTiles() { return houseTiles; }
+
+  public LinkedList<Zombie> getZombieList() { return zombieList; }
+
+  public int getFireTrapCount() { return levelInitFireTrapCount; }
+
+  public Level getCurrentLevel() { return currentLevel; }
+
+  public int getCurrentLevelNum() { return currentLevelNum; }
 
 
   // DEMO + PRACTICE MAP below.  to be deleted on completion.
