@@ -25,7 +25,7 @@ public class ZombieRandom extends Zombie
 
     try
     {
-      imageTemp = ImageIO.read(ZombieMaster.class.getResourceAsStream("heroSprites.png"));
+      imageTemp = ImageIO.read(ZombieRandom.class.getResourceAsStream("zombieRandom.png"));
     }
     catch (IOException e)
     {
