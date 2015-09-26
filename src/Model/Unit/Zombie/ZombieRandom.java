@@ -66,8 +66,11 @@ public class ZombieRandom extends Zombie
         setHeadingVector();
       }
 
-      makeDecision();
-      setHeadingVector();
+      else
+      {
+        makeDecision();
+        setHeadingVector();
+      }
     }
 
     move(Settings.ZOMBIE_SPEED,heading,deltaTime);

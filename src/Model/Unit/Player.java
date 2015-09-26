@@ -25,6 +25,9 @@ public class Player extends Unit
   private boolean running;
   private int stamina;
 
+  private boolean gettingFireTrap;
+  private double timePickUpFireTrap;
+
   static
   {
     BufferedImage imageTemp = null;
@@ -136,10 +139,28 @@ public class Player extends Unit
     running = false;
   }
 
+  public void pickUpFireTrap()
+  {
+    gettingFireTrap = true;
+    timePickUpFireTrap = 0.0;
+  }
+
 
   @Override
   public void update(long deltaTime, long secondsFromStart)
   {
+    if (gettingFireTrap && timePickUpFireTrap < 5000)
+    {
+      timePickUpFireTrap += deltaTime;
+      return;
+    }
+    else if (gettingFireTrap && timePickUpFireTrap >= 5000)
+    {
+      timePickUpFireTrap = 0;
+      ++level.fireTrapCount;
+      gettingFireTrap = false;
+    }
+
     setHeading(inputVector);
 
     if(inputVector.x != 0 || inputVector.y != 0)

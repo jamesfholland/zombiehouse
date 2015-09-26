@@ -8,7 +8,7 @@ import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class ZombieMaster extends Zombie
+public class ZombieMaster extends ZombieLine
 {
   private static final BufferedImage[] WALK_UP_IMAGE;
   private static final BufferedImage[] WALK_RIGHT_IMAGE;
@@ -44,32 +44,6 @@ public class ZombieMaster extends Zombie
   public ZombieMaster(int x, int y, double heading)
   {
     super(x, y, heading);
-  }
-
-  @Override
-  public void update(long deltaTime, long secondsFromStart)
-  {
-    if ((secondsFromStart%2)==0)
-    {
-      makeDecision();
-      collided = false;
-    }
-
-    double y = getLocation().getY() + (Math.sin(this.heading)*speed/deltaTime);
-    double x = getLocation().getX() + (Math.cos(this.heading)*speed/deltaTime);
-    location.setLocation(x, y);
-  }
-
-  private void makeDecision()
-  {
-    if (collided)
-    {
-      heading = (heading+180)%360;
-    }
-    else
-    {
-      heading = (RAND.nextInt(360) + RAND.nextDouble());
-    }
   }
 
   @Override

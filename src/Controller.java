@@ -2,6 +2,7 @@ import Model.HouseGeneration.HouseGeneration;
 import Model.Level;
 import Model.Settings;
 import Model.Unit.Fire;
+import Model.Unit.Firetrap;
 import Model.Unit.Player;
 import Model.GameObject;
 import Model.Unit.Zombie.Zombie;
@@ -71,6 +72,16 @@ public class Controller
     {
       x+=1;
     }
+    if (view.keyboard.keyDown(KeyEvent.VK_P))
+    {
+      //int heroCenterTileX;
+      //int heroCenterTileY;
+
+      //for (Firetrap firetrap : )
+
+
+    }
+
     if (view.keyboard.keyDown(KeyEvent.VK_R))
     {
       hero.setSpeedRun();
