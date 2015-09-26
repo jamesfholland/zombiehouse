@@ -1,6 +1,7 @@
 import Model.HouseGeneration.HouseGeneration;
 import Model.Level;
 import Model.Settings;
+import Model.Unit.Fire;
 import Model.Unit.Player;
 import Model.GameObject;
 import Model.Unit.Zombie.Zombie;
@@ -25,18 +26,8 @@ public class Controller
   private Player hero;
   private Thread gameLoop;
   private Point heroDirection;
-  private LinkedList<Zombie> zombieList;
+  //private LinkedList<Zombie> zombieList;
 
-  //60hz loop calls
-  /*
-  keyboard.poll();
-  processInput();
-  for (u:units)
-  {
-    u.move();
-  }
-  gui.repaint();
-   */
   public Controller()
   {
     view = new ViewManager();
@@ -49,7 +40,7 @@ public class Controller
     houseGenerator = new HouseGeneration(hero);
 
     currentLevel = houseGenerator.getCurrentLevel();
-    zombieList = currentLevel.zombieList;
+    //zombieList = currentLevel.zombieList;
 
     view.setLevel(currentLevel);
     hero.setDoubleLocation();
@@ -132,19 +123,29 @@ public class Controller
         }
         hero.update(deltaTime, secondsFromStart);
 
-        for (int i = 0; i < zombieList.size(); ++i)
+        for (Zombie zombie : currentLevel.zombieList)
         {
-          zombieList.get(i).update(deltaTime, secondsFromStart);
+          zombie.update(deltaTime,secondsFromStart);
         }
 
-        /*
-        for (int i = 0; i < zombieList.size(); ++i)
+
+        for (Zombie zombie : currentLevel.zombieList)
         {
-          if (hero.checkCollision(zombieList.get(i).getHitbox()))
+          if (hero.checkCollision(zombie.getHitbox()))
           {
-            System.out.println("GAME OVER");
+            //GAME OVER
           }
-        }*/
+
+          /*
+          for (Fire fire : currentLevel.fireList)
+          {
+            if (zombie.checkCollision(fire.getHitbox()))
+            {
+              currentLevel.zombieList.remove(zombie);
+            }
+          }*/
+        }
+
 
         view.repaint();
         lastTime = thisTime;

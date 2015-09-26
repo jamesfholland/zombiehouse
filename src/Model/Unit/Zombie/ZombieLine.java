@@ -52,13 +52,14 @@ public class ZombieLine extends Zombie
   @Override
   public void update(long deltaTime, long secondsFromStart)
   {
-    canSmellCharacter();
+    lastDecision += deltaTime;
 
-    if ((secondsFromStart%2)==0)
+    if (lastDecision > 2000)
     {
+      lastDecision = 0;
+      canSmellPlayer();
       if (knowsPlayerLocation)
       {
-        //System.out.println("I CAN SMELL YOU");
         collided = false;
         heading = level.aStar.getHeading(getCenterLocation());
         setHeadingVector();

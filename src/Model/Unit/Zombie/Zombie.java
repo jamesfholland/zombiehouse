@@ -9,6 +9,7 @@ import java.util.Random;
 public abstract class Zombie extends Unit
 {
   protected final static Random RAND = new Random(System.nanoTime());
+  protected int lastDecision = 0;
 
   protected boolean knowsPlayerLocation = false;
 
@@ -29,12 +30,13 @@ public abstract class Zombie extends Unit
     this.nextHitbox = new Rectangle(location,size);
   }
 
-  public void canSmellCharacter()
+  public void canSmellPlayer()
   {
     if (level.aStar.eculiDistanceFromPlayer(this.location) < Settings.ZOMBIE_SMELL)
     {
       knowsPlayerLocation = true;
-    } else
+    }
+    else
     {
       knowsPlayerLocation = false;
     }

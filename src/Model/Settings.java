@@ -27,7 +27,10 @@ public abstract class Settings
   /**
    * Chance of zombie spawn in a given floor tile
    */
-  public static double zombieSpawnRate = 0.01;
+  //public static double zombieSpawnRate = 0.01;
+
+  public static double zombieSpawnRate = 0.05;
+
 
   /**
    * Chance of firetrap in a given floor tile.

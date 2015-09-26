@@ -1,6 +1,8 @@
 package Model.Unit.Zombie;
 
+import Model.Direction;
 import Model.GameObject;
+import Model.Settings;
 import Model.Unit.SpriteParser;
 
 import javax.imageio.ImageIO;
@@ -51,15 +53,48 @@ public class ZombieRandom extends Zombie
   @Override
   public void update(long deltaTime, long secondsFromStart)
   {
-    if ((secondsFromStart%2)==0)
+    lastDecision += deltaTime;
+    if (lastDecision >= 2000)
     {
+      lastDecision = 0;
+      canSmellPlayer();
+
+      if (knowsPlayerLocation)
+      {
+        collided = false;
+        heading = level.aStar.getHeading(getCenterLocation());
+        setHeadingVector();
+      }
+
       makeDecision();
-      collided = false;
+      setHeadingVector();
     }
 
-    double y = getLocation().getY() + (Math.sin(this.heading)*speed/deltaTime);
-    double x = getLocation().getX() + (Math.cos(this.heading)*speed/deltaTime);
-    location.setLocation(x, y);
+    move(Settings.ZOMBIE_SPEED,heading,deltaTime);
+
+    direction = null;
+    if (headingVector.y > 0)
+    {
+      direction = Direction.DOWN;
+    } else if (headingVector.y < 0)
+    {
+      direction = Direction.UP;
+    } else if (headingVector.x > 0)
+    {
+      direction = Direction.RIGHT;
+    } else if (headingVector.x < 0)
+    {
+      direction = Direction.LEFT;
+    }
+
+    if (direction != null)
+    {
+      spriteState++;
+      if (spriteState >= WALK_SPRITE_COUNT)
+      {
+        spriteState = 0;
+      }
+    }
   }
 
   private void makeDecision()
@@ -67,6 +102,7 @@ public class ZombieRandom extends Zombie
     if (collided)
     {
       heading = (heading+180)%360;
+      collided = false;
     }
     else
     {
