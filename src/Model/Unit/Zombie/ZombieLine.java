@@ -60,7 +60,7 @@ public class ZombieLine extends Zombie
       {
         //System.out.println("I CAN SMELL YOU");
         collided = false;
-        heading = level.aStar.getHeading(this.location);
+        heading = level.aStar.getHeading(getCenterLocation());
         setHeadingVector();
       }
 

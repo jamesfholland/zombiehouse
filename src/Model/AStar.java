@@ -34,7 +34,6 @@ public class AStar
     neighbors.clear();
     Node start = new Node(zombLocation,0);
     goal = new Node(level.player.getCenterLocation(), 0);
-    System.out.println(""+ goal.tileX + " " + goal.tileY);
     Node current;
     frontier.add(start);
     while (!frontier.isEmpty())
@@ -64,7 +63,6 @@ public class AStar
     path.add(current);
     while(current.parent!=null)
     {
-      System.out.println(""+ current.tileX + " " + current.tileY);
       current = current.parent;
       path.add(current);
     }
@@ -116,11 +114,6 @@ public class AStar
       return calcRotationAngleInDegrees(zombieLocation, level.player.getLocation());
     }
 
-    System.out.println(zombieLocation.x/Settings.TILE_SIZE + " " + zombieLocation.y/Settings.TILE_SIZE);
-    System.out.println(toMoveTo.tileX + " " + toMoveTo.tileY);
-    System.out.println();
-
-
 
     pointMoveTo = level.houseTiles[toMoveTo.tileX][toMoveTo.tileY].getCenterLocation();
 
@@ -139,7 +132,6 @@ public class AStar
       angle += 360;
     }
 
-    System.out.println("" + angle);
     return angle;
   }
 
