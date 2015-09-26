@@ -11,6 +11,8 @@ public class Wall extends Tile
 {
   private final static BufferedImage WALL_IMAGE;
 
+  private boolean markedForDeletion;
+
   static
   {BufferedImage imageTemp = null;
 
@@ -30,6 +32,7 @@ public class Wall extends Tile
   {
     super(location); //Sets up shared Tile settings.
     this.passable = false;
+    this.markedForDeletion = false;
   }
 
   @Override
@@ -49,4 +52,10 @@ public class Wall extends Tile
 
   @Override
   public String toString() { return "x"; }
+
+  @Override
+  public void markForDeletion() { markedForDeletion = true; }
+
+  @Override
+  public boolean getDeletion() { return markedForDeletion; }
 }

@@ -70,8 +70,8 @@ public class HouseGeneration
     currentDir = Direction.NORTH;
 
     //presetHouse(); // delete when makeNewHouse is ready
-    aStarTestRoom();
-    //makeNewHouse(); // uncomment when ready to use
+    //aStarTestRoom();
+    makeNewHouse(); // uncomment when ready to use
 
     createLevel();
 
@@ -366,16 +366,28 @@ public class HouseGeneration
   // check all 8 directions before removal
   private void removeHiddenWalls()
   {
+
     for( int i = 0; i < houseWidth; i++ )
     {
       for( int j = 0; j < houseHeight; j++ )
       {
         int wallAdjacent = 0;
-        for( Direction dir : Direction.values() )
+        for( int dX = -1; dX <= 1; dX++)
         {
-          if ( houseTiles[i + dir.getDX()][j + dir.getDY()].isWall() ) { wallAdjacent++; }
+          for( int dY= -1; dY <= 1; dY++)
+          {
+            if( offMap( i+dX, j+dY ) ) { continue; }
+            if( houseTiles[i+dX][j+dY].isWall() ) { wallAdjacent++; }
+          }
+          if( wallAdjacent == 9 ) { houseTiles[i][j].markForDeletion(); }
         }
-        if( wallAdjacent == 4 ) { houseTiles[i][j] = null; }
+      }
+    }
+    for( int i = 0; i < houseWidth; i++ )
+    {
+      for( int j = 0; j < houseHeight; j++ )
+      {
+        if( houseTiles[i][j].getDeletion() ) { houseTiles[i][j] = null; }
       }
     }
   }
