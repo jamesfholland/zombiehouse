@@ -26,12 +26,12 @@ public class Firetrap extends Unit
     }
     FIRETRAP_IMAGE = imageTemp;
   }
-  private Point location;
 
 
   public Firetrap(Point location)
   {
     this.location = location;
+    this.size = new Dimension(FIRETRAP_IMAGE.getWidth(), FIRETRAP_IMAGE.getHeight());
   }
 
   @Override

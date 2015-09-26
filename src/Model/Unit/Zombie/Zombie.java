@@ -26,7 +26,6 @@ public abstract class Zombie extends Unit
     this.speed = Settings.TILE_SIZE/2000.0;
     this.size = Settings.ZOMBIE_SIZE;
 
-    this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location,size);
   }
 

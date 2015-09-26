@@ -148,7 +148,7 @@ public abstract class Unit extends GameObject
 
     //set the unit at the appropriate place
     location.setLocation(nextLocationX, nextLocationY);
-    hitbox.setFrame(nextLocationX, nextLocationY, size.width, size.height);
+    //hitbox.setFrame(nextLocationX, nextLocationY, size.width, size.height);
     locationXD = nextLocationX;
     locationYD = nextLocationY;
   }
@@ -386,7 +386,7 @@ public abstract class Unit extends GameObject
   {
     for (int i = 0; i < level.zombieList.size(); ++i)
     {
-      if (this != level.zombieList.get(i) && this.nextHitbox.intersects(level.zombieList.get(i).hitbox))
+      if (this != level.zombieList.get(i) && this.nextHitbox.intersects(level.zombieList.get(i).getHitbox()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;

@@ -241,7 +241,7 @@ public class HouseGeneration
         }
         if( houseTiles[i][j].isEmptyFloor() )
         {
-          //fireTrapSpawn(i, j);
+          fireTrapSpawn(i, j);
         }
       }
     }

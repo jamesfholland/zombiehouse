@@ -62,7 +62,6 @@ public class Player extends Unit
     this.size = Settings.PLAYER_SIZE;
     this.stamina = Settings.PLAYER_STAMINA;
 
-    this.hitbox = new Rectangle(location, size);
     this.nextHitbox = new Rectangle(location, size);
     this.headingVector = new Point(0, 0);
     this.inputVector = new Point(0,0);

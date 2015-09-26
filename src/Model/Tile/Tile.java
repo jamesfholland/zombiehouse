@@ -20,7 +20,6 @@ public abstract class Tile extends GameObject
   {
     this.size = new Dimension(Settings.TILE_SIZE, Settings.TILE_SIZE);
     this.location = location;
-    this.hitbox = new Rectangle(location.x, location.y, size.width, size.height);
     this.burned = false;
     this.passable = true;
   }

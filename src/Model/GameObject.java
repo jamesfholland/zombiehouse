@@ -19,7 +19,7 @@ public abstract class GameObject
   /**
    * Our hitbox, assumed rectangular for simplicity
    */
-  protected Rectangle2D hitbox;
+  protected Rectangle2D hitbox = new Rectangle();
   protected static Level level;
 
 
@@ -28,10 +28,10 @@ public abstract class GameObject
    */
   private void setHitbox()
   {
-    if(hitbox == null || location.x != (int)hitbox.getX() || location.y != (int)hitbox.getY())
-    {
-      hitbox = new Rectangle(location, size);
-    }
+      if (location.x != (int) hitbox.getX() || location.y != (int) hitbox.getY())
+      {
+        hitbox.setFrame(location, size);
+      }
   }
 
   /**
@@ -49,8 +49,8 @@ public abstract class GameObject
    */
   public boolean checkCollision(Rectangle2D otherHitbox)
   {
-    //setHitbox();
-    return this.hitbox.intersects(otherHitbox);
+    setHitbox();
+    return this.getHitbox().intersects(otherHitbox);
   }
 
   /**
