@@ -11,8 +11,6 @@ public class Wall extends Tile
 {
   private final static BufferedImage WALL_IMAGE;
 
-  private boolean markedForDeletion;
-
   static
   {BufferedImage imageTemp = null;
 
@@ -26,6 +24,8 @@ public class Wall extends Tile
     }
     WALL_IMAGE = imageTemp;
   }
+
+  private boolean markedForDeletion;
 
 
   public Wall(Point location)

@@ -1,5 +1,7 @@
 package View;
 
+import Model.Level;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,6 +10,9 @@ import java.awt.*;
  */
 public class ScoreBar extends JPanel
 {
+  // Level curretLevel;
+  // JTextField infoText = new JTextField(40);
+
   ScoreBar()
   {
     super();

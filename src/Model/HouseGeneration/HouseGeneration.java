@@ -94,6 +94,8 @@ public class HouseGeneration
     boolean houseNotDone = true;
     int thingsCarved = 0;
     int failedCarvings = 0;
+    int roomCount = 0;
+    int corridorCount = 0;
     while( houseNotDone )
     {
       boolean needWallSeg = true;
@@ -179,13 +181,13 @@ public class HouseGeneration
         houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
         // stupid end.. things carved.. just to test
         thingsCarved++;
+        if( buildRoom ) { roomCount++; }
+        else { corridorCount++; }
       }
-      else
-      {
-        failedCarvings++;
-      }
-      if (thingsCarved > 20) { houseNotDone = false; }
-      if (failedCarvings > 100) { houseNotDone = false; }
+      else { failedCarvings++; }
+      if ( roomCount >= Settings.DEFAULT_NUMBER_ROOMS && corridorCount >= Settings.DEFAULT_NUMBER_HALLS ) { houseNotDone = false; }
+      // if (thingsCarved > 20) { houseNotDone = false; }
+      if (failedCarvings > 1500) { houseNotDone = false; } // rather than just stopping might be good to restart..
     }
 
     // late step - place player (needed for quick testing)
@@ -243,8 +245,10 @@ public class HouseGeneration
             houseTiles[i][j].setEmpty( !obstacleSpawn(i, j) );
           }
         }
-        //fireTrapSpawn();
-
+        if( houseTiles[i][j].isEmptyFloor() )
+        {
+          // fireTrapSpawn(i, j);
+        }
       }
     }
   }
@@ -328,7 +332,17 @@ public class HouseGeneration
   {
     if( Settings.RANDOM.nextDouble() < Settings.obstacleSpawnRate )
     {
-      houseTiles[x][y] = new Pillar(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE));
+      houseTiles[x][y] = new Pillar( new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE) );
+      return true;
+    }
+    return false;
+  }
+
+  private boolean fireTrapSpawn(int x, int y)
+  {
+    if( Settings.RANDOM.nextDouble() < Settings.firetrapSpawnRate )
+    {
+      firetrapList.add( new Firetrap( new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE) ) );
       return true;
     }
     return false;
