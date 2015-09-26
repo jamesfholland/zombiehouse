@@ -3,14 +3,12 @@ package Model.HouseGeneration;
 import Model.Level;
 import Model.Settings;
 import Model.Tile.*;
-import Model.Unit.Firetrap;
-import Model.Unit.Player;
+import Model.Unit.*;
 import Model.Unit.Zombie.*;
 
 import java.lang.Math;
 import java.awt.*;
 import java.util.LinkedList;
-import java.util.Random;
 
 /**
  * Class HouseGeneration is intended to be initialized one time by controller
@@ -25,8 +23,6 @@ public class HouseGeneration
 
   Player player;
   int levelInitFireTrapCount = 0;
-
-  //Random Settings.RANDOM;
 
   int minFeatX, minFeatY;
   int maxFeatX, maxFeatY;
@@ -60,6 +56,7 @@ public class HouseGeneration
     maxFeatY = houseHeight / 5;
 
     zombieList = new LinkedList<Zombie>();
+    firetrapList = new LinkedList<Firetrap>();
     currentLevelNum = 1;
 
     this.player = player;
@@ -92,7 +89,6 @@ public class HouseGeneration
     // 3 - find wall segment to build off of
     // the major recurring section of algorithm
     boolean houseNotDone = true;
-    int thingsCarved = 0;
     int failedCarvings = 0;
     int roomCount = 0;
     int corridorCount = 0;
@@ -180,13 +176,11 @@ public class HouseGeneration
         carveRoom(cornerX, cornerY, neededWidth, neededHeight, buildRoom);
         houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
         // stupid end.. things carved.. just to test
-        thingsCarved++;
         if( buildRoom ) { roomCount++; }
         else { corridorCount++; }
       }
       else { failedCarvings++; }
       if ( roomCount >= Settings.DEFAULT_NUMBER_ROOMS && corridorCount >= Settings.DEFAULT_NUMBER_HALLS ) { houseNotDone = false; }
-      // if (thingsCarved > 20) { houseNotDone = false; }
       if (failedCarvings > 1500) { houseNotDone = false; } // rather than just stopping might be good to restart..
     }
 
@@ -247,7 +241,7 @@ public class HouseGeneration
         }
         if( houseTiles[i][j].isEmptyFloor() )
         {
-          // fireTrapSpawn(i, j);
+          //fireTrapSpawn(i, j);
         }
       }
     }
@@ -409,7 +403,7 @@ public class HouseGeneration
 
   private void createLevel()
   {
-    currentLevel = new Level(currentLevelNum, houseTiles, zombieList, 3, player);
+    currentLevel = new Level(this);
   }
 
   public void respawnSameMap()
@@ -436,6 +430,12 @@ public class HouseGeneration
   public Level getCurrentLevel() { return currentLevel; }
 
   public int getCurrentLevelNum() { return currentLevelNum; }
+
+  public Player getPlayer() { return player; }
+
+  public LinkedList<Firetrap> getFiretrapList() { return firetrapList; }
+
+  public Exit getExit() { return (Exit) houseTiles[exitX][exitY]; }
 
 
   // DEMO + PRACTICE MAP below.  to be deleted on completion.

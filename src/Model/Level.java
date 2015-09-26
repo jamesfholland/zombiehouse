@@ -1,7 +1,10 @@
 package Model;
 
 import Model.HouseGeneration.HouseGeneration;
+import Model.Tile.Exit;
 import Model.Tile.Tile;
+import Model.Unit.Fire;
+import Model.Unit.Firetrap;
 import Model.Unit.Player;
 import Model.Unit.Zombie.*;
 
@@ -15,9 +18,13 @@ import java.util.LinkedList;
  */
 public class Level
 {
+  public HouseGeneration houseGen;
   public int levelNum;
   public Tile[][] houseTiles;
+  public Exit exit;
   public LinkedList<Zombie> zombieList;
+  public LinkedList<Firetrap> firetrapList;
+  public LinkedList<Fire> fireList;
   // fireTrapCount - when a player enters a new level the count should carry over
   //                 but when a player respawns, they should have as many as before.
   public int fireTrapCount;
@@ -26,15 +33,41 @@ public class Level
 
   // Add in a list of collidable tiles
 
-  public Level(int levelNum, Tile[][] houseTiles, LinkedList<Zombie> zombieList, int fireTrapCount, Player player)
+//  public Level(int levelNum, Tile[][] houseTiles, LinkedList<Zombie> zombieList, LinkedList<Firetrap> firetrapList, int fireTrapCount, Player player)
+//  {
+//    this.levelNum = levelNum;
+//    this.houseTiles = houseTiles;
+//    this.zombieList = zombieList;
+//    this.firetrapList = firetrapList;
+//    this.fireTrapCount = fireTrapCount;
+//    this.player = player;
+//    this.aStar = new AStar(this);
+//    fireList = new LinkedList<Fire>();
+//  }
+
+  public Level( HouseGeneration houseGen )
   {
-    this.levelNum = levelNum;
-    this.houseTiles = houseTiles;
-    this.zombieList = zombieList;
-    this.fireTrapCount = fireTrapCount;
-    this.player = player;
+    this.houseGen = houseGen;
+    player = houseGen.getPlayer();
+    levelNum = houseGen.getCurrentLevelNum();
+    houseTiles = houseGen.getHouseTiles();
+    zombieList = houseGen.getZombieList();
+    firetrapList = houseGen.getFiretrapList();
+    fireTrapCount = houseGen.getFireTrapCount();
+    exit = houseGen.getExit();
     this.aStar = new AStar(this);
+    fireList = new LinkedList<Fire>();
   }
+
+//  public void initilizeHouseValues()
+//  {
+//    this.levelNum = levelNum;
+//    this.houseTiles = houseTiles;
+//    this.zombieList = zombieList;
+//    this.firetrapList = firetrapList;
+//    this.fireTrapCount = fireTrapCount;
+//    this.player = player;
+//  }
 
   public void respawnLevel(HouseGeneration houseGen)
   {
@@ -53,19 +86,19 @@ public class Level
 
   }
 
-  @Override
-  public String toString()
-  {
-    StringBuilder houseString = new StringBuilder();
-    for (int i = 0; i < Settings.PRACTICE_MAP_SIZE; i++)
-    {
-      for (int j = 0; j < Settings.PRACTICE_MAP_SIZE; j++)
-      {
-        houseString.append(houseTiles[j][i].toString());
-      }
-      houseString.append("\n");
-    }
-    return houseString.toString();
-  }
+//  @Override
+//  public String toString()
+//  {
+//    StringBuilder houseString = new StringBuilder();
+//    for (int i = 0; i < Settings.PRACTICE_MAP_SIZE; i++)
+//    {
+//      for (int j = 0; j < Settings.PRACTICE_MAP_SIZE; j++)
+//      {
+//        houseString.append(houseTiles[j][i].toString());
+//      }
+//      houseString.append("\n");
+//    }
+//    return houseString.toString();
+//  }
 
 }

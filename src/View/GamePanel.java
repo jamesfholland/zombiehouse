@@ -4,6 +4,7 @@ import Model.Level;
 import Model.Settings;
 import Model.Tile.Tile;
 import Model.Tile.Wall;
+import Model.Unit.Firetrap;
 import Model.Unit.Player;
 import Model.Unit.Unit;
 import Model.Unit.Zombie.Zombie;
@@ -42,6 +43,7 @@ public class GamePanel extends JPanel
   private Player player;
   private Tile[][] tiles;
   private LinkedList<Zombie> zombies;
+  private LinkedList<Firetrap> firetrapList;
 
   static
   {
@@ -151,6 +153,14 @@ public class GamePanel extends JPanel
         if (zombie.checkCollision(sightBox))
         {
           scaleAndDrawImage(zombie.getImage(), graphics, zombie.getLocation(), zombie.getSize());
+        }
+      }
+
+      for (Firetrap firetrap : firetrapList)
+      {
+        if (firetrap.checkCollision(sightBox))
+        {
+          scaleAndDrawImage(firetrap.getImage(), graphics, firetrap.getLocation(), firetrap.getSize());
         }
       }
 
@@ -319,6 +329,7 @@ public class GamePanel extends JPanel
     this.player = level.player;
     this.tiles = level.houseTiles;
     this.zombies = level.zombieList;
+    this.firetrapList = level.firetrapList;
 
   }
 }
