@@ -37,9 +37,6 @@ public class HouseGeneration
   int currentLevelNum;
   Level currentLevel;
 
-  // NOTE - with new design may not need to hold lastRandomSeed
-  //      - new design = houseGeneration will hold a copy of the current house as basic start
-
   // held for house generation: on death/respawn, last known seed is used
   //                            on new level, take new seed
   private static long lastRandomSeed;
@@ -63,10 +60,8 @@ public class HouseGeneration
     lastRandomSeed = System.nanoTime();
     Settings.RANDOM.setSeed(lastRandomSeed);
 
-    // bug fix: currentDir must be initialized or else first room
     currentDir = Direction.NORTH;
 
-    //presetHouse(); // delete when makeNewHouse is ready
     //aStarTestRoom();
     makeNewHouse(); // uncomment when ready to use
 
@@ -192,7 +187,7 @@ public class HouseGeneration
     exitSpawn();
 
     // last last step - remove excess walls (should help search/sight algorithms) --> is not working yet! breaks other codes..
-    // removeHiddenWalls();
+    removeHiddenWalls();
   }
 
   // allWalls is used to initialize all of house to wall

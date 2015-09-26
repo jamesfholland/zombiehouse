@@ -135,7 +135,7 @@ public class GamePanel extends JPanel
       {
         for (int j = 0; j < tiles[i].length; j++)
         {
-          if (tiles[i][j].checkCollision(sightBox))
+          if (tiles[i][j] != null && tiles[i][j].checkCollision(sightBox))
           {
             if (!(tiles[i][j] instanceof Wall))
             {
