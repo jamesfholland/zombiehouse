@@ -117,10 +117,6 @@ public class Controller
         view.keyboard.poll();
         processInput();
         hero.setInputVector(heroDirection);
-        if(heroDirection.x != 0 || heroDirection.y != 0)
-        {
-          //SoundManager.playWalk(hero.getLocation(), hero);
-        }
         hero.update(deltaTime, secondsFromStart);
 
         for (Zombie zombie : currentLevel.zombieList)

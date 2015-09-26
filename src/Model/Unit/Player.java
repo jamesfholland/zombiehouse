@@ -4,6 +4,7 @@ import Model.Direction;
 import Model.GameObject;
 import Model.Level;
 import Model.Settings;
+import View.SoundManager;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
@@ -141,6 +142,15 @@ public class Player extends Unit
   public void update(long deltaTime, long secondsFromStart)
   {
     setHeading(inputVector);
+
+    if(inputVector.x != 0 || inputVector.y != 0)
+    {
+      SoundManager.playWalk();
+    }
+    else
+    {
+      SoundManager.stopWalk();
+    }
 
     if (!running)
     {

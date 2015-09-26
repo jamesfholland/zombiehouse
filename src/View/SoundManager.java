@@ -2,10 +2,15 @@ package View;
 
 import Model.Settings;
 import Model.Unit.Player;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import sun.audio.AudioPlayer;
 
 import javax.sound.sampled.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * This class handles all zounds made in the game.
@@ -13,122 +18,142 @@ import java.io.IOException;
 public class SoundManager
 {
 
-  private static final Clip STEP_1;
-  private static SoundPlayer step1Thread;
+  private static final AudioClip FOOT_STEP;
+  private static SoundPlayer walkThread;
+  private static boolean rightStep = true;
 
-  private static final AudioInputStream STEP_2;
-
-  private static final AudioInputStream FIRE_START;
-  private static final AudioInputStream FIRE_CONTINOUS;
+  private static final AudioClip FIRE_START;
+  private static final AudioClip FIRE_CONTINOUS;
 
 
   static
   {
-    Clip tempStep1 = null;
-    AudioInputStream tempStep2 = null;
-    AudioInputStream tempFireStart = null;
-    AudioInputStream tempFireContinous = null;
+    AudioClip footstep = null;
+    AudioClip FireStart = null;
+    AudioClip FireContinous = null;
     try
     {
-      tempStep1 = AudioSystem.getClip();
-          tempStep1.open(AudioSystem.getAudioInputStream(SoundManager.class.getResourceAsStream("sounds/stepwood_1.wav")));
-
-      tempStep2 = AudioSystem.getAudioInputStream(SoundManager.class.getResourceAsStream("sounds/stepwood_1.wav"));
-
-      tempFireStart = AudioSystem.getAudioInputStream(SoundManager.class.getResourceAsStream("sounds/stepwood_1.wav"));
-
-      tempFireContinous = AudioSystem.getAudioInputStream(SoundManager.class.getResourceAsStream("sounds/stepwood_1.wav"));
+      footstep = new AudioClip(View.SoundManager.class.getResource("sounds/footstep.wav").toURI().toASCIIString());
     }
-    catch (UnsupportedAudioFileException | IOException | LineUnavailableException e)
+    catch (URISyntaxException e)
     {
       e.printStackTrace();
     }
 
-    STEP_1 = tempStep1;
-    STEP_2 = tempStep2;
-    FIRE_START = tempFireStart;
-    FIRE_CONTINOUS = tempFireContinous;
 
-    step1Thread = new SoundPlayer(STEP_1, Settings.REFRESH_RATE);
-    step1Thread.start();
-    //playWalk(null, null);
+    FOOT_STEP = footstep;
+    FIRE_START = FireStart;
+    FIRE_CONTINOUS = FireContinous;
+
+    walkThread = new SoundPlayer(FOOT_STEP, Settings.REFRESH_RATE, 1.0, .2, 1);
+    walkThread.start();
   }
 
-  public static void playWalk(Point source, Player listener)
+  public static void playWalk()
   {
-    step1Thread.play(source, listener);
+    walkThread.playAlternate();
+  }
+
+  public static void stopWalk()
+  {
+    walkThread.stopSound();
   }
 
   private static class SoundPlayer extends Thread
   {
     private Point source;
-    private Player listener;
-    private Clip clip;
-    private long timePerLoop;
-    private Integer loops = 0;
+    private Point listener;
+    private AudioClip clip;
+    private Boolean play;
+    private long maxTime;
+    private double volume;
+    private Double balance;
+    private int priority;
+    private boolean alternator;
 
-    private static final long PLAY_ONCE = Long.MIN_VALUE;
-
-    SoundPlayer( Clip sound, long timePerLoop)
+    SoundPlayer(AudioClip sound, long maxTime, double baseVolume, double baseBalance, int priority)
     {
-      this.timePerLoop = timePerLoop;
-      clip = sound;
+      this.clip = sound;
+      this.priority = priority;
+      this.play = false;
+      this.volume = baseVolume;
+      this.balance = baseBalance;
+      this.maxTime = maxTime;
     }
 
-    public void play(Point source, Player listener)
+    private void updateBalance()
     {
-      this.source = source;
-      this.listener = listener;
-      synchronized (loops)
+      synchronized (balance)
       {
-        loops++;
+        if ((source.y - listener.y) == 0)
+        {
+          balance = 0.0;
+        } else
+        {
+          balance = (source.x - listener.x) / (double) (source.y - listener.y);
+        }
+      }
+    }
+
+    public void play(Point source, Point listener)
+    {
+
+      synchronized (play)
+      {
+        this.source = source;
+        this.listener = listener;
+        play = true;
+        updateBalance();
+      }
+    }
+
+    public void playAlternate()
+    {
+      alternator = true;
+      source = null;
+      listener = null;
+      synchronized (play)
+      {
+        play = true;
+
+      }
+    }
+
+    public void stopSound()
+    {
+      synchronized (play)
+      {
+        play = false;
       }
     }
 
     @Override
     public void run()
     {
-      try
+
+      long startTime = 0;
+      while (true)
       {
-        //Adjust volume
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-        clip.setFramePosition(0);
-
-        long timeLast = System.currentTimeMillis();
-        long timeNow;
-        long timeLeft = 0;
-        while (true)
+        synchronized (play)
         {
-          if(timeLeft>0)
+          if (play && !clip.isPlaying())
           {
-              clip.start();
-          }
-          else
+            startTime = System.currentTimeMillis();
+
+            if(alternator) balance = -1 * balance;
+            clip.play(volume, balance, 1, 0, priority);
+            play = false;
+          } else if (clip.isPlaying() && (startTime - System.currentTimeMillis()) > maxTime)
           {
-            //clip.stop();
-            //clip.setFramePosition(0);
-          }
-          Thread.sleep(Settings.REFRESH_RATE);
-
-          //Adjust Volume again
-
-          synchronized (loops)
+            clip.stop();
+          } else if (clip.isPlaying() && listener != null && source != null)
           {
-            timeNow =System.currentTimeMillis();
-            timeLeft -= timeNow - timeLast;
-
-            timeLast = timeNow;
-            if(timeLeft < 0) timeLeft = 0;
-
-            timeLeft += loops * timePerLoop;
-            loops = 0;
+            updateBalance();
+            clip.setBalance(balance);
           }
         }
       }
-      catch (InterruptedException e)
-      {
-        e.printStackTrace();
-      }
     }
+
   }
 }
