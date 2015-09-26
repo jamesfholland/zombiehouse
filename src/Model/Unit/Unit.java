@@ -64,10 +64,17 @@ public abstract class Unit extends GameObject
   /**
    * Finds the units x,y coordinates on the tilesArray
    */
-  private void setTileCoordinates()
+  private void setTileCoordinates() throws ArrayIndexOutOfBoundsException
   {
     this.tileX = (location.x/Settings.TILE_SIZE);
     this.tileY = (location.y/Settings.TILE_SIZE);
+
+
+    if(level.houseTiles[this.tileX][this.tileY] == null)
+    {
+      throw new ArrayIndexOutOfBoundsException();
+    }
+
   }
 
   /**
@@ -112,7 +119,23 @@ public abstract class Unit extends GameObject
     //set the headingVector to know which way to check for collisions
     setHeadingVector();
 
-    setTileCoordinates();
+    //making sure that zombies or players aren't trying to move outside of the tile array
+    try
+    {
+      setTileCoordinates();
+    }
+    catch (ArrayIndexOutOfBoundsException error)
+    {
+      if (this instanceof Zombie)
+      {
+        //if zombies are moving outside of the array delete them
+        level.zombieList.remove(this);
+      }
+      else
+      {
+        return;
+      }
+    }
 
     //check for collisions
     checkCollisions();

@@ -62,6 +62,13 @@ public abstract class GameObject
     return new Dimension(this.size);
   }
 
+  public Point getCenterLocation()
+  {
+    Point center = new Point();
+    center.setLocation(getHitbox().getCenterX(), getHitbox().getCenterY());
+    return center;
+  }
+
   /**
    * Get the top left of object
    * @return top left point of object
