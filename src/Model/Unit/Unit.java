@@ -4,7 +4,6 @@ import Model.Direction;
 import Model.GameObject;
 import Model.Settings;
 import Model.Unit.Zombie.Zombie;
-import Model.Unit.Zombie.ZombieLine;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;

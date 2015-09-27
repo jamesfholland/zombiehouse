@@ -1,15 +1,9 @@
 package View;
 
 import Model.Settings;
-import Model.Unit.Player;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import sun.audio.AudioPlayer;
 
-import javax.sound.sampled.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**

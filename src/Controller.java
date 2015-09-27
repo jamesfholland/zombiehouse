@@ -3,18 +3,12 @@ import Model.Level;
 import Model.Settings;
 import Model.Unit.Fire;
 import Model.Unit.Firetrap;
-import Model.Unit.Player;
-import Model.GameObject;
 import Model.Unit.Zombie.Zombie;
-import View.KeyboardInput;
-import View.SoundManager;
 import View.ViewManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.

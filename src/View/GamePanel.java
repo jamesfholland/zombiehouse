@@ -12,10 +12,13 @@ import Model.Unit.Zombie.Zombie;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 /**
  * This class handles drawing the actual game window. It is always centered on the player.

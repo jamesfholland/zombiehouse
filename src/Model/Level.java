@@ -6,11 +6,8 @@ import Model.Tile.Tile;
 import Model.Unit.Fire;
 import Model.Unit.Firetrap;
 import Model.Unit.Player;
-import Model.Unit.Zombie.*;
+import Model.Unit.Zombie.Zombie;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**

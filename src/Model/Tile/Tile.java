@@ -3,10 +3,7 @@ package Model.Tile;
 import Model.GameObject;
 import Model.Settings;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public abstract class Tile extends GameObject
 {

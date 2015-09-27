@@ -4,7 +4,6 @@ import Model.GameObject;
 import Model.Settings;
 
 import javax.imageio.ImageIO;
-import javax.security.auth.login.FailedLoginException;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

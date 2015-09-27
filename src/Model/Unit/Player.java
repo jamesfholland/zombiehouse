@@ -2,7 +2,6 @@ package Model.Unit;
 
 import Model.Direction;
 import Model.GameObject;
-import Model.Level;
 import Model.Settings;
 import View.SoundManager;
 

@@ -3,10 +3,12 @@ package Model.HouseGeneration;
 import Model.Level;
 import Model.Settings;
 import Model.Tile.*;
-import Model.Unit.*;
-import Model.Unit.Zombie.*;
+import Model.Unit.Firetrap;
+import Model.Unit.Player;
+import Model.Unit.Zombie.Zombie;
+import Model.Unit.Zombie.ZombieLine;
+import Model.Unit.Zombie.ZombieRandom;
 
-import java.lang.Math;
 import java.awt.*;
 import java.util.LinkedList;
 

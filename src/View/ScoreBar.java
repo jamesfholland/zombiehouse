@@ -1,7 +1,5 @@
 package View;
 
-import Model.Level;
-
 import javax.swing.*;
 import java.awt.*;
 
