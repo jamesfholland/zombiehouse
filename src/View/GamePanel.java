@@ -165,14 +165,6 @@ class GamePanel extends JPanel
             }
           }
 
-          for (Fire fire : level.FIRES)
-          {
-            if (fire.checkCollision(sightBox))
-            {
-              scaleAndDrawImage(fire.getImage(), graphics, fire.getLocation(), fire.getSize());
-            }
-          }
-
           scaleAndDrawImage(level.PLAYER.getImage(), graphics, level.PLAYER.getLocation(), level.PLAYER.getSize());
 
           detectShadows(level.PLAYER, sightBox, walls);
@@ -192,6 +184,12 @@ class GamePanel extends JPanel
               graphics,
               new Point((int) sightBox.getX(), (int) sightBox.getY()),
               new Dimension((int) sightBox.getWidth(), (int) sightBox.getHeight()));
+          for (Fire fire : level.FIRES)
+          {
+              scaleAndDrawImage(fire.getImage(), graphics, fire.getLocation(), fire.getSize());
+
+          }
+          scaleAndDrawImage(level.EXIT.getImage(), graphics, level.EXIT.getLocation(), level.EXIT.getSize());
         }
       }
     }
