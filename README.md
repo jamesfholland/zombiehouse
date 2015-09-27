@@ -16,8 +16,6 @@ Fire trap ignite and burn http://www.freesound.org/people/Nic3_one/sounds/166542
 Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 #### Todo
 ###### Interface
-* Tile graphics
-    * Exit
 * Score Bar
     * Current Level
     * Fire trap count
@@ -45,11 +43,5 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 
 ###### House Generation
 * Pillars
-
-###### Gameplay
-* Winning
-    * Going to next level
-* Losing
-    * Restart level on death
 
 *Not required
