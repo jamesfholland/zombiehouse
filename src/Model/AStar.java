@@ -145,6 +145,36 @@ public class AStar
     public int fScore;
     public Node parent;
 
+    @Override
+    public boolean equals(Object o)
+    {
+      if (this == o)
+      {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass())
+      {
+        return false;
+      }
+
+      Node node = (Node) o;
+
+      if (tileX != node.tileX)
+      {
+        return false;
+      }
+      return tileY == node.tileY;
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+      int result = tileX;
+      result = 31 * result + tileY;
+      return result;
+    }
+
     public Node(Point p, int gScore)
     {
       this.tileX = p.x/Settings.TILE_SIZE;
@@ -175,11 +205,7 @@ public class AStar
       fScore = gScore + manhattanDistance;
     }
 
-    @Override
-    public boolean equals(Object obj)
-    {
-      return ((Node) obj).tileX == this.tileX && ((Node) obj).tileY == this.tileY;
-    }
+
 
     @Override
     public int compareTo(Node o)
