@@ -42,6 +42,7 @@ public class ZombieMaster extends ZombieLine
     spriteRow++; //Sprites rows are always in this order.
     WALK_RIGHT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
   }
+
   public ZombieMaster(int x, int y, double heading)
   {
     super(x, y, heading);
@@ -56,9 +57,12 @@ public class ZombieMaster extends ZombieLine
   @Override
   public BufferedImage getImage()
   {
-    if(direction == null) return WALK_DOWN_IMAGE[0];
+    if (direction == null)
+    {
+      return WALK_DOWN_IMAGE[0];
+    }
 
-    switch(direction)
+    switch (direction)
     {
       case UP:
         return WALK_UP_IMAGE[spriteState];

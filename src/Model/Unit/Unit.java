@@ -47,6 +47,7 @@ public abstract class Unit extends GameObject
 
   /**
    * This updates the game object's state as determined by its child class.
+   *
    * @param deltaTime
    * @param secondsFromStart
    */
@@ -55,6 +56,7 @@ public abstract class Unit extends GameObject
 
   /**
    * Returns the current sound associated with the unit;
+   *
    * @return Clip containing sound to be played. Null if no sound needs to be played.
    */
   public abstract Clip getSound();
@@ -65,11 +67,11 @@ public abstract class Unit extends GameObject
    */
   public void setTileCoordinates() throws ArrayIndexOutOfBoundsException
   {
-    this.tileX = (location.x/Settings.TILE_SIZE);
-    this.tileY = (location.y/Settings.TILE_SIZE);
+    this.tileX = (location.x / Settings.TILE_SIZE);
+    this.tileY = (location.y / Settings.TILE_SIZE);
 
 
-    if(level.houseTiles[this.tileX][this.tileY] == null)
+    if (level.houseTiles[this.tileX][this.tileY] == null)
     {
       throw new ArrayIndexOutOfBoundsException();
     }
@@ -88,14 +90,15 @@ public abstract class Unit extends GameObject
 
   public void setBottomRightCorner()
   {
-    bottomRightCornerX = location.x + size.width-1;
-    bottomRightCornerY = location.y + size.height-1;
+    bottomRightCornerX = location.x + size.width - 1;
+    bottomRightCornerY = location.y + size.height - 1;
   }
 
   /**
    * Moves the unit based on its speed, heading, and how long it's been since the last update
-   * @param speed in tiles per second
-   * @param heading degrees from east
+   *
+   * @param speed     in tiles per second
+   * @param heading   degrees from east
    * @param deltaTime
    */
   public void move(double speed, double heading, long deltaTime)
@@ -109,8 +112,8 @@ public abstract class Unit extends GameObject
     double headingR = Math.toRadians(heading);
 
     //find the next location the unit wants to move to
-    nextLocationX = (Math.cos(headingR)*speed*deltaTime) + locationXD;
-    nextLocationY = (Math.sin(headingR)*speed*deltaTime) + locationYD;
+    nextLocationX = (Math.cos(headingR) * speed * deltaTime) + locationXD;
+    nextLocationY = (Math.sin(headingR) * speed * deltaTime) + locationYD;
 
     //set the test hitframe to that location
     nextHitbox.setFrame(nextLocationX, nextLocationY, size.width, size.height);
@@ -129,8 +132,7 @@ public abstract class Unit extends GameObject
       {
         //if zombies are moving outside of the array delete them
         level.zombieList.remove(this);
-      }
-      else
+      } else
       {
         return;
       }
@@ -186,12 +188,10 @@ public abstract class Unit extends GameObject
       if ((checkCollideW() || checkCollideSW()) && !checkCollideS())
       {
         nextLocationX = locationXD;
-      }
-      else if ((checkCollideS() || checkCollideSE()) && !checkCollideW())
+      } else if ((checkCollideS() || checkCollideSE()) && !checkCollideW())
       {
         nextLocationY = locationYD;
-      }
-      else if ((checkCollideS() && checkCollideW()))
+      } else if ((checkCollideS() && checkCollideW()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
@@ -214,16 +214,13 @@ public abstract class Unit extends GameObject
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
-      }
-      else if ((checkCollideSW() || checkCollideW()) && !checkCollideN())
+      } else if ((checkCollideSW() || checkCollideW()) && !checkCollideN())
       {
         nextLocationX = locationXD;
-      }
-      else if ((checkCollideN() || checkCollideNE()) && !checkCollideW())
+      } else if ((checkCollideN() || checkCollideNE()) && !checkCollideW())
       {
         nextLocationY = locationYD;
-      }
-      else if ((checkCollideN() && checkCollideW()))
+      } else if ((checkCollideN() && checkCollideW()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
@@ -245,12 +242,10 @@ public abstract class Unit extends GameObject
       if ((checkCollideE() || checkCollideSE()) && !checkCollideN())
       {
         nextLocationX = locationXD;
-      }
-      else if ((checkCollideN() || checkCollideNE()) && !checkCollideE())
+      } else if ((checkCollideN() || checkCollideNE()) && !checkCollideE())
       {
         nextLocationY = locationYD;
-      }
-      else if (checkCollideE() && checkCollideN())
+      } else if (checkCollideE() && checkCollideN())
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
@@ -260,7 +255,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideE()
   {
-    if (!level.houseTiles[tileX+1][tileY].isPassable() && level.houseTiles[tileX+1][tileY].checkCollision(this.nextHitbox))
+    if (!level.houseTiles[tileX + 1][tileY].isPassable() && level.houseTiles[tileX + 1][tileY].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -270,7 +265,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideSE()
   {
-    if (!level.houseTiles[tileX+1][tileY+1].isPassable() && level.houseTiles[tileX+1][tileY+1].checkCollision(this.nextHitbox))
+    if (!level.houseTiles[tileX + 1][tileY + 1].isPassable() && level.houseTiles[tileX + 1][tileY + 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -280,7 +275,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideS()
   {
-    if (!level.houseTiles[tileX][tileY+1].isPassable() && level.houseTiles[tileX][tileY+1].checkCollision(this.nextHitbox))
+    if (!level.houseTiles[tileX][tileY + 1].isPassable() && level.houseTiles[tileX][tileY + 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -290,7 +285,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideSW()
   {
-    if (!level.houseTiles[tileX-1][tileY+1].isPassable() && level.houseTiles[tileX-1][tileY+1].checkCollision(this.nextHitbox))
+    if (!level.houseTiles[tileX - 1][tileY + 1].isPassable() && level.houseTiles[tileX - 1][tileY + 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -300,7 +295,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideW()
   {
-    if (!level.houseTiles[tileX-1][tileY].isPassable() && level.houseTiles[tileX-1][tileY].checkCollision(this.nextHitbox))
+    if (!level.houseTiles[tileX - 1][tileY].isPassable() && level.houseTiles[tileX - 1][tileY].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -310,7 +305,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideNW()
   {
-    if (!level.houseTiles[tileX-1][tileY-1].isPassable() && level.houseTiles[tileX-1][tileY-1].checkCollision(this.nextHitbox))
+    if (!level.houseTiles[tileX - 1][tileY - 1].isPassable() && level.houseTiles[tileX - 1][tileY - 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -320,7 +315,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideN()
   {
-    if (!level.houseTiles[tileX][tileY-1].isPassable() && level.houseTiles[tileX][tileY-1].checkCollision(this.nextHitbox))
+    if (!level.houseTiles[tileX][tileY - 1].isPassable() && level.houseTiles[tileX][tileY - 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -330,7 +325,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideNE()
   {
-    if (!level.houseTiles[tileX+1][tileY-1].isPassable() && level.houseTiles[tileX+1][tileY-1].checkCollision(this.nextHitbox))
+    if (!level.houseTiles[tileX + 1][tileY - 1].isPassable() && level.houseTiles[tileX + 1][tileY - 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -345,11 +340,11 @@ public abstract class Unit extends GameObject
 
     setBottomRightCorner();
 
-    brTileX = (int) bottomRightCornerX/Settings.TILE_SIZE;
-    brTileY = (int) bottomRightCornerY/Settings.TILE_SIZE;
+    brTileX = (int) bottomRightCornerX / Settings.TILE_SIZE;
+    brTileY = (int) bottomRightCornerY / Settings.TILE_SIZE;
 
 
-    if (checkCollideSE() && !(checkCollideE()||checkCollideS()))
+    if (checkCollideSE() && !(checkCollideE() || checkCollideS()))
     {
       if (brTileY == tileY && brTileX == tileX)
       {
@@ -358,12 +353,12 @@ public abstract class Unit extends GameObject
         collided = true;
       }
 
-      if (brTileX == tileX +1)
+      if (brTileX == tileX + 1)
       {
         nextLocationY = locationYD;
         collided = true;
       }
-      if (brTileY == tileY+1)
+      if (brTileY == tileY + 1)
       {
         nextLocationX = locationXD;
         collided = true;
@@ -401,46 +396,32 @@ public abstract class Unit extends GameObject
     {
       headingVector.x = 1;
       headingVector.y = 0;
-    }
-
-    else if (heading > 0.0 && heading < 90.0)
+    } else if (heading > 0.0 && heading < 90.0)
     {
       headingVector.x = 1;
       headingVector.y = 1;
-    }
-
-    else if (heading == 90.0)
+    } else if (heading == 90.0)
     {
       headingVector.x = 0;
       headingVector.y = 1;
-    }
-
-    else if (heading > 90.0 && heading < 180.0)
+    } else if (heading > 90.0 && heading < 180.0)
     {
       headingVector.x = -1;
       headingVector.y = 1;
-    }
-
-    else if (heading == 180.0)
+    } else if (heading == 180.0)
     {
       headingVector.x = -1;
       headingVector.y = 0;
-    }
-
-    else if (heading >180.0 && heading < 270.0)
+    } else if (heading > 180.0 && heading < 270.0)
     {
       headingVector.x = -1;
       headingVector.y = -1;
-    }
-
-    else if (heading == 270.0)
+    } else if (heading == 270.0)
     {
 
       headingVector.x = 0;
       headingVector.y = -1;
-    }
-
-    else if (heading >270.0 && heading < 360.0)
+    } else if (heading > 270.0 && heading < 360.0)
     {
       headingVector.x = 1;
       headingVector.y = -1;

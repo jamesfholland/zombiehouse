@@ -39,7 +39,7 @@ public class Pillar extends Tile
     //Table type
     TABLE_IMAGE = new BufferedImage(Settings.TILE_SIZE, Settings.TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
     Graphics graphics = TABLE_IMAGE.getGraphics();
-        graphics.drawImage(imageFloor, 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
+    graphics.drawImage(imageFloor, 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
     graphics.drawImage(imageTemp.getSubimage(136, 176, 46, 79), 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
 
     //Plant type
@@ -59,11 +59,10 @@ public class Pillar extends Tile
   {
     super(location); //Sets up shared Tile settings.
     this.passable = false;
-    if(Settings.RANDOM.nextBoolean())
+    if (Settings.RANDOM.nextBoolean())
     {
       this.PILLAR_TYPE = PillarType.PLANT;
-    }
-    else
+    } else
     {
       this.PILLAR_TYPE = PillarType.TABLE;
     }
@@ -105,7 +104,7 @@ public class Pillar extends Tile
     return "I";
   }
 
-//Types of pillars
+  //Types of pillars
   private enum PillarType
   {
     PLANT, TABLE, BURN

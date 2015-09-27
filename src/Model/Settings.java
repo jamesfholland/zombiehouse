@@ -94,7 +94,7 @@ public abstract class Settings
   /**
    * Zombie pixel size
    */
-  public static final Dimension ZOMBIE_SIZE = new Dimension(50,70);
+  public static final Dimension ZOMBIE_SIZE = new Dimension(50, 70);
 
   /**
    * Player pixel size
@@ -109,17 +109,17 @@ public abstract class Settings
   /**
    * Player walk speed in pixels per second
    */
-  public static final double SPEED_WALK = Settings.TILE_SIZE/1000.0;
+  public static final double SPEED_WALK = Settings.TILE_SIZE / 1000.0;
 
   /**
    * Player run speed in pixels per second
    */
-  public static final double RUN_SPEED = Settings.TILE_SIZE/500.0;
+  public static final double RUN_SPEED = Settings.TILE_SIZE / 500.0;
 
   /**
    * Zombie speed in pixels per second
    */
-  public static final double ZOMBIE_SPEED = Settings.TILE_SIZE/2000.0;
+  public static final double ZOMBIE_SPEED = Settings.TILE_SIZE / 2000.0;
 
   /**
    * Player stamina for running

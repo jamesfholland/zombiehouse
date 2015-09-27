@@ -7,7 +7,8 @@ public class KeyboardInput implements KeyListener
 {
   private final int KEY_COUNT = 256;
 
-  private enum KeyState {
+  private enum KeyState
+  {
     RELEASED, PRESSED, ONCE
   }
 
@@ -18,7 +19,7 @@ public class KeyboardInput implements KeyListener
   {
     currentKeys = new boolean[KEY_COUNT];
     keys = new KeyState[KEY_COUNT];
-    for (int i =0; i < KEY_COUNT;++i)
+    for (int i = 0; i < KEY_COUNT; ++i)
     {
       keys[i] = KeyState.RELEASED;
     }
@@ -26,20 +27,18 @@ public class KeyboardInput implements KeyListener
 
   public synchronized void poll()
   {
-    for (int i =0; i <KEY_COUNT; ++i)
+    for (int i = 0; i < KEY_COUNT; ++i)
     {
       if (currentKeys[i])
       {
         if (keys[i] == KeyState.RELEASED)
         {
           keys[i] = KeyState.ONCE;
-        }
-        else
+        } else
         {
           keys[i] = KeyState.PRESSED;
         }
-      }
-      else
+      } else
       {
         keys[i] = KeyState.RELEASED;
       }

@@ -38,6 +38,7 @@ public class ViewManager
   /**
    * Links the level.
    * Called upon level load. These lists are shared with the controller.
+   *
    * @param level the level that will now be viewed.
    */
   public void setLevel(Level level)

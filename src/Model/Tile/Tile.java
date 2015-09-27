@@ -26,20 +26,36 @@ public abstract class Tile extends GameObject
     return passable;
   }
 
-  public boolean isWall() { return false; }
+  public boolean isWall()
+  {
+    return false;
+  }
 
-  public boolean isFloor() { return false; }
+  public boolean isFloor()
+  {
+    return false;
+  }
 
-  public boolean isEmptyFloor() { return false; }
+  public boolean isEmptyFloor()
+  {
+    return false;
+  }
 
-  public void setEmpty(boolean unused) {}
+  public void setEmpty(boolean unused)
+  {
+  }
 
-  public void markForDeletion() {}
+  public void markForDeletion()
+  {
+  }
 
-  public boolean getDeletion() { return false; }
+  public boolean getDeletion()
+  {
+    return false;
+  }
 
   public void burn()
   {
-   this.burned = true;
+    this.burned = true;
   }
 }

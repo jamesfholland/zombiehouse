@@ -12,7 +12,8 @@ public class Wall extends Tile
   private final static BufferedImage WALL_IMAGE;
 
   static
-  {BufferedImage imageTemp = null;
+  {
+    BufferedImage imageTemp = null;
 
     try
     {
@@ -48,14 +49,26 @@ public class Wall extends Tile
   }
 
   @Override
-  public boolean isWall() { return true; }
+  public boolean isWall()
+  {
+    return true;
+  }
 
   @Override
-  public String toString() { return "x"; }
+  public String toString()
+  {
+    return "x";
+  }
 
   @Override
-  public void markForDeletion() { markedForDeletion = true; }
+  public void markForDeletion()
+  {
+    markedForDeletion = true;
+  }
 
   @Override
-  public boolean getDeletion() { return markedForDeletion; }
+  public boolean getDeletion()
+  {
+    return markedForDeletion;
+  }
 }

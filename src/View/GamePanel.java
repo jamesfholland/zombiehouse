@@ -93,7 +93,7 @@ public class GamePanel extends JPanel
 
     Graphics2D graphics2D = (Graphics2D) graphics;
 
-    if(level != null)
+    if (level != null)
     {
       synchronized (level)
       {

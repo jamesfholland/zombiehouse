@@ -19,7 +19,6 @@ public class Fire extends Unit
   private static final BufferedImage[] FIRE_SMOKE;
 
 
-
   protected static final int SPRITE_ROWS = 8;
   protected static final int SPRITES_PER_ROW = 8;
   protected static final int SPRITE_COUNT = SPRITES_PER_ROW * SPRITE_ROWS;
@@ -45,7 +44,7 @@ public class Fire extends Unit
 
     try
     {
-      fireIgnite  = ImageIO.read(Player.class.getResourceAsStream("lighter_flame_01.png"));
+      fireIgnite = ImageIO.read(Player.class.getResourceAsStream("lighter_flame_01.png"));
       fireStart = ImageIO.read(Player.class.getResourceAsStream("fire_01.png"));
       fireFirst = ImageIO.read(Player.class.getResourceAsStream("fire_01b.png"));
       fireSecond = ImageIO.read(Player.class.getResourceAsStream("fire_01c.png"));
@@ -82,7 +81,7 @@ public class Fire extends Unit
 
   public Fire(int tileX, int tileY)
   {
-    this.location = new Point(tileX* Settings.TILE_SIZE, tileY*Settings.TILE_SIZE);
+    this.location = new Point(tileX * Settings.TILE_SIZE, tileY * Settings.TILE_SIZE);
     this.size = new Dimension(Settings.TILE_SIZE, Settings.TILE_SIZE);
     this.getHitbox();
 
@@ -96,8 +95,7 @@ public class Fire extends Unit
     if (isBurning && timeBurning < 15000)
     {
       timeBurning += deltaTime;
-    }
-    else if (isBurning && timeBurning >= 15000)
+    } else if (isBurning && timeBurning >= 15000)
     {
       isBurning = false;
       //Set tile under to burned.
@@ -119,28 +117,24 @@ public class Fire extends Unit
   public BufferedImage getImage()
   {
     animationState++;
-    if(animationState >= SPRITE_COUNT)
+    if (animationState >= SPRITE_COUNT)
     {
       animationState = 0;
     }
 
-    if(timeBurning < 1000)
+    if (timeBurning < 1000)
     {
       return FIRE_IGNITE[animationState];
-    }
-    else if(timeBurning < 5000)
+    } else if (timeBurning < 5000)
     {
       return FIRE_START[animationState];
-    }
-    else if(timeBurning < 9000)
+    } else if (timeBurning < 9000)
     {
       return FIRE_FIRST[animationState];
-    }
-    else if(timeBurning < 13000)
+    } else if (timeBurning < 13000)
     {
       return FIRE_SECOND[animationState];
-    }
-    else
+    } else
     {
       return FIRE_SMOKE[animationState];
     }

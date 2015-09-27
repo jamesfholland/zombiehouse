@@ -17,17 +17,17 @@ public abstract class Zombie extends Unit
 
   public Zombie(int x, int y, double heading)
   {
-    this.location = new Point(x,y);
+    this.location = new Point(x, y);
     setDoubleLocation();
 
     this.heading = heading;
-    this.headingVector = new Point(0,0);
+    this.headingVector = new Point(0, 0);
     setHeadingVector();
 
-    this.speed = Settings.TILE_SIZE/2000.0;
+    this.speed = Settings.TILE_SIZE / 2000.0;
     this.size = Settings.ZOMBIE_SIZE;
 
-    this.nextHitbox = new Rectangle(location,size);
+    this.nextHitbox = new Rectangle(location, size);
   }
 
   public void canSmellPlayer()

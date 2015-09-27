@@ -38,9 +38,9 @@ public class Firetrap extends Unit
   {
     setTileCoordinates();
 
-    for (int i = tileY-1; i <=tileY+1; ++i)
+    for (int i = tileY - 1; i <= tileY + 1; ++i)
     {
-      for (int j = tileX-1; j <= tileX+1; ++j)
+      for (int j = tileX - 1; j <= tileX + 1; ++j)
       {
         level.fireList.add(new Fire(j, i));
       }

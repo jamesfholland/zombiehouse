@@ -70,11 +70,12 @@ public class Player extends Unit
 
     this.nextHitbox = new Rectangle(location, size);
     this.headingVector = new Point(0, 0);
-    this.inputVector = new Point(0,0);
+    this.inputVector = new Point(0, 0);
   }
 
   /**
    * sets the player's heading based on what direction was inputted on the keyboard
+   *
    * @param p direction the of the player's input
    */
   private void setHeading(Point p)
@@ -82,37 +83,28 @@ public class Player extends Unit
     if (p.x == 0 & p.y == 0)
     {
       heading = -1;
-    }
-
-    else if (p.x == 1 && p.y == 0)
+    } else if (p.x == 1 && p.y == 0)
     {
       heading = 0.0;
-    }
-    else if (p.x == 1 && p.y == 1)
+    } else if (p.x == 1 && p.y == 1)
     {
       heading = 45.0;
-    }
-    else if (p.x == 0 && p.y == 1)
+    } else if (p.x == 0 && p.y == 1)
     {
       heading = 90.0;
-    }
-    else if (p.x == -1 && p.y == 1)
+    } else if (p.x == -1 && p.y == 1)
     {
       heading = 135.0;
-    }
-    else if (p.x == -1 && p.y == 0)
+    } else if (p.x == -1 && p.y == 0)
     {
       heading = 180.0;
-    }
-    else if (p.x == -1 && p.y == -1)
+    } else if (p.x == -1 && p.y == -1)
     {
       heading = 225.0;
-    }
-    else if (p.x == 0 && p.y == -1)
+    } else if (p.x == 0 && p.y == -1)
     {
       heading = 270.0;
-    }
-    else if (p.x == 1 && p.y == -1)
+    } else if (p.x == 1 && p.y == -1)
     {
       heading = 315.0;
     }
@@ -120,6 +112,7 @@ public class Player extends Unit
 
   /**
    * called by the controller to pass the player the keyboard input
+   *
    * @param p
    */
   public void setInputVector(Point p)
@@ -173,8 +166,7 @@ public class Player extends Unit
     {
       fireTrapTime += deltaTime;
       return;
-    }
-    else if (gettingFireTrap && fireTrapTime >= 5000)
+    } else if (gettingFireTrap && fireTrapTime >= 5000)
     {
       fireTrapTime = 0;
       gettingFireTrap = false;
@@ -187,27 +179,25 @@ public class Player extends Unit
     {
       fireTrapTime += deltaTime;
       return;
-    }
-    else if (!gettingFireTrap && placingFireTrap && fireTrapTime >= 5000)
+    } else if (!gettingFireTrap && placingFireTrap && fireTrapTime >= 5000)
     {
       fireTrapTime = 0;
       placingFireTrap = false;
       --level.fireTrapCount;
-      int playerCenterTileX = getCenterLocation().x/Settings.TILE_SIZE;
-      int playerCenterTileY = getCenterLocation().y/Settings.TILE_SIZE;
+      int playerCenterTileX = getCenterLocation().x / Settings.TILE_SIZE;
+      int playerCenterTileY = getCenterLocation().y / Settings.TILE_SIZE;
 
-      Point p = new Point(playerCenterTileX*Settings.TILE_SIZE, playerCenterTileY*Settings.TILE_SIZE);
+      Point p = new Point(playerCenterTileX * Settings.TILE_SIZE, playerCenterTileY * Settings.TILE_SIZE);
 
       level.firetrapList.add(new Firetrap(p));
     }
 
     setHeading(inputVector);
 
-    if(inputVector.x != 0 || inputVector.y != 0)
+    if (inputVector.x != 0 || inputVector.y != 0)
     {
       SoundManager.playWalk();
-    }
-    else
+    } else
     {
       SoundManager.stopWalk();
     }
@@ -216,7 +206,7 @@ public class Player extends Unit
     {
       if (stamina < Settings.PLAYER_STAMINA)
       {
-        stamina += (deltaTime*0.2);
+        stamina += (deltaTime * 0.2);
       }
     }
 
@@ -228,7 +218,7 @@ public class Player extends Unit
 
     if (running)
     {
-      stamina = Math.max(stamina-(int)deltaTime, 0);
+      stamina = Math.max(stamina - (int) deltaTime, 0);
     }
 
     move(speed, heading, deltaTime);

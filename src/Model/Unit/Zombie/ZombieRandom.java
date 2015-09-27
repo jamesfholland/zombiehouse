@@ -46,6 +46,7 @@ public class ZombieRandom extends Zombie
     spriteRow++; //Sprites rows are always in this order.
     WALK_RIGHT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
   }
+
   public ZombieRandom(int x, int y, double heading)
   {
     super(x, y, heading);
@@ -65,16 +66,14 @@ public class ZombieRandom extends Zombie
         collided = false;
         heading = level.aStar.getHeading(getCenterLocation());
         setHeadingVector();
-      }
-
-      else
+      } else
       {
         makeDecision();
         setHeadingVector();
       }
     }
 
-    move(Settings.ZOMBIE_SPEED,heading,deltaTime);
+    move(Settings.ZOMBIE_SPEED, heading, deltaTime);
 
     direction = null;
     if (headingVector.y > 0)
@@ -105,10 +104,9 @@ public class ZombieRandom extends Zombie
   {
     if (collided)
     {
-      heading = (heading+180)%360;
+      heading = (heading + 180) % 360;
       collided = false;
-    }
-    else
+    } else
     {
       heading = (RAND.nextInt(360) + RAND.nextDouble());
     }
@@ -123,9 +121,12 @@ public class ZombieRandom extends Zombie
   @Override
   public BufferedImage getImage()
   {
-    if(direction == null) return WALK_DOWN_IMAGE[0];
+    if (direction == null)
+    {
+      return WALK_DOWN_IMAGE[0];
+    }
 
-    switch(direction)
+    switch (direction)
     {
       case UP:
         return WALK_UP_IMAGE[spriteState];

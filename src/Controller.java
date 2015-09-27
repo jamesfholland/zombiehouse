@@ -27,7 +27,7 @@ public class Controller
     view = new ViewManager();
     //Ask for defaults
 
-    heroDirection = new Point(0,0);
+    heroDirection = new Point(0, 0);
     // Run house generator
     HouseGeneration houseGenerator = new HouseGeneration();
 
@@ -50,19 +50,19 @@ public class Controller
     int y = 0;
     if (view.keyboard.keyDown(KeyEvent.VK_DOWN))
     {
-      y+=1;
+      y += 1;
     }
     if (view.keyboard.keyDown(KeyEvent.VK_UP))
     {
-      y-=1;
+      y -= 1;
     }
     if (view.keyboard.keyDown(KeyEvent.VK_LEFT))
     {
-      x-=1;
+      x -= 1;
     }
     if (view.keyboard.keyDown(KeyEvent.VK_RIGHT))
     {
-      x+=1;
+      x += 1;
     }
     if (view.keyboard.keyDown(KeyEvent.VK_P))
     {
@@ -82,7 +82,7 @@ public class Controller
 
       onFireTrap = false;
 
-      if (!onFireTrap && currentLevel.fireTrapCount>0)
+      if (!onFireTrap && currentLevel.fireTrapCount > 0)
       {
         currentLevel.player.placeFireTrap();
       }
@@ -91,12 +91,11 @@ public class Controller
     if (view.keyboard.keyDown(KeyEvent.VK_R))
     {
       currentLevel.player.setSpeedRun();
-    }
-    else
+    } else
     {
       currentLevel.player.setSpeedWalk();
     }
-    heroDirection.setLocation(x,y);
+    heroDirection.setLocation(x, y);
   }
 
   /**
@@ -109,11 +108,12 @@ public class Controller
     long deltaTime;
     long start;
     long secondsFromStart;
+
     public void run()
     {
       lastTime = System.currentTimeMillis();
       start = lastTime;
-      while(true)
+      while (true)
       {
         do
         {
@@ -126,10 +126,10 @@ public class Controller
             break; //Something interrupted us probably application closing, break to kill refreshing.
           }
           thisTime = System.currentTimeMillis();
-          secondsFromStart = (thisTime - start)/1000;
+          secondsFromStart = (thisTime - start) / 1000;
           deltaTime = thisTime - lastTime;
         }
-        while(deltaTime < Settings.REFRESH_RATE);
+        while (deltaTime < Settings.REFRESH_RATE);
 
         synchronized (currentLevel)
         {

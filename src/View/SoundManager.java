@@ -134,7 +134,10 @@ public class SoundManager
           {
             startTime = System.currentTimeMillis();
 
-            if(alternator) balance = -1 * balance;
+            if (alternator)
+            {
+              balance = -1 * balance;
+            }
             clip.play(volume, balance, 1, 0, priority);
             play = false;
           } else if (clip.isPlaying() && (startTime - System.currentTimeMillis()) > maxTime)

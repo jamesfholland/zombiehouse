@@ -90,16 +90,16 @@ public class HouseGeneration
     int failedCarvings = 0;
     int roomCount = 0;
     int corridorCount = 0;
-    while( houseNotDone )
+    while (houseNotDone)
     {
       boolean needWallSeg = true;
-      while( needWallSeg )
+      while (needWallSeg)
       {
         needWallSeg = lookForBuildWall();
       }
 
-    // 4 - decide on what to build (corridor or room)
-    //   - after deciding, guess a possible size (within the min/max set above)
+      // 4 - decide on what to build (corridor or room)
+      //   - after deciding, guess a possible size (within the min/max set above)
       double percentRoomChance = 0.65;
       boolean buildRoom;
       buildRoom = Settings.RANDOM.nextDouble() < percentRoomChance;
@@ -110,55 +110,55 @@ public class HouseGeneration
       int cornerX = 0;
       int cornerY = 0;
 
-      if(buildRoom)
+      if (buildRoom)
       {
         neededWidth = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX);
         neededHeight = minFeatY + Settings.RANDOM.nextInt(maxFeatY - minFeatY);
-        if(currentDir == Direction.NORTH)
+        if (currentDir == Direction.NORTH)
         {
           cornerX = currentWallX - Settings.RANDOM.nextInt(neededWidth);
           cornerY = currentWallY - neededHeight;
         }
-        if(currentDir == Direction.EAST)
+        if (currentDir == Direction.EAST)
         {
           cornerX = currentWallX + 1;
           cornerY = currentWallY - Settings.RANDOM.nextInt(neededHeight);
         }
-        if(currentDir == Direction.SOUTH)
+        if (currentDir == Direction.SOUTH)
         {
           cornerX = currentWallX - Settings.RANDOM.nextInt(neededWidth);
           cornerY = currentWallY + 1;
         }
-        if(currentDir == Direction.WEST)
+        if (currentDir == Direction.WEST)
         {
           cornerX = currentWallX - neededWidth;
           cornerY = currentWallY - Settings.RANDOM.nextInt(neededHeight);
         }
       }
-      if(!buildRoom)
+      if (!buildRoom)
       {
-        if(currentDir == Direction.NORTH)
+        if (currentDir == Direction.NORTH)
         {
           neededWidth = 1;
           neededHeight = minFeatY + Settings.RANDOM.nextInt(maxFeatY - minFeatY) - 1;
           cornerX = currentWallX;
           cornerY = currentWallY - neededHeight;
         }
-        if(currentDir == Direction.EAST)
+        if (currentDir == Direction.EAST)
         {
           neededWidth = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX) - 1;
           neededHeight = 1;
           cornerX = currentWallX + 1;
           cornerY = currentWallY;
         }
-        if(currentDir == Direction.SOUTH)
+        if (currentDir == Direction.SOUTH)
         {
           neededWidth = 1;
           neededHeight = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX) - 1;
           cornerX = currentWallX;
           cornerY = currentWallY + 1;
         }
-        if(currentDir == Direction.WEST)
+        if (currentDir == Direction.WEST)
         {
           neededWidth = minFeatX + Settings.RANDOM.nextInt(maxFeatX - minFeatX) - 1;
           neededHeight = 1;
@@ -167,18 +167,31 @@ public class HouseGeneration
         }
       }
 
-    // 5 - check to see if the thing decided in step 4 can fit (without overwriting any other floors)
-      if( isSpaceClear(cornerX, cornerY, neededWidth, neededHeight) )
+      // 5 - check to see if the thing decided in step 4 can fit (without overwriting any other floors)
+      if (isSpaceClear(cornerX, cornerY, neededWidth, neededHeight))
       {
         carveRoom(cornerX, cornerY, neededWidth, neededHeight, buildRoom);
         houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
         // stupid end.. things carved.. just to test
-        if( buildRoom ) { roomCount++; }
-        else { corridorCount++; }
+        if (buildRoom)
+        {
+          roomCount++;
+        } else
+        {
+          corridorCount++;
+        }
+      } else
+      {
+        failedCarvings++;
       }
-      else { failedCarvings++; }
-      if ( roomCount >= Settings.DEFAULT_NUMBER_ROOMS && corridorCount >= Settings.DEFAULT_NUMBER_HALLS ) { houseNotDone = false; }
-      if (failedCarvings > 1500) { houseNotDone = false; } // rather than just stopping might be good to restart..
+      if (roomCount >= Settings.DEFAULT_NUMBER_ROOMS && corridorCount >= Settings.DEFAULT_NUMBER_HALLS)
+      {
+        houseNotDone = false;
+      }
+      if (failedCarvings > 1500)
+      {
+        houseNotDone = false;
+      } // rather than just stopping might be good to restart..
     }
 
     // late step - place player (needed for quick testing)
@@ -195,7 +208,8 @@ public class HouseGeneration
   }
 
   // allWalls is used to initialize all of house to wall
-  private void allWalls() {
+  private void allWalls()
+  {
     for (int i = 0; i < houseWidth; i++)
     {
       for (int j = 0; j < houseHeight; j++)
@@ -224,21 +238,24 @@ public class HouseGeneration
   // room = false --> corridors can spawn firetraps
   private void carveRoom(int xTop, int yTop, int xSize, int ySize, boolean room)
   {
-    for( int i = xTop; i < xSize + xTop; i++)
+    for (int i = xTop; i < xSize + xTop; i++)
     {
-      for( int j = yTop; j < ySize + yTop; j++)
+      for (int j = yTop; j < ySize + yTop; j++)
       {
         houseTiles[i][j] = new Floor(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
-        if( room )
+        if (room)
         {
-          houseTiles[i][j].setEmpty( !zombieSpawn(i, j) );
-          if( houseTiles[i][j].isEmptyFloor() )
+          houseTiles[i][j].setEmpty(!zombieSpawn(i, j));
+          if (houseTiles[i][j].isEmptyFloor())
           {
-            if( (i == (currentWallX + currentDir.getDX())) && (j == (currentWallY + currentDir.getDY())) ) { continue; }
-            houseTiles[i][j].setEmpty( !obstacleSpawn(i, j) );
+            if ((i == (currentWallX + currentDir.getDX())) && (j == (currentWallY + currentDir.getDY())))
+            {
+              continue;
+            }
+            houseTiles[i][j].setEmpty(!obstacleSpawn(i, j));
           }
         }
-        if( houseTiles[i][j].isEmptyFloor() )
+        if (houseTiles[i][j].isEmptyFloor())
         {
           fireTrapSpawn(i, j);
         }
@@ -251,12 +268,15 @@ public class HouseGeneration
     int xRand = Settings.RANDOM.nextInt(houseWidth);
     int yRand = Settings.RANDOM.nextInt(houseHeight);
     int floorAdjacent = 0;
-    if ( houseTiles[xRand][yRand].isWall() )
+    if (houseTiles[xRand][yRand].isWall())
     {
-      for( Direction dir : Direction.values() )
+      for (Direction dir : Direction.values())
       {
-        if ( offMap ( xRand + dir.getDX(), yRand + dir.getDY() ) ) { return true; }
-        if ( houseTiles[xRand + dir.getDX()][yRand + dir.getDY()].isFloor() )
+        if (offMap(xRand + dir.getDX(), yRand + dir.getDY()))
+        {
+          return true;
+        }
+        if (houseTiles[xRand + dir.getDX()][yRand + dir.getDY()].isFloor())
         {
           currentWallX = xRand;
           currentWallY = yRand;
@@ -264,19 +284,28 @@ public class HouseGeneration
           floorAdjacent++;
         }
       }
-      if( floorAdjacent == 1) { return false; }
+      if (floorAdjacent == 1)
+      {
+        return false;
+      }
     }
     return true;
   }
 
   private boolean isSpaceClear(int xTop, int yTop, int xSize, int ySize)
   {
-    for( int i = xTop - 1; i < xSize + xTop + 1; i++)
+    for (int i = xTop - 1; i < xSize + xTop + 1; i++)
     {
-      for( int j = yTop - 1; j < ySize + yTop + 1; j++)
+      for (int j = yTop - 1; j < ySize + yTop + 1; j++)
       {
-        if( offMap(i, j) ) { return false; }
-        if( houseTiles[i][j].isFloor() ) { return false; }
+        if (offMap(i, j))
+        {
+          return false;
+        }
+        if (houseTiles[i][j].isFloor())
+        {
+          return false;
+        }
       }
     }
     return true;
@@ -284,18 +313,21 @@ public class HouseGeneration
 
   private boolean offMap(int x, int y)
   {
-    if( x < 0 || x >= houseWidth) { return true; }
+    if (x < 0 || x >= houseWidth)
+    {
+      return true;
+    }
     return y < 0 || y >= houseHeight;
   }
 
   private void playerSpawn()
   {
     boolean playerNotPlaced = true;
-    while( playerNotPlaced )
+    while (playerNotPlaced)
     {
       playerX = Settings.RANDOM.nextInt(houseWidth);
       playerY = Settings.RANDOM.nextInt(houseHeight);
-      if ( houseTiles[playerX][playerY].isEmptyFloor() )
+      if (houseTiles[playerX][playerY].isEmptyFloor())
       {
         this.player = new Player(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
         playerNotPlaced = false;
@@ -305,15 +337,14 @@ public class HouseGeneration
 
   private boolean zombieSpawn(int x, int y)
   {
-    if( Settings.RANDOM.nextDouble() < Settings.zombieSpawnRate )
+    if (Settings.RANDOM.nextDouble() < Settings.zombieSpawnRate)
     {
-      if( Settings.RANDOM.nextBoolean() )
+      if (Settings.RANDOM.nextBoolean())
       {
-        zombieList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360)+Settings.RANDOM.nextDouble())));
-      }
-      else
+        zombieList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
+      } else
       {
-        zombieList.add(new ZombieRandom(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360)+Settings.RANDOM.nextDouble())));
+        zombieList.add(new ZombieRandom(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
       }
       return true;
     }
@@ -322,9 +353,9 @@ public class HouseGeneration
 
   private boolean obstacleSpawn(int x, int y)
   {
-    if( Settings.RANDOM.nextDouble() < Settings.obstacleSpawnRate )
+    if (Settings.RANDOM.nextDouble() < Settings.obstacleSpawnRate)
     {
-      houseTiles[x][y] = new Pillar( new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE) );
+      houseTiles[x][y] = new Pillar(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE));
       return true;
     }
     return false;
@@ -332,9 +363,9 @@ public class HouseGeneration
 
   private boolean fireTrapSpawn(int x, int y)
   {
-    if( Settings.RANDOM.nextDouble() < Settings.firetrapSpawnRate )
+    if (Settings.RANDOM.nextDouble() < Settings.firetrapSpawnRate)
     {
-      firetrapList.add( new Firetrap( new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE) ) );
+      firetrapList.add(new Firetrap(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE)));
       return true;
     }
     return false;
@@ -345,20 +376,20 @@ public class HouseGeneration
     boolean exitNotPlaced = true;
     double percentMapMin = 0.3;
 
-    int minMapDist = ((int)(houseWidth * percentMapMin)) + ((int)(houseHeight * percentMapMin));
+    int minMapDist = ((int) (houseWidth * percentMapMin)) + ((int) (houseHeight * percentMapMin));
 
-    while( exitNotPlaced )
+    while (exitNotPlaced)
     {
       lookForBuildWall();
       int playerExitDistance = Math.abs(playerX - currentWallX) + Math.abs(playerY - currentWallY);
-      if( playerExitDistance < minMapDist )
+      if (playerExitDistance < minMapDist)
       {
         continue;
       }
       exitX = currentWallX + currentDir.getDX();
       exitY = currentWallY + currentDir.getDY();
       exitDir = currentDir.inverseDir();
-      if( isSpaceClear(exitX, exitY, 1, 1) )
+      if (isSpaceClear(exitX, exitY, 1, 1))
       {
         houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
         houseTiles[exitX][exitY] = new Exit(new Point(exitX * Settings.TILE_SIZE, exitY * Settings.TILE_SIZE));
@@ -373,31 +404,40 @@ public class HouseGeneration
   private void removeHiddenWalls()
   {
 
-    for( int i = 0; i < houseWidth; i++ )
+    for (int i = 0; i < houseWidth; i++)
     {
-      for( int j = 0; j < houseHeight; j++ )
+      for (int j = 0; j < houseHeight; j++)
       {
         int wallAdjacent = 0;
-        for( int dX = -1; dX <= 1; dX++)
+        for (int dX = -1; dX <= 1; dX++)
         {
-          for( int dY= -1; dY <= 1; dY++)
+          for (int dY = -1; dY <= 1; dY++)
           {
-            if( offMap( i+dX, j+dY ) )
+            if (offMap(i + dX, j + dY))
             {
               wallAdjacent++;
               continue;
             }
-            if( houseTiles[i+dX][j+dY].isWall() ) { wallAdjacent++; }
+            if (houseTiles[i + dX][j + dY].isWall())
+            {
+              wallAdjacent++;
+            }
           }
-          if( wallAdjacent == 9 ) { houseTiles[i][j].markForDeletion(); }
+          if (wallAdjacent == 9)
+          {
+            houseTiles[i][j].markForDeletion();
+          }
         }
       }
     }
-    for( int i = 0; i < houseWidth; i++ )
+    for (int i = 0; i < houseWidth; i++)
     {
-      for( int j = 0; j < houseHeight; j++ )
+      for (int j = 0; j < houseHeight; j++)
       {
-        if( houseTiles[i][j].getDeletion() ) { houseTiles[i][j] = null; }
+        if (houseTiles[i][j].getDeletion())
+        {
+          houseTiles[i][j] = null;
+        }
       }
     }
   }
@@ -425,21 +465,45 @@ public class HouseGeneration
     this.player.setLevel(currentLevel);
   }
 
-  public Tile[][] getHouseTiles() { return houseTiles; }
+  public Tile[][] getHouseTiles()
+  {
+    return houseTiles;
+  }
 
-  public LinkedList<Zombie> getZombieList() { return zombieList; }
+  public LinkedList<Zombie> getZombieList()
+  {
+    return zombieList;
+  }
 
-  public int getFireTrapCount() { return levelInitFireTrapCount; }
+  public int getFireTrapCount()
+  {
+    return levelInitFireTrapCount;
+  }
 
-  public Level getCurrentLevel() { return currentLevel; }
+  public Level getCurrentLevel()
+  {
+    return currentLevel;
+  }
 
-  public int getCurrentLevelNum() { return currentLevelNum; }
+  public int getCurrentLevelNum()
+  {
+    return currentLevelNum;
+  }
 
-  public Player getPlayer() { return player; }
+  public Player getPlayer()
+  {
+    return player;
+  }
 
-  public LinkedList<Firetrap> getFiretrapList() { return firetrapList; }
+  public LinkedList<Firetrap> getFiretrapList()
+  {
+    return firetrapList;
+  }
 
-  public Exit getExit() { return (Exit) houseTiles[exitX][exitY]; }
+  public Exit getExit()
+  {
+    return (Exit) houseTiles[exitX][exitY];
+  }
 
 
   // DEMO + PRACTICE MAP below.  to be deleted on completion.
@@ -458,9 +522,9 @@ public class HouseGeneration
 
     // default used to fill house with open floor
     // makeRoom(1, 1, Settings.PRACTICE_MAP_SIZE - 2, Settings.PRACTICE_MAP_SIZE - 2);
-    for( int i = 1; i < 6; i++ )
+    for (int i = 1; i < 6; i++)
     {
-      for( int j = 1; j < 6; j++)
+      for (int j = 1; j < 6; j++)
       {
         houseTiles[i][j] = new Floor(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
         houseTiles[i + 6][j] = new Floor(new Point((i + 6) * Settings.TILE_SIZE, j * Settings.TILE_SIZE));

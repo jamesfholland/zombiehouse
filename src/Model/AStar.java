@@ -12,7 +12,7 @@ import java.util.PriorityQueue;
 public class AStar
 {
   private static Level level;
-  private PriorityQueue<Node> frontier =  new PriorityQueue<>();
+  private PriorityQueue<Node> frontier = new PriorityQueue<>();
   private List<Node> visited = new ArrayList<>();
   private LinkedList<Node> path = new LinkedList<>();
   private List<Node> neighbors = new LinkedList<>();
@@ -33,7 +33,7 @@ public class AStar
     path.clear();
     visited.clear();
     neighbors.clear();
-    Node start = new Node(zombLocation,0);
+    Node start = new Node(zombLocation, 0);
     Node goal = new Node(level.player.getCenterLocation(), 0);
     Node current;
     frontier.add(start);
@@ -62,7 +62,7 @@ public class AStar
   private void makePath(Node current)
   {
     path.add(current);
-    while(current.parent!=null)
+    while (current.parent != null)
     {
       current = current.parent;
       path.add(current);
@@ -71,24 +71,24 @@ public class AStar
 
   private void setNeighbors(Node current)
   {
-    if (level.houseTiles[current.tileX][current.tileY-1].isPassable())
+    if (level.houseTiles[current.tileX][current.tileY - 1].isPassable())
     {
-      neighbors.add(new Node(current.tileX, current.tileY-1, current.gScore + 1, current));
+      neighbors.add(new Node(current.tileX, current.tileY - 1, current.gScore + 1, current));
     }
 
-    if (level.houseTiles[current.tileX][current.tileY+1].isPassable())
+    if (level.houseTiles[current.tileX][current.tileY + 1].isPassable())
     {
-      neighbors.add(new Node(current.tileX, current.tileY+1, current.gScore + 1, current));
+      neighbors.add(new Node(current.tileX, current.tileY + 1, current.gScore + 1, current));
     }
 
-    if (level.houseTiles[current.tileX+1][current.tileY].isPassable())
+    if (level.houseTiles[current.tileX + 1][current.tileY].isPassable())
     {
-      neighbors.add(new Node(current.tileX+1, current.tileY, current.gScore + 1, current));
+      neighbors.add(new Node(current.tileX + 1, current.tileY, current.gScore + 1, current));
     }
 
-    if (level.houseTiles[current.tileX-1][current.tileY].isPassable())
+    if (level.houseTiles[current.tileX - 1][current.tileY].isPassable())
     {
-      neighbors.add(new Node(current.tileX-1, current.tileY, current.gScore+1, current));
+      neighbors.add(new Node(current.tileX - 1, current.tileY, current.gScore + 1, current));
     }
   }
 
@@ -106,11 +106,10 @@ public class AStar
 
     toMoveTo = path.removeLast();
 
-    if (toMoveTo.tileX == zombieLocation.x/Settings.TILE_SIZE && toMoveTo.tileY == zombieLocation.y/Settings.TILE_SIZE && path.size()>=1)
+    if (toMoveTo.tileX == zombieLocation.x / Settings.TILE_SIZE && toMoveTo.tileY == zombieLocation.y / Settings.TILE_SIZE && path.size() >= 1)
     {
       toMoveTo = path.removeLast();
-    }
-    else
+    } else
     {
       return calcRotationAngleInDegrees(zombieLocation, level.player.getLocation());
     }
@@ -177,8 +176,8 @@ public class AStar
 
     public Node(Point p, int gScore)
     {
-      this.tileX = p.x/Settings.TILE_SIZE;
-      this.tileY = p.y/Settings.TILE_SIZE;
+      this.tileX = p.x / Settings.TILE_SIZE;
+      this.tileY = p.y / Settings.TILE_SIZE;
       this.gScore = gScore;
       setManhattanDistance();
       setfScore();
@@ -197,14 +196,13 @@ public class AStar
 
     public void setManhattanDistance()
     {
-      manhattanDistance = Math.abs(tileX - level.player.location.x/Settings.TILE_SIZE) + Math.abs(tileY-level.player.location.y/Settings.TILE_SIZE);
+      manhattanDistance = Math.abs(tileX - level.player.location.x / Settings.TILE_SIZE) + Math.abs(tileY - level.player.location.y / Settings.TILE_SIZE);
     }
 
     public void setfScore()
     {
       fScore = gScore + manhattanDistance;
     }
-
 
 
     @Override

@@ -27,7 +27,7 @@ public class Level
   public Player player;
   public final AStar aStar;
 
-  public Level( HouseGeneration houseGen )
+  public Level(HouseGeneration houseGen)
   {
     player = houseGen.getPlayer();
     levelNum = houseGen.getCurrentLevelNum();

@@ -62,7 +62,10 @@ public class Floor extends Tile
   @Override
   public BufferedImage getImage()
   {
-    if(burned) return FLOOR_BURNED_IMAGE;
+    if (burned)
+    {
+      return FLOOR_BURNED_IMAGE;
+    }
 
     return FLOOR_IMAGE;
   }
@@ -80,16 +83,31 @@ public class Floor extends Tile
   }
 
   @Override
-  public boolean isFloor() { return true; }
+  public boolean isFloor()
+  {
+    return true;
+  }
 
   @Override
-  public boolean isEmptyFloor() { return empty; }
+  public boolean isEmptyFloor()
+  {
+    return empty;
+  }
 
   @Override
-  public void setEmpty(boolean empty) { this.empty = empty; }
+  public void setEmpty(boolean empty)
+  {
+    this.empty = empty;
+  }
 
-  public int getRoomNum() { return roomNum; }
+  public int getRoomNum()
+  {
+    return roomNum;
+  }
 
   @Override
-  public boolean isWall() { return false; }
+  public boolean isWall()
+  {
+    return false;
+  }
 }
