@@ -70,6 +70,15 @@ public abstract class GameObject
   }
 
   /**
+   * Gets the tile coordinates where the center of the object is located.
+   * @return
+   */
+  public Point getTileLocation()
+  {
+    return new Point(this.getCenterLocation().x / Settings.TILE_SIZE, this.getCenterLocation().y /Settings.TILE_SIZE);
+  }
+
+  /**
    * Get the top left of object
    * @return top left point of object
    */
