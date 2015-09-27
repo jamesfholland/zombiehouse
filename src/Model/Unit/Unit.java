@@ -40,7 +40,7 @@ public abstract class Unit extends GameObject
   protected double speed;
   protected boolean collided = false;
 
-  protected Direction direction = Direction.DOWN;
+  protected Direction direction = Direction.SOUTH;
 
   protected Point headingVector;
 

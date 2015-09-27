@@ -224,16 +224,16 @@ public class Player extends Unit
     direction = null;
     if (inputVector.y > 0)
     {
-      direction = Direction.DOWN;
+      direction = Direction.SOUTH;
     } else if (inputVector.y < 0)
     {
-      direction = Direction.UP;
+      direction = Direction.NORTH;
     } else if (inputVector.x > 0)
     {
-      direction = Direction.RIGHT;
+      direction = Direction.EAST;
     } else if (inputVector.x < 0)
     {
-      direction = Direction.LEFT;
+      direction = Direction.WEST;
     }
 
     if (direction != null)
@@ -256,13 +256,13 @@ public class Player extends Unit
 
     switch (direction)
     {
-      case UP:
+      case NORTH:
         return WALK_UP_IMAGE[spriteState];
-      case DOWN:
+      case SOUTH:
         return WALK_DOWN_IMAGE[spriteState];
-      case LEFT:
+      case WEST:
         return WALK_LEFT_IMAGE[spriteState];
-      case RIGHT:
+      case EAST:
         return WALK_RIGHT_IMAGE[spriteState];
       default:
         return WALK_DOWN_IMAGE[0];

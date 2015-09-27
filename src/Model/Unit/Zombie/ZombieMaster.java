@@ -56,13 +56,13 @@ public class ZombieMaster extends ZombieLine
 
     switch (direction)
     {
-      case UP:
+      case NORTH:
         return WALK_UP_IMAGE[spriteState];
-      case DOWN:
+      case SOUTH:
         return WALK_DOWN_IMAGE[spriteState];
-      case LEFT:
+      case WEST:
         return WALK_LEFT_IMAGE[spriteState];
-      case RIGHT:
+      case EAST:
         return WALK_RIGHT_IMAGE[spriteState];
       default:
         return WALK_DOWN_IMAGE[0];

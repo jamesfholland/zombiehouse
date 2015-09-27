@@ -44,6 +44,7 @@ public class ViewManager
   public void setLevel(Level level)
   {
     GAME_PANEL.setLevel(level);
+    SCORE_BAR.setLevel(level);
   }
 
   public void repaint()

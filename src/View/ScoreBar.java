@@ -1,5 +1,7 @@
 package View;
 
+import Model.Level;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,13 +10,26 @@ import java.awt.*;
  */
 class ScoreBar extends JPanel
 {
-  // Level curretLevel;
-  // JTextField infoText = new JTextField(40);
+  Level currentLevel;
+  JLabel levelText = new JLabel();
+  JButton menu = new JButton("Menu");
 
   ScoreBar()
   {
     super();
-    setBackground(Color.BLUE);
+    setBackground(Color.BLACK);
+    levelText.setForeground(Color.RED);
+
+//    levelText.setText("Welcome to Hell!  Level: 1  ||  Firetrap Count: 1");
+    this.add(levelText);
+
   }
+
+  public void setLevel( Level level)
+  {
+    currentLevel = level;
+  }
+
+
 
 }
