@@ -2,8 +2,10 @@ package Model.Unit;
 
 import Model.GameObject;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Fire extends Unit
 {

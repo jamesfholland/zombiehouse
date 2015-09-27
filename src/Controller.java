@@ -155,6 +155,19 @@ public class Controller
           if (hero.checkCollision(zombie.getHitbox()))
           {
             //GAME OVER
+            hero = new Player(new Point(0, 0), null);
+            houseGenerator.respawnSameMap();
+            currentLevel = houseGenerator.getCurrentLevel();
+            view.setLevel(currentLevel);
+            break;
+          }
+
+          for( Firetrap firetrap : currentLevel.firetrapList )
+          {
+            if ( firetrap.checkCollision(zombie.getHitbox() ))
+            {
+
+            }
           }
 
           /*

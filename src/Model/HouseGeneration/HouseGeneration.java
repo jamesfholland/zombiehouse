@@ -16,26 +16,26 @@ import java.util.LinkedList;
  */
 public class HouseGeneration
 {
-  int houseWidth, houseHeight;
-  Tile[][] houseTiles;
-  LinkedList<Zombie> zombieList;
-  LinkedList<Firetrap> firetrapList;
+  private int houseWidth, houseHeight;
+  private Tile[][] houseTiles;
+  private LinkedList<Zombie> zombieList;
+  private LinkedList<Firetrap> firetrapList;
 
-  Player player;
-  int levelInitFireTrapCount = 0;
+  private Player player;
+  private int levelInitFireTrapCount = 0;
 
-  int minFeatX, minFeatY;
-  int maxFeatX, maxFeatY;
+  private int minFeatX, minFeatY;
+  private int maxFeatX, maxFeatY;
 
-  int currentWallX, currentWallY;
-  Direction currentDir;
+  private int currentWallX, currentWallY;
+  private Direction currentDir;
 
-  int playerX, playerY;
-  int exitX, exitY;
-  Direction exitDir;
+  private int playerX, playerY;
+  private int exitX, exitY;
+  private Direction exitDir;
 
-  int currentLevelNum;
-  Level currentLevel;
+  private int currentLevelNum;
+  private Level currentLevel;
 
   // held for house generation: on death/respawn, last known seed is used
   //                            on new level, take new seed
@@ -52,8 +52,6 @@ public class HouseGeneration
     maxFeatX = houseWidth / 5;
     maxFeatY = houseHeight / 5;
 
-    zombieList = new LinkedList<Zombie>();
-    firetrapList = new LinkedList<Firetrap>();
     currentLevelNum = 1;
 
     this.player = player;
@@ -75,6 +73,10 @@ public class HouseGeneration
   // using roguebasin.com's algorithm
   private void makeNewHouse()
   {
+    // initialize new lists:
+    zombieList = new LinkedList<Zombie>();
+    firetrapList = new LinkedList<Firetrap>();
+
     // 1 - fill with walls
     allWalls();
 
@@ -188,6 +190,8 @@ public class HouseGeneration
 
     // last last step - remove excess walls (should help search/sight algorithms) --> is not working yet! breaks other codes..
     removeHiddenWalls();
+
+    createLevel();
   }
 
   // allWalls is used to initialize all of house to wall
@@ -379,7 +383,11 @@ public class HouseGeneration
         {
           for( int dY= -1; dY <= 1; dY++)
           {
-            if( offMap( i+dX, j+dY ) ) { continue; }
+            if( offMap( i+dX, j+dY ) )
+            {
+              wallAdjacent++;
+              continue;
+            }
             if( houseTiles[i+dX][j+dY].isWall() ) { wallAdjacent++; }
           }
           if( wallAdjacent == 9 ) { houseTiles[i][j].markForDeletion(); }
@@ -406,6 +414,7 @@ public class HouseGeneration
     Settings.RANDOM.setSeed(lastRandomSeed);
     makeNewHouse();
     createLevel();
+    this.player.setLevel(currentLevel);
   }
 
   public void spawnNewLevel()
@@ -414,6 +423,7 @@ public class HouseGeneration
     Settings.RANDOM.setSeed(lastRandomSeed);
     makeNewHouse();
     currentLevelNum++;
+    this.player.setLevel(currentLevel);
   }
 
   public Tile[][] getHouseTiles() { return houseTiles; }
@@ -457,13 +467,16 @@ public class HouseGeneration
     }
     houseTiles[6][5] = new Floor(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE));
 
-    //houseTiles[12][1] = new Exit(new Point(12 * Settings.TILE_SIZE, 1 * Settings.TILE_SIZE));
     houseTiles[12][2] = new Exit(new Point(12 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE));
     exitX = 12;
     exitY = 2;
 
+    houseTiles[5][4] = new Pillar(new Point(5 * Settings.TILE_SIZE, 4 * Settings.TILE_SIZE));
+
     player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
 
     zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
+
+    firetrapList.add(new Firetrap(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE)));
   }
 }
