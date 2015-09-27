@@ -5,7 +5,6 @@ import Model.Settings;
 import Model.Unit.Unit;
 
 import java.awt.*;
-import java.util.Random;
 
 public abstract class Zombie extends Unit
 {
@@ -31,6 +30,6 @@ public abstract class Zombie extends Unit
 
   void canSmellPlayer()
   {
-    knowsPlayerLocation = AStar.eculiDistanceFromPlayer(this.location) < Settings.ZOMBIE_SMELL;
+    knowsPlayerLocation = AStar.eculiDistanceFromPlayer(this.location) < Settings.zombieSmell;
   }
 }

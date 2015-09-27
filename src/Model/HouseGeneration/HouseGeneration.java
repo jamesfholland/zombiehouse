@@ -349,7 +349,7 @@ public class HouseGeneration
 
   private boolean obstacleSpawn(int x, int y)
   {
-    if (Settings.RANDOM.nextDouble() < Settings.obstacleSpawnRate)
+    if (Settings.RANDOM.nextDouble() < Settings.OBSTACLE_SPAWN_RATE)
     {
       houseTiles[x][y] = new Pillar(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE));
       return true;

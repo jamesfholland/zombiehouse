@@ -20,7 +20,7 @@ public class Player extends Unit
   private Point inputVector;
 
   private boolean running;
-  private int stamina;
+  private double stamina;
 
   private boolean gettingFireTrap;
   private boolean placingFireTrap;
@@ -61,10 +61,10 @@ public class Player extends Unit
   {
     this.location = location;
 
-    this.speed = Settings.SPEED_WALK;
+    this.speed = Settings.walkSpeed;
     this.running = false;
     this.size = Settings.PLAYER_SIZE;
-    this.stamina = Settings.PLAYER_STAMINA;
+    this.stamina = Settings.playerStamina;
 
     this.nextHitbox = new Rectangle(location, size);
     this.headingVector = new Point(0, 0);
@@ -122,7 +122,7 @@ public class Player extends Unit
   {
     if (stamina > 0)
     {
-      speed = Settings.RUN_SPEED;
+      speed = Settings.runSpeed;
       running = true;
     }
   }
@@ -134,7 +134,7 @@ public class Player extends Unit
 
   public void setSpeedWalk()
   {
-    speed = Settings.SPEED_WALK;
+    speed = Settings.walkSpeed;
     running = false;
   }
 
@@ -202,15 +202,15 @@ public class Player extends Unit
 
     if (!running)
     {
-      if (stamina < Settings.PLAYER_STAMINA)
+      if (stamina < Settings.playerStamina)
       {
-        stamina += (deltaTime * 0.2);
+        stamina += (deltaTime * Settings.playerRegen);
       }
     }
 
     if (stamina == 0)
     {
-      speed = Settings.SPEED_WALK;
+      speed = Settings.walkSpeed;
       running = false;
     }
 
@@ -269,7 +269,7 @@ public class Player extends Unit
     }
   }
 
-  public int getStamina()
+  public double getStamina()
   {
     return stamina;
   }

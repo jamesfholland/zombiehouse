@@ -54,7 +54,7 @@ public class ZombieRandom extends Zombie
   public void update(long deltaTime)
   {
     lastDecision += deltaTime;
-    if (lastDecision >= 2000)
+    if (lastDecision >= Settings.zombieDecisionRate)
     {
       lastDecision = 0;
       canSmellPlayer();
@@ -71,7 +71,7 @@ public class ZombieRandom extends Zombie
       }
     }
 
-    move(Settings.ZOMBIE_SPEED, heading, deltaTime);
+    move(Settings.zombieSpeed, heading, deltaTime);
 
     direction = null;
     if (headingVector.y > 0)

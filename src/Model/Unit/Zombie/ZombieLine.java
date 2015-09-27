@@ -53,7 +53,7 @@ public class ZombieLine extends Zombie
   {
     lastDecision += deltaTime;
 
-    if (lastDecision > 2000)
+    if (lastDecision >= Settings.zombieDecisionRate)
     {
       lastDecision = 0;
       canSmellPlayer();
@@ -70,7 +70,7 @@ public class ZombieLine extends Zombie
       }
     }
 
-    move(Settings.ZOMBIE_SPEED, heading, deltaTime);
+    move(Settings.zombieSpeed, heading, deltaTime);
 
 
     direction = null;

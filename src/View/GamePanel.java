@@ -114,7 +114,7 @@ class GamePanel extends JPanel
 
           Rectangle2D sightBox = new Rectangle();
           Point sightCorner = new Point(center);
-          sightCorner.translate(Settings.SIGHT_RANGE, Settings.SIGHT_RANGE);
+          sightCorner.translate((int)Settings.sightRange, (int)Settings.sightRange);
           sightBox.setFrameFromCenter(center, sightCorner);
           blackMask = new Area(
               new Rectangle(

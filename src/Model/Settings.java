@@ -25,32 +25,9 @@ public abstract class Settings
   public static final int DEFAULT_NUMBER_OBSTACLES = 5;
 
   /**
-   * Chance of zombie spawn in a given floor tile
-   */
-  public static double zombieSpawnRate = 0.01;
-
-  //public static double zombieSpawnRate = 0.05;
-
-
-  /**
-   * Chance of firetrap in a given floor tile.
-   */
-  public static double firetrapSpawnRate = 0.01;
-
-  /**
    * Chance of obstacle spawn rate
    */
-  public static double obstacleSpawnRate = 0.015;
-
-  /**
-   * Default width (tiles)
-   */
-  public static final int WIDTH_IN_TILES = 35;
-
-  /**
-   * Default Height (tiles)
-   */
-  public static final int HEIGHT_IN_TILES = 18;
+  public static final double OBSTACLE_SPAWN_RATE = 0.015;
 
   /**
    * Pixel Height Standard
@@ -72,7 +49,6 @@ public abstract class Settings
    * Width is forced by requirements to be 24 tiles wide on the screen.
    */
   public static final double TILED_WIDTH = WIDTH_STANDARD / (double) TILE_SIZE;
-
 
   /**
    * Tiles on practice level - TEMPORARY VARIABLE
@@ -104,30 +80,57 @@ public abstract class Settings
   /**
    * Player sight range in pixels
    */
-  public static final int SIGHT_RANGE = 5 * TILE_SIZE;
+  public static double sightRange = 5 * TILE_SIZE;
+
+  /**
+   * How far player can hear
+   */
+  public static double playerHearing = 10.0 * TILE_SIZE;
 
   /**
    * Player walk speed in pixels per second
    */
-  public static final double SPEED_WALK = Settings.TILE_SIZE / 1000.0;
+  public static double walkSpeed = Settings.TILE_SIZE / 1000.0;
 
   /**
    * Player run speed in pixels per second
    */
-  public static final double RUN_SPEED = Settings.TILE_SIZE / 500.0;
-
-  /**
-   * Zombie speed in pixels per second
-   */
-  public static final double ZOMBIE_SPEED = Settings.TILE_SIZE / 2000.0;
+  public static double runSpeed = walkSpeed * 2;
 
   /**
    * Player stamina for running
    */
-  public static final int PLAYER_STAMINA = 5000;
+  public static double playerStamina = 5000;
+
+  /**
+   * Player stamina regen
+   */
+  public static double playerRegen = 0.2;
+
+  /**
+   * Zombie speed in pixels per second
+   */
+  public static double zombieSpeed = Settings.TILE_SIZE / 2000.0;
+
+  /**
+   * When the zombies make a decision
+   */
+  public static double zombieDecisionRate = 2000;
 
   /**
    * Zombie smell distance
    */
-  public static final double ZOMBIE_SMELL = 7.0 * TILE_SIZE;
+  public static double zombieSmell = 7.0 * TILE_SIZE;
+
+  /**
+   * Chance of firetrap in a given floor tile.
+   */
+  public static double firetrapSpawnRate = 0.01;
+
+
+  /**
+   * Chance of zombie spawn in a given floor tile
+   */
+  public static double zombieSpawnRate = 0.01;
+
 }
