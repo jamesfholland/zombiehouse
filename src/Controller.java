@@ -159,12 +159,12 @@ public class Controller
             if (ft.checkCollision(zombie.getHitbox()))
             {
               ft.spawnFire();
-              //currentLevel.firetrapList.remove(ft);
+              ftIterator.remove();
             }
             if (currentLevel.player.isRunning() && currentLevel.player.checkCollision(ft.getHitbox()))
             {
               ft.spawnFire();
-              //currentLevel.firetrapList.remove(ft);
+              ftIterator.remove();
             }
           }
 
@@ -174,7 +174,7 @@ public class Controller
             Fire fire = fireIterator.next();
             if (fire.checkCollision(zombie.getHitbox()))
             {
-              //currentLevel.zombieList.remove(zombie);
+              fireIterator.remove();
             }
             if (fire.checkCollision(currentLevel.player.getHitbox()))
             {
