@@ -3,6 +3,7 @@ package Model.Unit.Zombie;
 import Model.Direction;
 import Model.Settings;
 import Model.Unit.SpriteParser;
+import View.SoundManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -90,6 +91,7 @@ public class ZombieRandom extends Zombie
 
     if (direction != null)
     {
+      SoundManager.playZombieWalk(this.getCenterLocation(), level.PLAYER.getCenterLocation());
       spriteState++;
       if (spriteState >= WALK_SPRITE_COUNT)
       {

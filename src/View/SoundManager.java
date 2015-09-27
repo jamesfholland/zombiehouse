@@ -15,8 +15,8 @@ public class SoundManager
   private static final AudioClip FOOT_STEP;
   private static final SoundPlayer WALK_THREAD;
 
-  //private static final AudioClip ZOMBIE_STEP;
-  //private static final SoundPlayer ZOMBIE_STEP_THREAD;
+  private static final AudioClip ZOMBIE_STEP;
+  private static final SoundPlayer ZOMBIE_STEP_THREAD;
 
   private static final AudioClip FIRE_START;
   private static final AudioClip FIRE_CONTINOUS;
@@ -31,7 +31,7 @@ public class SoundManager
     try
     {
       footstep = new AudioClip(View.SoundManager.class.getResource("sounds/footstep.wav").toURI().toASCIIString());
-      footstep = new AudioClip(View.SoundManager.class.getResource("sounds/footstep.wav").toURI().toASCIIString());
+      zombieStep = new AudioClip(View.SoundManager.class.getResource("sounds/stepsnow_2.wav").toURI().toASCIIString());
     }
     catch (URISyntaxException e)
     {
@@ -40,17 +40,26 @@ public class SoundManager
 
 
     FOOT_STEP = footstep;
+    ZOMBIE_STEP = zombieStep;
     FIRE_START = FireStart;
     FIRE_CONTINOUS = FireContinous;
 
     WALK_THREAD = new SoundPlayer(FOOT_STEP, Settings.REFRESH_RATE, 1.0, .2, 1);
     WALK_THREAD.start();
+
+    ZOMBIE_STEP_THREAD = new SoundPlayer(ZOMBIE_STEP, Settings.REFRESH_RATE, 1.0, .2, 1);
+    ZOMBIE_STEP_THREAD.start();
   }
 
   public static void playWalk(boolean isRunning)
   {
     if(isRunning) WALK_THREAD.playAlternateFast();
     else WALK_THREAD.playAlternate();
+  }
+
+  public static void playZombieWalk(Point zombie, Point player)
+  {
+    ZOMBIE_STEP_THREAD.play(zombie, player);
   }
 
   public static void stopWalk()
@@ -86,13 +95,12 @@ public class SoundManager
     {
       synchronized (balance)
       {
-        if ((source.y - listener.y) == 0)
+        if(source != null && listener != null)
         {
-          balance = 0.0;
-        } else
-        {
-          balance = (source.x - listener.x) / (double) (source.y - listener.y);
+          balance = Math.cos(Math.atan2(listener.x - source.x ,  listener.y - source.y) + Math.PI/2);
         }
+        listener = null;
+        source = null;
       }
     }
 
@@ -100,10 +108,19 @@ public class SoundManager
     {
       synchronized (play)
       {
-        this.source = source;
-        this.listener = listener;
-        play = true;
-        updateBalance();
+
+        double tempVolume = 1.0 - Math.abs(source.distance(listener)/Settings.playerHearing);
+
+        if(tempVolume > 0.0)
+        {
+          this.source = source;
+          this.listener = listener;
+          volume = tempVolume;
+
+          play = true;
+          updateBalance();
+        }
+
       }
     }
 
@@ -162,10 +179,6 @@ public class SoundManager
           } else if (CLIP.isPlaying() && (startTime - System.currentTimeMillis()) > MAX_TIME)
           {
             CLIP.stop();
-          } else if (CLIP.isPlaying() && listener != null && source != null)
-          {
-            updateBalance();
-            CLIP.setBalance(balance);
           }
         }
       }
