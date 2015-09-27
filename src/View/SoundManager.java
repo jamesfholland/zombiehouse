@@ -15,6 +15,9 @@ public class SoundManager
   private static final AudioClip FOOT_STEP;
   private static final SoundPlayer WALK_THREAD;
 
+  //private static final AudioClip ZOMBIE_STEP;
+  //private static final SoundPlayer ZOMBIE_STEP_THREAD;
+
   private static final AudioClip FIRE_START;
   private static final AudioClip FIRE_CONTINOUS;
 
@@ -22,10 +25,12 @@ public class SoundManager
   static
   {
     AudioClip footstep = null;
+    AudioClip zombieStep = null;
     AudioClip FireStart = null;
     AudioClip FireContinous = null;
     try
     {
+      footstep = new AudioClip(View.SoundManager.class.getResource("sounds/footstep.wav").toURI().toASCIIString());
       footstep = new AudioClip(View.SoundManager.class.getResource("sounds/footstep.wav").toURI().toASCIIString());
     }
     catch (URISyntaxException e)
@@ -42,9 +47,10 @@ public class SoundManager
     WALK_THREAD.start();
   }
 
-  public static void playWalk()
+  public static void playWalk(boolean isRunning)
   {
-    WALK_THREAD.playAlternate();
+    if(isRunning) WALK_THREAD.playAlternateFast();
+    else WALK_THREAD.playAlternate();
   }
 
   public static void stopWalk()
@@ -63,6 +69,7 @@ public class SoundManager
     private Double balance;
     private final int PRIORITY;
     private boolean alternator;
+    private double rate;
 
     SoundPlayer(AudioClip sound, long maxTime, double baseVolume, double baseBalance, int priority)
     {
@@ -72,6 +79,7 @@ public class SoundManager
       this.volume = baseVolume;
       this.balance = baseBalance;
       this.MAX_TIME = maxTime;
+      rate = 1.0;
     }
 
     private void updateBalance()
@@ -90,7 +98,6 @@ public class SoundManager
 
     public void play(Point source, Point listener)
     {
-
       synchronized (play)
       {
         this.source = source;
@@ -105,6 +112,20 @@ public class SoundManager
       alternator = true;
       source = null;
       listener = null;
+      rate = 1.0;
+      synchronized (play)
+      {
+        play = true;
+
+      }
+    }
+
+    public void playAlternateFast()
+    {
+      alternator = true;
+      source = null;
+      listener = null;
+      rate = 2.0;
       synchronized (play)
       {
         play = true;
@@ -123,7 +144,6 @@ public class SoundManager
     @Override
     public void run()
     {
-
       long startTime = 0;
       while (true)
       {
@@ -137,7 +157,7 @@ public class SoundManager
             {
               balance = -1 * balance;
             }
-            CLIP.play(volume, balance, 1, 0, PRIORITY);
+            CLIP.play(volume, balance, rate, 0, PRIORITY);
             play = false;
           } else if (CLIP.isPlaying() && (startTime - System.currentTimeMillis()) > MAX_TIME)
           {

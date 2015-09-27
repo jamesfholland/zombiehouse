@@ -194,7 +194,7 @@ public class Player extends Unit
 
     if (inputVector.x != 0 || inputVector.y != 0)
     {
-      SoundManager.playWalk();
+      SoundManager.playWalk(isRunning());
     } else
     {
       SoundManager.stopWalk();
