@@ -8,7 +8,6 @@ Player and Zombie sprite sheets http://gaurav.munjal.us/Universal-LPC-Spriteshee
 pillar.png http://opengameart.org/content/lpc-house-insides<br>
 Fire graphics http://opengameart.org/content/animated-particle-effects-2
 Fire Trap modified version of pillar.png
-Exit modified https://www.youtube.com/watch?v=8IfYp_nJU3w
 
 #### Audio credits
 Footsteps and Bumps http://opengameart.org/content/foot-walking-step-sounds-on-stone-water-snow-wood-and-dirt
