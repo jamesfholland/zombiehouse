@@ -19,7 +19,6 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 * Tile graphics
     * Exit
 * Unit animated graphics
-    * Zombie
     * Fire
         * Explosion
         * Fizzle out
@@ -34,18 +33,16 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
             * Shuffle
             * Wall collide
         * Player
-            * Walk
             * Wall collide
             * Run
     * Fire trap
         * Explosion
         * Basic fire
+* Loading graphic*
+* Dialog for changing default settings
 
 ###### Units
 * Zombie
-    * Movement
-    * Pathfinding
-    * Collisions
     * Zombie Master details
         * Detect if any zombie finds player
         * Other Special abilities
@@ -54,22 +51,18 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
             * Never loses player location?
             * Spawns zombies?
 * Player
-    * Collisions
-    * Firetrap use
-        * Pickup
-        * Placement
     * Death
 * Fire Trap
     * Trigger
     * Spawning fire units.
 
 ###### House Generation
-* Rooms
-* Halls between rooms
-* Zombie locations
 * Pillars
-* Exit
-* Player start
-    * Need to place away from exit
+
+###### Gameplay
+* Winning
+    * Going to next level
+* Losing
+    * Restart level on death
 
 *Not required
