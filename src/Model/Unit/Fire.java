@@ -86,7 +86,7 @@ public class Fire extends Unit
   {
     this.location = new Point(tileX * Settings.TILE_SIZE, tileY * Settings.TILE_SIZE);
     this.size = new Dimension(Settings.TILE_SIZE, Settings.TILE_SIZE);
-    this.getHitbox();
+
 
     this.isBurning = true;
     this.timeBurning = 0;
@@ -98,7 +98,8 @@ public class Fire extends Unit
     if (isBurning && timeBurning < 15000)
     {
       timeBurning += deltaTime;
-    } else if (isBurning && timeBurning >= 15000)
+    }
+    else if (isBurning && timeBurning >= 15000)
     {
       isBurning = false;
       //Set tile under to burned.
@@ -122,16 +123,20 @@ public class Fire extends Unit
     if (timeBurning < 1000)
     {
       return FIRE_IGNITE[animationState];
-    } else if (timeBurning < 5000)
+    }
+    else if (timeBurning < 5000)
     {
       return FIRE_START[animationState];
-    } else if (timeBurning < 9000)
+    }
+    else if (timeBurning < 9000)
     {
       return FIRE_FIRST[animationState];
-    } else if (timeBurning < 13000)
+    }
+    else if (timeBurning < 13000)
     {
       return FIRE_SECOND[animationState];
-    } else
+    }
+    else
     {
       return FIRE_SMOKE[animationState];
     }

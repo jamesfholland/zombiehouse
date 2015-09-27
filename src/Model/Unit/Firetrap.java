@@ -33,13 +33,13 @@ public class Firetrap extends Unit
 
   public void spawnFire()
   {
-    setTileCoordinates();
+    Point tile = this.getTileLocation();
 
-    for (int i = tileY - 1; i <= tileY + 1; ++i)
+    for (int i = tile.x - 1; i <= tile.x + 1; ++i)
     {
-      for (int j = tileX - 1; j <= tileX + 1; ++j)
+      for (int j = tile.y - 1; j <= tile.y + 1; ++j)
       {
-        level.FIRES.add(new Fire(j, i));
+        level.FIRES.add(new Fire(i, j));
       }
     }
   }

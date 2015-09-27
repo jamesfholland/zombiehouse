@@ -4,6 +4,9 @@ import Model.Settings;
 import Model.Unit.Fire;
 import Model.Unit.Firetrap;
 import Model.Unit.Zombie.Zombie;
+import Model.Unit.Zombie.ZombieLine;
+import Model.Unit.Zombie.ZombieMaster;
+import Model.Unit.Zombie.ZombieRandom;
 import View.ViewManager;
 
 import java.awt.*;
@@ -41,6 +44,10 @@ class Controller
     Thread gameLoop = new GameLoop();
 
     gameLoop.start();
+
+    //Setup fire's static members especially graphics
+    Object dump = new Fire(0,0);
+
 
   }
 
