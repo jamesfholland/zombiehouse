@@ -26,7 +26,12 @@ public class Player extends Unit
   private int stamina;
 
   private boolean gettingFireTrap;
+  private boolean placeingFireTrap;
+
   private double timePickUpFireTrap;
+  private double timePlacingFireTrap;
+
+  private Firetrap firetrap;
 
   static
   {
@@ -139,9 +144,16 @@ public class Player extends Unit
     running = false;
   }
 
-  public void pickUpFireTrap()
+  public void placeFireTrap()
+  {
+    placeingFireTrap = true;
+    timePlacingFireTrap = 0.0;
+  }
+
+  public void pickUpFireTrap(Firetrap firetrap)
   {
     gettingFireTrap = true;
+    this.firetrap = firetrap;
     timePickUpFireTrap = 0.0;
   }
 
@@ -157,8 +169,28 @@ public class Player extends Unit
     else if (gettingFireTrap && timePickUpFireTrap >= 5000)
     {
       timePickUpFireTrap = 0;
-      ++level.fireTrapCount;
       gettingFireTrap = false;
+      ++level.fireTrapCount;
+      level.firetrapList.remove(firetrap);
+      this.firetrap = null;
+    }
+
+    if (placeingFireTrap && timePlacingFireTrap < 5000)
+    {
+      timePlacingFireTrap += deltaTime;
+      return;
+    }
+    else if (placeingFireTrap && timePlacingFireTrap >= 5000)
+    {
+      timePlacingFireTrap = 0;
+      placeingFireTrap = false;
+      --level.fireTrapCount;
+      int playerCenterTileX = getCenterLocation().x/Settings.TILE_SIZE;
+      int playerCenterTileY = getCenterLocation().y/Settings.TILE_SIZE;
+
+      Point p = new Point(playerCenterTileX*Settings.TILE_SIZE, playerCenterTileY*Settings.TILE_SIZE);
+
+      level.firetrapList.add(new Firetrap(p));
     }
 
     setHeading(inputVector);

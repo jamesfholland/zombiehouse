@@ -27,6 +27,8 @@ public class Controller
   private Player hero;
   private Thread gameLoop;
   private Point heroDirection;
+
+  private boolean onFireTrap = false;
   //private LinkedList<Zombie> zombieList;
 
   public Controller()
@@ -74,10 +76,22 @@ public class Controller
     }
     if (view.keyboard.keyDown(KeyEvent.VK_P))
     {
-      //int heroCenterTileX;
-      //int heroCenterTileY;
+      for (Firetrap firetrap : currentLevel.firetrapList)
+      {
+        if (firetrap.getHitbox().contains(hero.getCenterLocation()))
+        {
+          onFireTrap = true;
+          hero.pickUpFireTrap(firetrap);
+          break;
+        }
+      }
 
-      //for (Firetrap firetrap : )
+      onFireTrap = false;
+
+      if (!onFireTrap && currentLevel.fireTrapCount>0)
+      {
+        hero.placeFireTrap();
+      }
 
 
     }
