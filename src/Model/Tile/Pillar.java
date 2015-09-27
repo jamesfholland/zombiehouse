@@ -36,11 +36,12 @@ public class Pillar extends Tile
     {
       e.printStackTrace();
     }
+    assert imageTemp != null;
     //Table type
     TABLE_IMAGE = new BufferedImage(Settings.TILE_SIZE, Settings.TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
     Graphics graphics = TABLE_IMAGE.getGraphics();
         graphics.drawImage(imageFloor, 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
-        graphics.drawImage(imageTemp.getSubimage(136, 176, 46, 79), 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
+    graphics.drawImage(imageTemp.getSubimage(136, 176, 46, 79), 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
 
     //Plant type
     PLANT_IMAGE = new BufferedImage(Settings.TILE_SIZE, Settings.TILE_SIZE, BufferedImage.TYPE_INT_ARGB);

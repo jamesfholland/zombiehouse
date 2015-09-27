@@ -25,7 +25,7 @@ class ClockwisePointComparator implements Comparator<Point>
 
     if(angleCompare == 0)
     {
-      return (1) * Double.compare(center.distanceSq(pointA), center.distanceSq(pointB));
+      return Double.compare(center.distanceSq(pointA), center.distanceSq(pointB));
     }
     return angleCompare;
   }

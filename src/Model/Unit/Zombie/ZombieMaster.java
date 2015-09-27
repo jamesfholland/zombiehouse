@@ -29,6 +29,7 @@ public class ZombieMaster extends ZombieLine
     {
       e.printStackTrace();
     }
+    assert imageTemp != null;
     spriteHeight = imageTemp.getHeight() / SPRITES_ROWS;
     spriteWidth = imageTemp.getWidth() / SPRITES_PER_ROW;
 
