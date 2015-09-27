@@ -26,10 +26,9 @@ public class Player extends Unit
   private int stamina;
 
   private boolean gettingFireTrap;
-  private boolean placeingFireTrap;
+  private boolean placingFireTrap;
 
-  private double timePickUpFireTrap;
-  private double timePlacingFireTrap;
+  private double fireTrapTime;
 
   private Firetrap firetrap;
 
@@ -151,44 +150,49 @@ public class Player extends Unit
 
   public void placeFireTrap()
   {
-    placeingFireTrap = true;
-    timePlacingFireTrap = 0.0;
+    placingFireTrap = true;
+    fireTrapTime = 0.0;
   }
 
   public void pickUpFireTrap(Firetrap firetrap)
   {
     gettingFireTrap = true;
     this.firetrap = firetrap;
-    timePickUpFireTrap = 0.0;
+    fireTrapTime = 0.0;
+  }
+
+  public boolean pickingOrPlacing()
+  {
+    return (placingFireTrap || gettingFireTrap);
   }
 
 
   @Override
   public void update(long deltaTime, long secondsFromStart)
   {
-    if (gettingFireTrap && timePickUpFireTrap < 5000)
+    if (gettingFireTrap && fireTrapTime < 5000)
     {
-      timePickUpFireTrap += deltaTime;
+      fireTrapTime += deltaTime;
       return;
     }
-    else if (gettingFireTrap && timePickUpFireTrap >= 5000)
+    else if (gettingFireTrap && fireTrapTime >= 5000)
     {
-      timePickUpFireTrap = 0;
+      fireTrapTime = 0;
       gettingFireTrap = false;
       ++level.fireTrapCount;
       level.firetrapList.remove(firetrap);
       this.firetrap = null;
     }
 
-    if (placeingFireTrap && timePlacingFireTrap < 5000)
+    if (!gettingFireTrap && placingFireTrap && fireTrapTime < 5000)
     {
-      timePlacingFireTrap += deltaTime;
+      fireTrapTime += deltaTime;
       return;
     }
-    else if (placeingFireTrap && timePlacingFireTrap >= 5000)
+    else if (!gettingFireTrap && placingFireTrap && fireTrapTime >= 5000)
     {
-      timePlacingFireTrap = 0;
-      placeingFireTrap = false;
+      fireTrapTime = 0;
+      placingFireTrap = false;
       --level.fireTrapCount;
       int playerCenterTileX = getCenterLocation().x/Settings.TILE_SIZE;
       int playerCenterTileY = getCenterLocation().y/Settings.TILE_SIZE;

@@ -75,6 +75,10 @@ public class Controller
     }
     if (view.keyboard.keyDown(KeyEvent.VK_P))
     {
+      if (currentLevel.player.pickingOrPlacing())
+      {
+        return;
+      }
       for (Firetrap firetrap : currentLevel.firetrapList)
       {
         if (firetrap.getHitbox().contains(currentLevel.player.getCenterLocation()))
@@ -90,8 +94,6 @@ public class Controller
       {
         currentLevel.player.placeFireTrap();
       }
-
-
     }
 
     if (view.keyboard.keyDown(KeyEvent.VK_R))
