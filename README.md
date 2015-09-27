@@ -18,11 +18,6 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 ###### Interface
 * Tile graphics
     * Exit
-* Unit animated graphics
-    * Fire
-        * Explosion
-        * Fizzle out
-        * Change surrounding tiles
 * Score Bar
     * Current Level
     * Fire trap count
@@ -46,15 +41,7 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
     * Zombie Master details
         * Detect if any zombie finds player
         * Other Special abilities
-            * Fire starting?
-            * Faster?
-            * Never loses player location?
-            * Spawns zombies?
-* Player
-    * Death
-* Fire Trap
-    * Trigger
-    * Spawning fire units.
+            * Immune to Fire
 
 ###### House Generation
 * Pillars
