@@ -20,10 +20,9 @@ class Controller
 {
   private final ViewManager VIEW;
 
+  private HouseGeneration houseGenerator;
   private Level currentLevel;
   private Point heroDirection;
-
-  //private LinkedList<Zombie> ZOMBIES;
 
   public Controller()
   {
@@ -32,7 +31,7 @@ class Controller
 
     heroDirection = new Point(0, 0);
     // Run house generator
-    HouseGeneration houseGenerator = new HouseGeneration();
+    houseGenerator = new HouseGeneration();
 
     currentLevel = houseGenerator.getCurrentLevel();
     //ZOMBIES = currentLevel.ZOMBIES;
@@ -143,6 +142,11 @@ class Controller
           currentLevel.PLAYER.setInputVector(heroDirection);
           currentLevel.PLAYER.update(deltaTime);
 
+          if( currentLevel.PLAYER.checkCollision(currentLevel.EXIT.getHitbox()))
+          {
+            playerWinLevel();
+          }
+
           Iterator<Zombie> zlIterator = currentLevel.ZOMBIES.iterator();
           while (zlIterator.hasNext())
           {
@@ -151,13 +155,8 @@ class Controller
             if (currentLevel.PLAYER.checkCollision(zombie.getHitbox()))
             {
               //GAME OVER
-              //hero = new Player(new Point(0, 0), null);
-              //houseGenerator.respawnSameMap();
-              //currentLevel = houseGenerator.getCurrentLevel();
-
-              //currentLevel.PLAYER.setDoubleLocation();
-              //VIEW.setLevel(currentLevel);
-              //break;
+              playerDeath();
+              break;
             }
 
             Iterator<Firetrap> ftIterator = currentLevel.FIRETRAPS.iterator();
@@ -203,19 +202,30 @@ class Controller
             if (fire.checkCollision(currentLevel.PLAYER.getHitbox()))
             {
               //GAME OVER
-              //hero = new Player(new Point(0, 0), null);
-              //houseGenerator.respawnSameMap();
-              //currentLevel = houseGenerator.getCurrentLevel();
-
-              //currentLevel.PLAYER.setDoubleLocation();
-              //VIEW.setLevel(currentLevel);
-              //break;
+              playerDeath();
+              break;
             }
           }
         }
         VIEW.repaint();
         lastTime = thisTime;
       }
+    }
+
+    private void playerDeath()
+    {
+      houseGenerator.respawnSameMap();
+      currentLevel = houseGenerator.getCurrentLevel();
+      currentLevel.PLAYER.setDoubleLocation();
+      VIEW.setLevel(currentLevel);
+    }
+
+    private void playerWinLevel()
+    {
+      houseGenerator.spawnNewLevel();
+      currentLevel = houseGenerator.getCurrentLevel();
+      currentLevel.PLAYER.setDoubleLocation();
+      VIEW.setLevel(currentLevel);
     }
   }
 
