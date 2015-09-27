@@ -4,6 +4,7 @@ import Model.Level;
 import Model.Settings;
 import Model.Tile.Tile;
 import Model.Tile.Wall;
+import Model.Unit.Fire;
 import Model.Unit.Firetrap;
 import Model.Unit.Player;
 import Model.Unit.Unit;
@@ -161,6 +162,14 @@ public class GamePanel extends JPanel
         if (firetrap.checkCollision(sightBox))
         {
           scaleAndDrawImage(firetrap.getImage(), graphics, firetrap.getLocation(), firetrap.getSize());
+        }
+      }
+
+      for (Fire fire : level.fireList)
+      {
+        if (fire.checkCollision(sightBox))
+        {
+          scaleAndDrawImage(fire.getImage(), graphics, fire.getLocation(), fire.getSize());
         }
       }
 
