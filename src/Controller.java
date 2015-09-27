@@ -24,7 +24,6 @@ public class Controller
 
   private HouseGeneration houseGenerator;
   private Level currentLevel;
-  private Player hero;
   private Thread gameLoop;
   private Point heroDirection;
 
@@ -36,17 +35,16 @@ public class Controller
     view = new ViewManager();
     //Ask for defaults
 
-    hero = new Player(new Point(0,0), currentLevel);
-
     heroDirection = new Point(0,0);
     // Run house generator
-    houseGenerator = new HouseGeneration(hero);
+    houseGenerator = new HouseGeneration();
 
     currentLevel = houseGenerator.getCurrentLevel();
     //zombieList = currentLevel.zombieList;
 
+
     view.setLevel(currentLevel);
-    hero.setDoubleLocation();
+    currentLevel.player.setDoubleLocation();
 
     gameLoop = new GameLoop();
 
@@ -78,10 +76,10 @@ public class Controller
     {
       for (Firetrap firetrap : currentLevel.firetrapList)
       {
-        if (firetrap.getHitbox().contains(hero.getCenterLocation()))
+        if (firetrap.getHitbox().contains(currentLevel.player.getCenterLocation()))
         {
           onFireTrap = true;
-          hero.pickUpFireTrap(firetrap);
+          currentLevel.player.pickUpFireTrap(firetrap);
           break;
         }
       }
@@ -90,7 +88,7 @@ public class Controller
 
       if (!onFireTrap && currentLevel.fireTrapCount>0)
       {
-        hero.placeFireTrap();
+        currentLevel.player.placeFireTrap();
       }
 
 
@@ -98,11 +96,11 @@ public class Controller
 
     if (view.keyboard.keyDown(KeyEvent.VK_R))
     {
-      hero.setSpeedRun();
+      currentLevel.player.setSpeedRun();
     }
     else
     {
-      hero.setSpeedWalk();
+      currentLevel.player.setSpeedWalk();
     }
     heroDirection.setLocation(x,y);
   }
@@ -141,23 +139,22 @@ public class Controller
 
         view.keyboard.poll();
         processInput();
-        hero.setInputVector(heroDirection);
-        hero.update(deltaTime, secondsFromStart);
+        currentLevel.player.setInputVector(heroDirection);
+        currentLevel.player.update(deltaTime, secondsFromStart);
+
+
 
         for (Zombie zombie : currentLevel.zombieList)
         {
           zombie.update(deltaTime,secondsFromStart);
-        }
-
-
-        for (Zombie zombie : currentLevel.zombieList)
-        {
-          if (hero.checkCollision(zombie.getHitbox()))
+          if (currentLevel.player.checkCollision(zombie.getHitbox()))
           {
             //GAME OVER
-            hero = new Player(new Point(0, 0), null);
+            //hero = new Player(new Point(0, 0), null);
             houseGenerator.respawnSameMap();
             currentLevel = houseGenerator.getCurrentLevel();
+
+            currentLevel.player.setDoubleLocation();
             view.setLevel(currentLevel);
             break;
           }

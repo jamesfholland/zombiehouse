@@ -41,7 +41,7 @@ public class HouseGeneration
   //                            on new level, take new seed
   private static long lastRandomSeed;
 
-  public HouseGeneration(Player player)
+  public HouseGeneration()
   {
     houseWidth = Settings.PRACTICE_MAP_SIZE;
     houseHeight = Settings.PRACTICE_MAP_SIZE;
@@ -54,7 +54,6 @@ public class HouseGeneration
 
     currentLevelNum = 1;
 
-    this.player = player;
     lastRandomSeed = System.nanoTime();
     Settings.RANDOM.setSeed(lastRandomSeed);
 
@@ -298,7 +297,7 @@ public class HouseGeneration
       playerY = Settings.RANDOM.nextInt(houseHeight);
       if ( houseTiles[playerX][playerY].isEmptyFloor() )
       {
-        player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
+        this.player = new Player(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE), null);
         playerNotPlaced = false;
       }
     }
