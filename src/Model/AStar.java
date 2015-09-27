@@ -1,20 +1,21 @@
 package Model;
 
-import Model.Unit.Zombie.Zombie;
-import java.awt.Point;
-import java.util.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 /**
- * Created by jmweisburd on 9/24/15.
+ * This class handles the computation of astar paths.
  */
 public class AStar
 {
-  static Level level;
-  PriorityQueue<Node> frontier =  new PriorityQueue();
-  List<Node> visited = new ArrayList<>();
-  LinkedList<Node> path = new LinkedList();
-  List<Node> neighbors = new LinkedList<>();
-  Node goal;
+  private static Level level;
+  private PriorityQueue<Node> frontier =  new PriorityQueue<>();
+  private List<Node> visited = new ArrayList<>();
+  private LinkedList<Node> path = new LinkedList<>();
+  private List<Node> neighbors = new LinkedList<>();
 
   public AStar(Level level)
   {
@@ -23,7 +24,7 @@ public class AStar
 
   public static double eculiDistanceFromPlayer(Point zombLocation)
   {
-    return zombLocation.distance(level.player.location);
+    return zombLocation.distance(level.player.getLocation());
   }
 
   private void search(Point zombLocation)
@@ -33,7 +34,7 @@ public class AStar
     visited.clear();
     neighbors.clear();
     Node start = new Node(zombLocation,0);
-    goal = new Node(level.player.getCenterLocation(), 0);
+    Node goal = new Node(level.player.getCenterLocation(), 0);
     Node current;
     frontier.add(start);
     while (!frontier.isEmpty())
