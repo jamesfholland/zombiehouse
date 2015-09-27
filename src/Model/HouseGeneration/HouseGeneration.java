@@ -100,8 +100,7 @@ public class HouseGeneration
     //   - after deciding, guess a possible size (within the min/max set above)
       double percentRoomChance = 0.65;
       boolean buildRoom;
-      if ( Settings.RANDOM.nextDouble() < percentRoomChance ) { buildRoom = true; }
-      else { buildRoom = false; }
+      buildRoom = Settings.RANDOM.nextDouble() < percentRoomChance;
 
       // the 4 variables that will be passed to check
       int neededWidth = 0;
@@ -284,8 +283,7 @@ public class HouseGeneration
   private boolean offMap(int x, int y)
   {
     if( x < 0 || x >= houseWidth) { return true; }
-    if( y < 0 || y >= houseHeight) { return true; }
-    return false;
+    return y < 0 || y >= houseHeight;
   }
 
   private void playerSpawn()
@@ -297,7 +295,7 @@ public class HouseGeneration
       playerY = Settings.RANDOM.nextInt(houseHeight);
       if ( houseTiles[playerX][playerY].isEmptyFloor() )
       {
-        this.player = new Player(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE), null);
+        this.player = new Player(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
         playerNotPlaced = false;
       }
     }

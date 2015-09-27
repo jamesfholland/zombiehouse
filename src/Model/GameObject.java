@@ -106,6 +106,6 @@ public abstract class GameObject
 
   public void setLevel(Level level)
   {
-    this.level = level;
+    GameObject.level = level;
   }
 }

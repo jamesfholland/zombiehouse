@@ -1,5 +1,6 @@
 package Model.Unit.Zombie;
 
+import Model.AStar;
 import Model.Settings;
 import Model.Unit.Unit;
 
@@ -31,13 +32,6 @@ public abstract class Zombie extends Unit
 
   public void canSmellPlayer()
   {
-    if (level.aStar.eculiDistanceFromPlayer(this.location) < Settings.ZOMBIE_SMELL)
-    {
-      knowsPlayerLocation = true;
-    }
-    else
-    {
-      knowsPlayerLocation = false;
-    }
+    knowsPlayerLocation = AStar.eculiDistanceFromPlayer(this.location) < Settings.ZOMBIE_SMELL;
   }
 }

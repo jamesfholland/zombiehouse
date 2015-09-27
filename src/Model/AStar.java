@@ -19,7 +19,7 @@ public class AStar
 
   public AStar(Level level)
   {
-    this.level = level;
+    AStar.level = level;
   }
 
   public static double eculiDistanceFromPlayer(Point zombLocation)
@@ -178,17 +178,13 @@ public class AStar
     @Override
     public boolean equals(Object obj)
     {
-      if (((Node) obj).tileX == this.tileX && ((Node) obj).tileY == this.tileY)
-      {
-        return true;
-      }
-      return false;
+      return ((Node) obj).tileX == this.tileX && ((Node) obj).tileY == this.tileY;
     }
 
     @Override
     public int compareTo(Node o)
     {
-      return Integer.compare(this.fScore, ((Node) o).fScore);
+      return Integer.compare(this.fScore, o.fScore);
     }
   }
 }

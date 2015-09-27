@@ -36,7 +36,6 @@ public class GamePanel extends JPanel
   private Point corner;
 
   private Area blackMask;
-  private Area circleMask;
   private static BufferedImage circularGradient;
 
   private double windowScale;
@@ -120,7 +119,7 @@ public class GamePanel extends JPanel
                   scaleY((int) viewWindow.getY()),
                   (int) (viewWindow.getWidth() / windowScale),
                   (int) (viewWindow.getHeight() / windowScale)));
-          circleMask = new Area(
+          Area circleMask = new Area(
               new Rectangle(
                   scaleX((int) viewWindow.getX()),
                   scaleY((int) viewWindow.getY()),

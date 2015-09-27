@@ -59,10 +59,9 @@ public class Player extends Unit
     WALK_RIGHT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
   }
 
-  public Player(Point location, Level level)
+  public Player(Point location)
   {
     this.location = location;
-    this.level = level;
 
     this.speed = Settings.SPEED_WALK;
     this.running = false;

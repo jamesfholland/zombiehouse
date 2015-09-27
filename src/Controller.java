@@ -23,12 +23,9 @@ public class Controller
 {
   private ViewManager view;
 
-  private HouseGeneration houseGenerator;
   private Level currentLevel;
-  private Thread gameLoop;
   private Point heroDirection;
 
-  private boolean onFireTrap = false;
   //private LinkedList<Zombie> zombieList;
 
   public Controller()
@@ -38,7 +35,7 @@ public class Controller
 
     heroDirection = new Point(0,0);
     // Run house generator
-    houseGenerator = new HouseGeneration();
+    HouseGeneration houseGenerator = new HouseGeneration();
 
     currentLevel = houseGenerator.getCurrentLevel();
     //zombieList = currentLevel.zombieList;
@@ -47,7 +44,7 @@ public class Controller
     view.setLevel(currentLevel);
     currentLevel.player.setDoubleLocation();
 
-    gameLoop = new GameLoop();
+    Thread gameLoop = new GameLoop();
 
     gameLoop.start();
 
@@ -79,6 +76,7 @@ public class Controller
       {
         return;
       }
+      boolean onFireTrap = false;
       for (Firetrap firetrap : currentLevel.firetrapList)
       {
         if (firetrap.getHitbox().contains(currentLevel.player.getCenterLocation()))
