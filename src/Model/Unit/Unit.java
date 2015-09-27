@@ -64,7 +64,7 @@ public abstract class Unit extends GameObject
   /**
    * Finds the units x,y coordinates on the tilesArray
    */
-  private void setTileCoordinates() throws ArrayIndexOutOfBoundsException
+  public void setTileCoordinates() throws ArrayIndexOutOfBoundsException
   {
     this.tileX = (location.x/Settings.TILE_SIZE);
     this.tileY = (location.y/Settings.TILE_SIZE);

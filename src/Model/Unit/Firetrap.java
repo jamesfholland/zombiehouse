@@ -34,6 +34,19 @@ public class Firetrap extends Unit
     this.size = new Dimension(FIRETRAP_IMAGE.getWidth(), FIRETRAP_IMAGE.getHeight());
   }
 
+  public void spawnFire()
+  {
+    setTileCoordinates();
+
+    for (int i = tileY-1; i <=tileY+1; ++i)
+    {
+      for (int j = tileX-1; j <= tileX+1; ++j)
+      {
+        level.fireList.add(new Fire(j, i));
+      }
+    }
+  }
+
   @Override
   public void update(long deltaTime, long secondsFromStart)
   {

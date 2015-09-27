@@ -13,6 +13,7 @@ import View.ViewManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -80,7 +81,6 @@ public class Controller
         {
           onFireTrap = true;
           currentLevel.player.pickUpFireTrap(firetrap);
-          break;
         }
       }
 
@@ -142,8 +142,48 @@ public class Controller
         currentLevel.player.setInputVector(heroDirection);
         currentLevel.player.update(deltaTime, secondsFromStart);
 
+        Iterator<Zombie> zlIterator = currentLevel.zombieList.iterator();
+        while (zlIterator.hasNext())
+        {
+          Zombie zombie = zlIterator.next();
+          zombie.update(deltaTime, secondsFromStart);
+          if (currentLevel.player.checkCollision(zombie.getHitbox()))
+          {
+            //game over
+          }
+
+          Iterator<Firetrap> ftIterator = currentLevel.firetrapList.iterator();
+          while (ftIterator.hasNext())
+          {
+            Firetrap ft = ftIterator.next();
+            if (ft.checkCollision(zombie.getHitbox()))
+            {
+              ft.spawnFire();
+              //currentLevel.firetrapList.remove(ft);
+            }
+            if (currentLevel.player.isRunning() && currentLevel.player.checkCollision(ft.getHitbox()))
+            {
+              ft.spawnFire();
+              //currentLevel.firetrapList.remove(ft);
+            }
+          }
+
+          Iterator<Fire> fireIterator = currentLevel.fireList.iterator();
+          while (fireIterator.hasNext())
+          {
+            Fire fire = fireIterator.next();
+            if (fire.checkCollision(zombie.getHitbox()))
+            {
+              //currentLevel.zombieList.remove(zombie);
+            }
+            if (fire.checkCollision(currentLevel.player.getHitbox()))
+            {
+              //game over
+            }
+        }
 
 
+        /*
         for (Zombie zombie : currentLevel.zombieList)
         {
           zombie.update(deltaTime,secondsFromStart);
@@ -151,31 +191,47 @@ public class Controller
           {
             //GAME OVER
             //hero = new Player(new Point(0, 0), null);
-            houseGenerator.respawnSameMap();
-            currentLevel = houseGenerator.getCurrentLevel();
+            //houseGenerator.respawnSameMap();
+            //currentLevel = houseGenerator.getCurrentLevel();
 
-            currentLevel.player.setDoubleLocation();
-            view.setLevel(currentLevel);
-            break;
+            //currentLevel.player.setDoubleLocation();
+            //view.setLevel(currentLevel);
+            //break;
           }
 
-          for( Firetrap firetrap : currentLevel.firetrapList )
+          Iterator<Firetrap> ftIterator = currentLevel.firetrapList.iterator();
+          while (ftIterator.hasNext())
           {
-            if ( firetrap.checkCollision(zombie.getHitbox() ))
+            Firetrap ft = ftIterator.next();
+            if (ft.checkCollision(zombie.getHitbox()))
             {
-
+              ft.spawnFire();
+              currentLevel.firetrapList.remove(ft);
             }
+            if (currentLevel.player.isRunning() && currentLevel.player.checkCollision(ft.getHitbox()))
+            {
+              ft.spawnFire();
+              currentLevel.firetrapList.remove(ft);
+            }
+
           }
 
           /*
-          for (Fire fire : currentLevel.fireList)
+          for( Firetrap firetrap : currentLevel.firetrapList )
           {
-            if (zombie.checkCollision(fire.getHitbox()))
+            if (firetrap.checkCollision(zombie.getHitbox()))
             {
-              currentLevel.zombieList.remove(zombie);
+              firetrap.spawnFire();
+              currentLevel.firetrapList.remove(firetrap);
+            }
+            if (currentLevel.player.isRunning() && currentLevel.player.checkCollision(firetrap.getHitbox()))
+            {
+              firetrap.spawnFire();
+              currentLevel.firetrapList.remove(firetrap);
             }
           }*/
         }
+
 
 
         view.repaint();

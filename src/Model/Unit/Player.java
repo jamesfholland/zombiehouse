@@ -138,6 +138,11 @@ public class Player extends Unit
     }
   }
 
+  public boolean isRunning()
+  {
+    return running;
+  }
+
   public void setSpeedWalk()
   {
     speed = Settings.SPEED_WALK;

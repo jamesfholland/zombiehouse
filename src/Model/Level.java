@@ -37,7 +37,7 @@ public class Level
     houseTiles = houseGen.getHouseTiles();
     zombieList = houseGen.getZombieList();
     firetrapList = houseGen.getFiretrapList();
-    fireTrapCount = houseGen.getFireTrapCount();
+    fireTrapCount = houseGen.getFireTrapCount() + 1;
     exit = houseGen.getExit();
     this.aStar = new AStar(this);
     fireList = new LinkedList<>();
