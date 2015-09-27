@@ -40,4 +40,9 @@ public abstract class Tile extends GameObject
   public void markForDeletion() {}
 
   public boolean getDeletion() { return false; }
+
+  public void burn()
+  {
+   this.burned = true;
+  }
 }

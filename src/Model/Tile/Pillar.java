@@ -18,7 +18,7 @@ public class Pillar extends Tile
   private final static BufferedImage PLANT_IMAGE;
   private final static BufferedImage BURN_IMAGE;
 
-  private final PillarType PILLAR_TYPE;
+  private PillarType PILLAR_TYPE;
 
   static
   {
@@ -89,6 +89,14 @@ public class Pillar extends Tile
   public void collide(GameObject other)
   {
 
+  }
+
+  @Override
+  public void burn()
+  {
+    super.burn();
+    this.passable = true;
+    this.PILLAR_TYPE = PillarType.BURN;
   }
 
   @Override

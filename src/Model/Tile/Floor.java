@@ -1,6 +1,7 @@
 package Model.Tile;
 
 import Model.GameObject;
+import Model.Settings;
 
 import javax.imageio.ImageIO;
 import javax.security.auth.login.FailedLoginException;
@@ -22,27 +23,28 @@ public class Floor extends Tile
 
   static
   {
-    BufferedImage imageTemp = null;
+    BufferedImage imageFloor = null;
+    BufferedImage imageBurn = null;
 
     try
     {
-      imageTemp = ImageIO.read(Floor.class.getResourceAsStream("hardwood.png"));
+      imageFloor = ImageIO.read(Pillar.class.getResourceAsStream("hardwood.png"));
+      imageBurn = ImageIO.read(Pillar.class.getResourceAsStream("burn.png"));
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
-    FLOOR_IMAGE = imageTemp;
-
-    try
-    {
-      imageTemp = ImageIO.read(Floor.class.getResourceAsStream("burn.png"));
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
-    FLOOR_BURNED_IMAGE = imageTemp;
+    Graphics graphics;
+    //Basic Floor
+    FLOOR_IMAGE = new BufferedImage(Settings.TILE_SIZE, Settings.TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+    graphics = FLOOR_IMAGE.getGraphics();
+    graphics.drawImage(imageFloor, 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
+    //Burned Floor
+    FLOOR_BURNED_IMAGE = new BufferedImage(Settings.TILE_SIZE, Settings.TILE_SIZE, BufferedImage.TYPE_INT_ARGB);
+    graphics = FLOOR_BURNED_IMAGE.getGraphics();
+    graphics.drawImage(imageFloor, 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
+    graphics.drawImage(imageBurn, 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
   }
 
   public Floor(Point location)
