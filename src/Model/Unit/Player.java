@@ -18,7 +18,7 @@ public class Player extends Unit
   private static final BufferedImage[] WALK_DOWN_IMAGE;
 
   private Point inputVector;
-  private double speed;
+
   private boolean running;
   private int stamina;
 

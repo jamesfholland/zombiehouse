@@ -80,8 +80,6 @@ class Controller
         }
       }
 
-      onFireTrap = false;
-
       if (!onFireTrap && currentLevel.fireTrapCount > 0)
       {
         currentLevel.PLAYER.placeFireTrap();
