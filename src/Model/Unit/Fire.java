@@ -124,7 +124,7 @@ public class Fire extends Unit
       animationState = 0;
     }
 
-    if(timeBurning < 500)
+    if(timeBurning < 1000)
     {
       return FIRE_IGNITE[animationState];
     }
