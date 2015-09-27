@@ -6,7 +6,6 @@ import Model.Tile.Tile;
 import Model.Tile.Wall;
 import Model.Unit.Fire;
 import Model.Unit.Firetrap;
-import Model.Unit.Player;
 import Model.Unit.Unit;
 import Model.Unit.Zombie.Zombie;
 
@@ -41,10 +40,6 @@ public class GamePanel extends JPanel
   private static BufferedImage circularGradient;
 
   private double windowScale;
-  private Player player;
-  private Tile[][] tiles;
-  private LinkedList<Zombie> zombies;
-  private LinkedList<Firetrap> firetrapList;
 
   static
   {
@@ -104,12 +99,11 @@ public class GamePanel extends JPanel
         this.getSize();
         windowScale = Settings.WIDTH_STANDARD / (double) this.getWidth();
 
-        if (player != null)
+        if (level.player != null)
         {
 
-          center.setLocation(player.getLocation());
+          center.setLocation(level.player.getCenterLocation());
 
-          center.translate(player.getSize().width / 2, player.getSize().height / 2);
           corner.setLocation(center);
           double dynamicHeight = this.getHeight() * windowScale;
           corner.translate((-1) * Settings.WIDTH_STANDARD / 2, (int) ((-1) * dynamicHeight / 2));
@@ -136,24 +130,24 @@ public class GamePanel extends JPanel
 
           LinkedList<Tile> walls = new LinkedList<>();
 
-          for (int i = 0; i < tiles.length; i++)
+          for (int i = 0; i < level.houseTiles.length; i++)
           {
-            for (int j = 0; j < tiles[i].length; j++)
+            for (int j = 0; j < level.houseTiles[i].length; j++)
             {
-              if (tiles[i][j] != null && tiles[i][j].checkCollision(sightBox))
+              if (level.houseTiles[i][j] != null && level.houseTiles[i][j].checkCollision(sightBox))
               {
-                if (!(tiles[i][j] instanceof Wall))
+                if (!(level.houseTiles[i][j] instanceof Wall))
                 {
-                  scaleAndDrawImage(tiles[i][j].getImage(), graphics, tiles[i][j].getLocation(), tiles[i][j].getSize());
+                  scaleAndDrawImage(level.houseTiles[i][j].getImage(), graphics, level.houseTiles[i][j].getLocation(), level.houseTiles[i][j].getSize());
                 } else
                 {
-                  walls.add(tiles[i][j]);
+                  walls.add(level.houseTiles[i][j]);
                 }
               }
             }
           }
 
-          for (Zombie zombie : zombies)
+          for (Zombie zombie : level.zombieList)
           {
             if (zombie.checkCollision(sightBox))
             {
@@ -161,7 +155,7 @@ public class GamePanel extends JPanel
             }
           }
 
-          for (Firetrap firetrap : firetrapList)
+          for (Firetrap firetrap : level.firetrapList)
           {
             if (firetrap.checkCollision(sightBox))
             {
@@ -177,9 +171,9 @@ public class GamePanel extends JPanel
             }
           }
 
-          scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
+          scaleAndDrawImage(level.player.getImage(), graphics, level.player.getLocation(), level.player.getSize());
 
-          detectShadows(player, sightBox, walls);
+          detectShadows(level.player, sightBox, walls);
 
           graphics.setColor(Color.BLACK);
           graphics2D.fill(blackMask);
@@ -341,10 +335,5 @@ public class GamePanel extends JPanel
   void setLevel(Level level)
   {
     this.level = level;
-    this.player = level.player;
-    this.tiles = level.houseTiles;
-    this.zombies = level.zombieList;
-    this.firetrapList = level.firetrapList;
-
   }
 }
