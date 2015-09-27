@@ -200,6 +200,11 @@ public class Controller
           }
         }
 
+        for(Fire fire : currentLevel.fireList)
+        {
+          fire.update(deltaTime, secondsFromStart);
+        }
+
         view.repaint();
         lastTime = thisTime;
       }
