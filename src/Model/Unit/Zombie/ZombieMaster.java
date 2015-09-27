@@ -1,10 +1,8 @@
 package Model.Unit.Zombie;
 
-import Model.GameObject;
 import Model.Unit.SpriteParser;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -49,12 +47,6 @@ public class ZombieMaster extends ZombieLine
   }
 
   @Override
-  public Clip getSound()
-  {
-    return null;
-  }
-
-  @Override
   public BufferedImage getImage()
   {
     if (direction == null)
@@ -77,9 +69,4 @@ public class ZombieMaster extends ZombieLine
     }
   }
 
-  @Override
-  public void collide(GameObject other)
-  {
-
-  }
 }

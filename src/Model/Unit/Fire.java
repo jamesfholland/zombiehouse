@@ -1,10 +1,8 @@
 package Model.Unit;
 
-import Model.GameObject;
 import Model.Settings;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,12 +17,12 @@ public class Fire extends Unit
   private static final BufferedImage[] FIRE_SMOKE;
 
 
-  protected static final int SPRITE_ROWS = 8;
-  protected static final int SPRITES_PER_ROW = 8;
-  protected static final int SPRITE_COUNT = SPRITES_PER_ROW * SPRITE_ROWS;
+  private static final int SPRITE_ROWS = 8;
+  private static final int SPRITES_PER_ROW = 8;
+  private static final int SPRITE_COUNT = SPRITES_PER_ROW * SPRITE_ROWS;
 
-  protected static final int SPRITE_HORIZONTAL_OFFSET = 0;
-  protected static final int SPRITE_VERTICAL_OFFSET = 35;
+  private static final int SPRITE_HORIZONTAL_OFFSET = 0;
+  private static final int SPRITE_VERTICAL_OFFSET = 35;
 
 
   private boolean isBurning;
@@ -95,7 +93,7 @@ public class Fire extends Unit
   }
 
   @Override
-  public void update(long deltaTime, long secondsFromStart)
+  public void update(long deltaTime)
   {
     if (isBurning && timeBurning < 15000)
     {
@@ -110,12 +108,6 @@ public class Fire extends Unit
   public boolean isBurning()
   {
     return isBurning;
-  }
-
-  @Override
-  public Clip getSound()
-  {
-    return null;
   }
 
   @Override
@@ -145,9 +137,4 @@ public class Fire extends Unit
     }
   }
 
-  @Override
-  public void collide(GameObject other)
-  {
-
-  }
 }

@@ -1,9 +1,6 @@
 package Model.Unit;
 
-import Model.GameObject;
-
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -42,21 +39,15 @@ public class Firetrap extends Unit
     {
       for (int j = tileX - 1; j <= tileX + 1; ++j)
       {
-        level.fireList.add(new Fire(j, i));
+        level.FIRES.add(new Fire(j, i));
       }
     }
   }
 
   @Override
-  public void update(long deltaTime, long secondsFromStart)
+  public void update(long deltaTime)
   {
 
-  }
-
-  @Override
-  public Clip getSound()
-  {
-    return null;
   }
 
   @Override
@@ -65,9 +56,4 @@ public class Firetrap extends Unit
     return FIRETRAP_IMAGE;
   }
 
-  @Override
-  public void collide(GameObject other)
-  {
-
-  }
 }

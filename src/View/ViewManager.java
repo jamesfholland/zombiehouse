@@ -10,28 +10,28 @@ import java.awt.*;
  */
 public class ViewManager
 {
-  private MainFrame frame;
-  private ScoreBar scoreBar;
-  private GamePanel gamePanel;
-  public KeyboardInput keyboard;
+  private final MainFrame FRAME;
+  private final ScoreBar SCORE_BAR;
+  private final GamePanel GAME_PANEL;
+  public final KeyboardInput KEYBOARD;
 
   public ViewManager()
   {
-    this.frame = new MainFrame();
-    this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    this.frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+    this.FRAME = new MainFrame();
+    this.FRAME.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.FRAME.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-    this.scoreBar = new ScoreBar();
-    this.frame.add(this.scoreBar, BorderLayout.NORTH);
+    this.SCORE_BAR = new ScoreBar();
+    this.FRAME.add(this.SCORE_BAR, BorderLayout.NORTH);
 
-    this.gamePanel = new GamePanel();
-    this.keyboard = new KeyboardInput();
-    this.gamePanel.addKeyListener(keyboard);
-    this.gamePanel.setFocusable(true);
-    this.frame.add(this.gamePanel, BorderLayout.CENTER);
+    this.GAME_PANEL = new GamePanel();
+    this.KEYBOARD = new KeyboardInput();
+    this.GAME_PANEL.addKeyListener(KEYBOARD);
+    this.GAME_PANEL.setFocusable(true);
+    this.FRAME.add(this.GAME_PANEL, BorderLayout.CENTER);
 
-    this.frame.setVisible(true);
-    this.frame.pack();
+    this.FRAME.setVisible(true);
+    this.FRAME.pack();
 
   }
 
@@ -43,11 +43,11 @@ public class ViewManager
    */
   public void setLevel(Level level)
   {
-    gamePanel.setLevel(level);
+    GAME_PANEL.setLevel(level);
   }
 
   public void repaint()
   {
-    frame.repaint();
+    FRAME.repaint();
   }
 }

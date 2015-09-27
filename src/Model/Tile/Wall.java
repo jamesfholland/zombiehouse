@@ -1,7 +1,5 @@
 package Model.Tile;
 
-import Model.GameObject;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -40,12 +38,6 @@ public class Wall extends Tile
   public BufferedImage getImage()
   {
     return WALL_IMAGE;
-  }
-
-  @Override
-  public void collide(GameObject other)
-  {
-
   }
 
   @Override

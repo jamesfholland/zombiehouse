@@ -5,7 +5,6 @@ import Model.GameObject;
 import Model.Settings;
 import Model.Unit.Zombie.Zombie;
 
-import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -26,17 +25,17 @@ public abstract class Unit extends GameObject
 
   protected double heading;
 
-  protected double locationXD;
-  protected double locationYD;
+  private double locationXD;
+  private double locationYD;
 
-  protected double nextLocationX;
-  protected double nextLocationY;
+  private double nextLocationX;
+  private double nextLocationY;
 
-  protected int tileX;
-  protected int tileY;
+  int tileX;
+  int tileY;
 
-  protected double bottomRightCornerX;
-  protected double bottomRightCornerY;
+  private double bottomRightCornerX;
+  private double bottomRightCornerY;
 
   protected double speed;
   protected boolean collided = false;
@@ -47,31 +46,21 @@ public abstract class Unit extends GameObject
 
   /**
    * This updates the game object's state as determined by its child class.
+   *  @param deltaTime
    *
-   * @param deltaTime
-   * @param secondsFromStart
    */
-  public abstract void update(long deltaTime, long secondsFromStart);
-
-
-  /**
-   * Returns the current sound associated with the unit;
-   *
-   * @return Clip containing sound to be played. Null if no sound needs to be played.
-   */
-  public abstract Clip getSound();
-
+  public abstract void update(long deltaTime);
 
   /**
    * Finds the units x,y coordinates on the tilesArray
    */
-  public void setTileCoordinates() throws ArrayIndexOutOfBoundsException
+  void setTileCoordinates() throws ArrayIndexOutOfBoundsException
   {
     this.tileX = (location.x / Settings.TILE_SIZE);
     this.tileY = (location.y / Settings.TILE_SIZE);
 
 
-    if (level.houseTiles[this.tileX][this.tileY] == null)
+    if (level.TILES[this.tileX][this.tileY] == null)
     {
       throw new ArrayIndexOutOfBoundsException();
     }
@@ -88,7 +77,7 @@ public abstract class Unit extends GameObject
     locationYD = (double) location.y;
   }
 
-  public void setBottomRightCorner()
+  private void setBottomRightCorner()
   {
     bottomRightCornerX = location.x + size.width - 1;
     bottomRightCornerY = location.y + size.height - 1;
@@ -101,7 +90,7 @@ public abstract class Unit extends GameObject
    * @param heading   degrees from east
    * @param deltaTime
    */
-  public void move(double speed, double heading, long deltaTime)
+  protected void move(double speed, double heading, long deltaTime)
   {
     //if there's no heading, don't move the unit
     if (heading == -1)
@@ -131,7 +120,7 @@ public abstract class Unit extends GameObject
       if (this instanceof Zombie)
       {
         //if zombies are moving outside of the array delete them
-        level.zombieList.remove(this);
+        level.ZOMBIES.remove(this);
       } else
       {
         return;
@@ -155,7 +144,7 @@ public abstract class Unit extends GameObject
   }
 
 
-  public void checkCollisions()
+  private void checkCollisions()
   {
     //if moving straight east
     if (headingVector.x == 1 && headingVector.y == 0)
@@ -255,7 +244,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideE()
   {
-    if (!level.houseTiles[tileX + 1][tileY].isPassable() && level.houseTiles[tileX + 1][tileY].checkCollision(this.nextHitbox))
+    if (!level.TILES[tileX + 1][tileY].isPassable() && level.TILES[tileX + 1][tileY].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -265,7 +254,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideSE()
   {
-    if (!level.houseTiles[tileX + 1][tileY + 1].isPassable() && level.houseTiles[tileX + 1][tileY + 1].checkCollision(this.nextHitbox))
+    if (!level.TILES[tileX + 1][tileY + 1].isPassable() && level.TILES[tileX + 1][tileY + 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -275,7 +264,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideS()
   {
-    if (!level.houseTiles[tileX][tileY + 1].isPassable() && level.houseTiles[tileX][tileY + 1].checkCollision(this.nextHitbox))
+    if (!level.TILES[tileX][tileY + 1].isPassable() && level.TILES[tileX][tileY + 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -285,7 +274,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideSW()
   {
-    if (!level.houseTiles[tileX - 1][tileY + 1].isPassable() && level.houseTiles[tileX - 1][tileY + 1].checkCollision(this.nextHitbox))
+    if (!level.TILES[tileX - 1][tileY + 1].isPassable() && level.TILES[tileX - 1][tileY + 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -295,7 +284,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideW()
   {
-    if (!level.houseTiles[tileX - 1][tileY].isPassable() && level.houseTiles[tileX - 1][tileY].checkCollision(this.nextHitbox))
+    if (!level.TILES[tileX - 1][tileY].isPassable() && level.TILES[tileX - 1][tileY].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -305,7 +294,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideNW()
   {
-    if (!level.houseTiles[tileX - 1][tileY - 1].isPassable() && level.houseTiles[tileX - 1][tileY - 1].checkCollision(this.nextHitbox))
+    if (!level.TILES[tileX - 1][tileY - 1].isPassable() && level.TILES[tileX - 1][tileY - 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -315,7 +304,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideN()
   {
-    if (!level.houseTiles[tileX][tileY - 1].isPassable() && level.houseTiles[tileX][tileY - 1].checkCollision(this.nextHitbox))
+    if (!level.TILES[tileX][tileY - 1].isPassable() && level.TILES[tileX][tileY - 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -325,7 +314,7 @@ public abstract class Unit extends GameObject
 
   private boolean checkCollideNE()
   {
-    if (!level.houseTiles[tileX + 1][tileY - 1].isPassable() && level.houseTiles[tileX + 1][tileY - 1].checkCollision(this.nextHitbox))
+    if (!level.TILES[tileX + 1][tileY - 1].isPassable() && level.TILES[tileX + 1][tileY - 1].checkCollision(this.nextHitbox))
     {
       collided = true;
       return true;
@@ -378,9 +367,9 @@ public abstract class Unit extends GameObject
 
   private void checkZombieZombieCollision()
   {
-    for (int i = 0; i < level.zombieList.size(); ++i)
+    for (int i = 0; i < level.ZOMBIES.size(); ++i)
     {
-      if (this != level.zombieList.get(i) && this.nextHitbox.intersects(level.zombieList.get(i).getHitbox()))
+      if (this != level.ZOMBIES.get(i) && this.nextHitbox.intersects(level.ZOMBIES.get(i).getHitbox()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
@@ -390,7 +379,7 @@ public abstract class Unit extends GameObject
   }
 
   //sets the heading vector to whatever direction the unit is moving
-  public void setHeadingVector()
+  protected void setHeadingVector()
   {
     if (heading == 0.0)
     {

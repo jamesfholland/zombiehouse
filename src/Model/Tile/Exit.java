@@ -1,7 +1,5 @@
 package Model.Tile;
 
-import Model.GameObject;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -35,12 +33,6 @@ public class Exit extends Tile
   public BufferedImage getImage()
   {
     return EXIT_IMAGE;
-  }
-
-  @Override
-  public void collide(GameObject other)
-  {
-
   }
 
   @Override

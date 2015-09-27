@@ -194,11 +194,11 @@ public class HouseGeneration
       } // rather than just stopping might be good to restart..
     }
 
-    // late step - place player (needed for quick testing)
+    // late step - place PLAYER (needed for quick testing)
     playerSpawn();
 
-    // last step - place exit
-    // trying to keep at a distance of at least some percentage distance of the map size (can't spawn next to player)
+    // last step - place EXIT
+    // trying to keep at a distance of at least some percentage distance of the map size (can't spawn next to PLAYER)
     exitSpawn();
 
     // last last step - remove excess walls (should help search/sight algorithms) --> is not working yet! breaks other codes..
@@ -313,11 +313,7 @@ public class HouseGeneration
 
   private boolean offMap(int x, int y)
   {
-    if (x < 0 || x >= houseWidth)
-    {
-      return true;
-    }
-    return y < 0 || y >= houseHeight;
+    return x < 0 || x >= houseWidth || y < 0 || y >= houseHeight;
   }
 
   private void playerSpawn()
@@ -361,14 +357,13 @@ public class HouseGeneration
     return false;
   }
 
-  private boolean fireTrapSpawn(int x, int y)
+  private void fireTrapSpawn(int x, int y)
   {
     if (Settings.RANDOM.nextDouble() < Settings.firetrapSpawnRate)
     {
       firetrapList.add(new Firetrap(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE)));
-      return true;
+      return;
     }
-    return false;
   }
 
   private void exitSpawn()
@@ -509,7 +504,7 @@ public class HouseGeneration
   // DEMO + PRACTICE MAP below.  to be deleted on completion.
 
 
-  // Quick aStar test case.
+  // Quick ASTAR test case.
   // 5x11 room, with wall seperating halfs
   private void aStarTestRoom()
   {
@@ -538,7 +533,7 @@ public class HouseGeneration
 
     houseTiles[5][4] = new Pillar(new Point(5 * Settings.TILE_SIZE, 4 * Settings.TILE_SIZE));
 
-    //player.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
+    //PLAYER.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
 
     zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
 

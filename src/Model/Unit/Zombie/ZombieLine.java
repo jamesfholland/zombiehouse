@@ -1,12 +1,10 @@
 package Model.Unit.Zombie;
 
 import Model.Direction;
-import Model.GameObject;
 import Model.Settings;
 import Model.Unit.SpriteParser;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -51,7 +49,7 @@ public class ZombieLine extends Zombie
   }
 
   @Override
-  public void update(long deltaTime, long secondsFromStart)
+  public void update(long deltaTime)
   {
     lastDecision += deltaTime;
 
@@ -62,7 +60,7 @@ public class ZombieLine extends Zombie
       if (knowsPlayerLocation)
       {
         collided = false;
-        heading = level.aStar.getHeading(getCenterLocation());
+        heading = level.ASTAR.getHeading(getCenterLocation());
         setHeadingVector();
       } else if (collided)
       {
@@ -103,15 +101,9 @@ public class ZombieLine extends Zombie
 
   private void makeDecision()
   {
-    heading = (RAND.nextInt(360) + RAND.nextDouble());
+    heading = (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble());
   }
 
-
-  @Override
-  public Clip getSound()
-  {
-    return null;
-  }
 
   @Override
   public BufferedImage getImage()
@@ -136,8 +128,4 @@ public class ZombieLine extends Zombie
     }
   }
 
-  @Override
-  public void collide(GameObject other)
-  {
-  }
 }

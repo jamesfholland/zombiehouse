@@ -21,9 +21,9 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * This class handles drawing the actual game window. It is always centered on the player.
+ * This class handles drawing the actual game window. It is always centered on the PLAYER.
  */
-public class GamePanel extends JPanel
+class GamePanel extends JPanel
 {
 
   /**
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel
   private Level level;
 
   /**
-   * This will need to shift as the player moves.
+   * This will need to shift as the PLAYER moves.
    */
   private Rectangle2D viewWindow;
   private Point center;
@@ -101,10 +101,10 @@ public class GamePanel extends JPanel
         this.getSize();
         windowScale = Settings.WIDTH_STANDARD / (double) this.getWidth();
 
-        if (level.player != null)
+        if (level.PLAYER != null)
         {
 
-          center.setLocation(level.player.getCenterLocation());
+          center.setLocation(level.PLAYER.getCenterLocation());
 
           corner.setLocation(center);
           double dynamicHeight = this.getHeight() * windowScale;
@@ -132,24 +132,24 @@ public class GamePanel extends JPanel
 
           LinkedList<Tile> walls = new LinkedList<>();
 
-          for (int i = 0; i < level.houseTiles.length; i++)
+          for (int i = 0; i < level.TILES.length; i++)
           {
-            for (int j = 0; j < level.houseTiles[i].length; j++)
+            for (int j = 0; j < level.TILES[i].length; j++)
             {
-              if (level.houseTiles[i][j] != null && level.houseTiles[i][j].checkCollision(sightBox))
+              if (level.TILES[i][j] != null && level.TILES[i][j].checkCollision(sightBox))
               {
-                if (!(level.houseTiles[i][j] instanceof Wall))
+                if (!(level.TILES[i][j] instanceof Wall))
                 {
-                  scaleAndDrawImage(level.houseTiles[i][j].getImage(), graphics, level.houseTiles[i][j].getLocation(), level.houseTiles[i][j].getSize());
+                  scaleAndDrawImage(level.TILES[i][j].getImage(), graphics, level.TILES[i][j].getLocation(), level.TILES[i][j].getSize());
                 } else
                 {
-                  walls.add(level.houseTiles[i][j]);
+                  walls.add(level.TILES[i][j]);
                 }
               }
             }
           }
 
-          for (Zombie zombie : level.zombieList)
+          for (Zombie zombie : level.ZOMBIES)
           {
             if (zombie.checkCollision(sightBox))
             {
@@ -157,7 +157,7 @@ public class GamePanel extends JPanel
             }
           }
 
-          for (Firetrap firetrap : level.firetrapList)
+          for (Firetrap firetrap : level.FIRETRAPS)
           {
             if (firetrap.checkCollision(sightBox))
             {
@@ -165,7 +165,7 @@ public class GamePanel extends JPanel
             }
           }
 
-          for (Fire fire : level.fireList)
+          for (Fire fire : level.FIRES)
           {
             if (fire.checkCollision(sightBox))
             {
@@ -173,9 +173,9 @@ public class GamePanel extends JPanel
             }
           }
 
-          scaleAndDrawImage(level.player.getImage(), graphics, level.player.getLocation(), level.player.getSize());
+          scaleAndDrawImage(level.PLAYER.getImage(), graphics, level.PLAYER.getLocation(), level.PLAYER.getSize());
 
-          detectShadows(level.player, sightBox, walls);
+          detectShadows(level.PLAYER, sightBox, walls);
 
           graphics.setColor(Color.BLACK);
           graphics2D.fill(blackMask);

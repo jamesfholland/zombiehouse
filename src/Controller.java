@@ -13,18 +13,18 @@ import java.util.Iterator;
 /**
  * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.
  */
-public class Controller
+class Controller
 {
-  private ViewManager view;
+  private final ViewManager VIEW;
 
   private Level currentLevel;
   private Point heroDirection;
 
-  //private LinkedList<Zombie> zombieList;
+  //private LinkedList<Zombie> ZOMBIES;
 
   public Controller()
   {
-    view = new ViewManager();
+    VIEW = new ViewManager();
     //Ask for defaults
 
     heroDirection = new Point(0, 0);
@@ -32,11 +32,11 @@ public class Controller
     HouseGeneration houseGenerator = new HouseGeneration();
 
     currentLevel = houseGenerator.getCurrentLevel();
-    //zombieList = currentLevel.zombieList;
+    //ZOMBIES = currentLevel.ZOMBIES;
 
 
-    view.setLevel(currentLevel);
-    currentLevel.player.setDoubleLocation();
+    VIEW.setLevel(currentLevel);
+    currentLevel.PLAYER.setDoubleLocation();
 
     Thread gameLoop = new GameLoop();
 
@@ -44,39 +44,39 @@ public class Controller
 
   }
 
-  protected void processInput()
+  private void processInput()
   {
     int x = 0;
     int y = 0;
-    if (view.keyboard.keyDown(KeyEvent.VK_DOWN))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_DOWN))
     {
       y += 1;
     }
-    if (view.keyboard.keyDown(KeyEvent.VK_UP))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_UP))
     {
       y -= 1;
     }
-    if (view.keyboard.keyDown(KeyEvent.VK_LEFT))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_LEFT))
     {
       x -= 1;
     }
-    if (view.keyboard.keyDown(KeyEvent.VK_RIGHT))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_RIGHT))
     {
       x += 1;
     }
-    if (view.keyboard.keyDown(KeyEvent.VK_P))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_P))
     {
-      if (currentLevel.player.pickingOrPlacing())
+      if (currentLevel.PLAYER.pickingOrPlacing())
       {
         return;
       }
       boolean onFireTrap = false;
-      for (Firetrap firetrap : currentLevel.firetrapList)
+      for (Firetrap firetrap : currentLevel.FIRETRAPS)
       {
-        if (firetrap.getHitbox().contains(currentLevel.player.getCenterLocation()))
+        if (firetrap.getHitbox().contains(currentLevel.PLAYER.getCenterLocation()))
         {
           onFireTrap = true;
-          currentLevel.player.pickUpFireTrap(firetrap);
+          currentLevel.PLAYER.pickUpFireTrap(firetrap);
         }
       }
 
@@ -84,16 +84,16 @@ public class Controller
 
       if (!onFireTrap && currentLevel.fireTrapCount > 0)
       {
-        currentLevel.player.placeFireTrap();
+        currentLevel.PLAYER.placeFireTrap();
       }
     }
 
-    if (view.keyboard.keyDown(KeyEvent.VK_R))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_R))
     {
-      currentLevel.player.setSpeedRun();
+      currentLevel.PLAYER.setSpeedRun();
     } else
     {
-      currentLevel.player.setSpeedWalk();
+      currentLevel.PLAYER.setSpeedWalk();
     }
     heroDirection.setLocation(x, y);
   }
@@ -133,29 +133,29 @@ public class Controller
 
         synchronized (currentLevel)
         {
-          view.keyboard.poll();
+          VIEW.KEYBOARD.poll();
           processInput();
-          currentLevel.player.setInputVector(heroDirection);
-          currentLevel.player.update(deltaTime, secondsFromStart);
+          currentLevel.PLAYER.setInputVector(heroDirection);
+          currentLevel.PLAYER.update(deltaTime);
 
-          Iterator<Zombie> zlIterator = currentLevel.zombieList.iterator();
+          Iterator<Zombie> zlIterator = currentLevel.ZOMBIES.iterator();
           while (zlIterator.hasNext())
           {
             Zombie zombie = zlIterator.next();
-            zombie.update(deltaTime, secondsFromStart);
-            if (currentLevel.player.checkCollision(zombie.getHitbox()))
+            zombie.update(deltaTime);
+            if (currentLevel.PLAYER.checkCollision(zombie.getHitbox()))
             {
               //GAME OVER
               //hero = new Player(new Point(0, 0), null);
               //houseGenerator.respawnSameMap();
               //currentLevel = houseGenerator.getCurrentLevel();
 
-              //currentLevel.player.setDoubleLocation();
-              //view.setLevel(currentLevel);
+              //currentLevel.PLAYER.setDoubleLocation();
+              //VIEW.setLevel(currentLevel);
               //break;
             }
 
-            Iterator<Firetrap> ftIterator = currentLevel.firetrapList.iterator();
+            Iterator<Firetrap> ftIterator = currentLevel.FIRETRAPS.iterator();
             while (ftIterator.hasNext())
             {
               Firetrap ft = ftIterator.next();
@@ -164,14 +164,14 @@ public class Controller
                 ft.spawnFire();
                 ftIterator.remove();
               }
-              if (currentLevel.player.isRunning() && currentLevel.player.checkCollision(ft.getHitbox()))
+              if (currentLevel.PLAYER.isRunning() && currentLevel.PLAYER.checkCollision(ft.getHitbox()))
               {
                 ft.spawnFire();
                 ftIterator.remove();
               }
             }
 
-            for (Fire fire : currentLevel.fireList)
+            for (Fire fire : currentLevel.FIRES)
             {
               if (fire.checkCollision(zombie.getHitbox()))
               {
@@ -181,34 +181,34 @@ public class Controller
             }
           }
 
-          Iterator<Fire> fireIterator = currentLevel.fireList.iterator();
+          Iterator<Fire> fireIterator = currentLevel.FIRES.iterator();
           while (fireIterator.hasNext())
           {
             Fire fire = fireIterator.next();
-            fire.update(deltaTime, secondsFromStart);
+            fire.update(deltaTime);
 
             if (!fire.isBurning())
             {
               Point tilePoint = fire.getTileLocation();
-              currentLevel.houseTiles[tilePoint.x][tilePoint.y].burn();
+              currentLevel.TILES[tilePoint.x][tilePoint.y].burn();
               fireIterator.remove();
               break;
             }
 
-            if (fire.checkCollision(currentLevel.player.getHitbox()))
+            if (fire.checkCollision(currentLevel.PLAYER.getHitbox()))
             {
               //GAME OVER
               //hero = new Player(new Point(0, 0), null);
               //houseGenerator.respawnSameMap();
               //currentLevel = houseGenerator.getCurrentLevel();
 
-              //currentLevel.player.setDoubleLocation();
-              //view.setLevel(currentLevel);
+              //currentLevel.PLAYER.setDoubleLocation();
+              //VIEW.setLevel(currentLevel);
               //break;
             }
           }
         }
-        view.repaint();
+        VIEW.repaint();
         lastTime = thisTime;
       }
     }

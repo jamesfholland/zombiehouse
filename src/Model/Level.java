@@ -15,44 +15,28 @@ import java.util.LinkedList;
  */
 public class Level
 {
-  public int levelNum;
-  public Tile[][] houseTiles;
-  public Exit exit;
-  public LinkedList<Zombie> zombieList;
-  public LinkedList<Firetrap> firetrapList;
-  public LinkedList<Fire> fireList;
-  // fireTrapCount - when a player enters a new level the count should carry over
-  //                 but when a player respawns, they should have as many as before.
+  public final int LEVEL_NUM;
+  public final Tile[][] TILES;
+  public final Exit EXIT;
+  public final LinkedList<Zombie> ZOMBIES;
+  public final LinkedList<Firetrap> FIRETRAPS;
+  public final LinkedList<Fire> FIRES;
+  // fireTrapCount - when a PLAYER enters a new level the count should carry over
+  //                 but when a PLAYER respawns, they should have as many as before.
   public int fireTrapCount;
-  public Player player;
-  public final AStar aStar;
+  public final Player PLAYER;
+  public final AStar ASTAR;
 
   public Level(HouseGeneration houseGen)
   {
-    player = houseGen.getPlayer();
-    levelNum = houseGen.getCurrentLevelNum();
-    houseTiles = houseGen.getHouseTiles();
-    zombieList = houseGen.getZombieList();
-    firetrapList = houseGen.getFiretrapList();
+    PLAYER = houseGen.getPlayer();
+    LEVEL_NUM = houseGen.getCurrentLevelNum();
+    TILES = houseGen.getHouseTiles();
+    ZOMBIES = houseGen.getZombieList();
+    FIRETRAPS = houseGen.getFiretrapList();
     fireTrapCount = houseGen.getFireTrapCount() + 1;
-    exit = houseGen.getExit();
-    this.aStar = new AStar(this);
-    fireList = new LinkedList<>();
+    EXIT = houseGen.getExit();
+    ASTAR = new AStar(this);
+    FIRES = new LinkedList<>();
   }
-
-//  public void respawnLevel(HouseGeneration houseGen)
-//  {
-//    houseGen.respawnSameMap();
-//    houseTiles = houseGen.getHouseTiles();
-//    zombieList = houseGen.getZombieList();
-//    fireTrapCount = houseGen.getFireTrapCount();
-//  }
-//
-//  public void newLevel(HouseGeneration houseGen)
-//  {
-//    houseGen.spawnNewLevel();
-//    levelNum = houseGen.getCurrentLevelNum();
-//    houseTiles = houseGen.getHouseTiles();
-//    zombieList = houseGen.getZombieList();
-//  }
 }

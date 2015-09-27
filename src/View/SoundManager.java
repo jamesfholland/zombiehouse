@@ -13,8 +13,7 @@ public class SoundManager
 {
 
   private static final AudioClip FOOT_STEP;
-  private static SoundPlayer walkThread;
-  private static boolean rightStep = true;
+  private static final SoundPlayer WALK_THREAD;
 
   private static final AudioClip FIRE_START;
   private static final AudioClip FIRE_CONTINOUS;
@@ -39,40 +38,40 @@ public class SoundManager
     FIRE_START = FireStart;
     FIRE_CONTINOUS = FireContinous;
 
-    walkThread = new SoundPlayer(FOOT_STEP, Settings.REFRESH_RATE, 1.0, .2, 1);
-    walkThread.start();
+    WALK_THREAD = new SoundPlayer(FOOT_STEP, Settings.REFRESH_RATE, 1.0, .2, 1);
+    WALK_THREAD.start();
   }
 
   public static void playWalk()
   {
-    walkThread.playAlternate();
+    WALK_THREAD.playAlternate();
   }
 
   public static void stopWalk()
   {
-    walkThread.stopSound();
+    WALK_THREAD.stopSound();
   }
 
   private static class SoundPlayer extends Thread
   {
     private Point source;
     private Point listener;
-    private AudioClip clip;
+    private final AudioClip CLIP;
     private Boolean play;
-    private long maxTime;
+    private final long MAX_TIME;
     private double volume;
     private Double balance;
-    private int priority;
+    private final int PRIORITY;
     private boolean alternator;
 
     SoundPlayer(AudioClip sound, long maxTime, double baseVolume, double baseBalance, int priority)
     {
-      this.clip = sound;
-      this.priority = priority;
+      this.CLIP = sound;
+      this.PRIORITY = priority;
       this.play = false;
       this.volume = baseVolume;
       this.balance = baseBalance;
-      this.maxTime = maxTime;
+      this.MAX_TIME = maxTime;
     }
 
     private void updateBalance()
@@ -130,7 +129,7 @@ public class SoundManager
       {
         synchronized (play)
         {
-          if (play && !clip.isPlaying())
+          if (play && !CLIP.isPlaying())
           {
             startTime = System.currentTimeMillis();
 
@@ -138,15 +137,15 @@ public class SoundManager
             {
               balance = -1 * balance;
             }
-            clip.play(volume, balance, 1, 0, priority);
+            CLIP.play(volume, balance, 1, 0, PRIORITY);
             play = false;
-          } else if (clip.isPlaying() && (startTime - System.currentTimeMillis()) > maxTime)
+          } else if (CLIP.isPlaying() && (startTime - System.currentTimeMillis()) > MAX_TIME)
           {
-            clip.stop();
-          } else if (clip.isPlaying() && listener != null && source != null)
+            CLIP.stop();
+          } else if (CLIP.isPlaying() && listener != null && source != null)
           {
             updateBalance();
-            clip.setBalance(balance);
+            CLIP.setBalance(balance);
           }
         }
       }

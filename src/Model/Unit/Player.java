@@ -1,12 +1,10 @@
 package Model.Unit;
 
 import Model.Direction;
-import Model.GameObject;
 import Model.Settings;
 import View.SoundManager;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -74,9 +72,9 @@ public class Player extends Unit
   }
 
   /**
-   * sets the player's heading based on what direction was inputted on the keyboard
+   * sets the PLAYER's heading based on what direction was inputted on the keyboard
    *
-   * @param p direction the of the player's input
+   * @param p direction the of the PLAYER's input
    */
   private void setHeading(Point p)
   {
@@ -111,7 +109,7 @@ public class Player extends Unit
   }
 
   /**
-   * called by the controller to pass the player the keyboard input
+   * called by the controller to pass the PLAYER the keyboard input
    *
    * @param p
    */
@@ -160,7 +158,7 @@ public class Player extends Unit
 
 
   @Override
-  public void update(long deltaTime, long secondsFromStart)
+  public void update(long deltaTime)
   {
     if (gettingFireTrap && fireTrapTime < 5000)
     {
@@ -171,7 +169,7 @@ public class Player extends Unit
       fireTrapTime = 0;
       gettingFireTrap = false;
       ++level.fireTrapCount;
-      level.firetrapList.remove(firetrap);
+      level.FIRETRAPS.remove(firetrap);
       this.firetrap = null;
     }
 
@@ -189,7 +187,7 @@ public class Player extends Unit
 
       Point p = new Point(playerCenterTileX * Settings.TILE_SIZE, playerCenterTileY * Settings.TILE_SIZE);
 
-      level.firetrapList.add(new Firetrap(p));
+      level.FIRETRAPS.add(new Firetrap(p));
     }
 
     setHeading(inputVector);
@@ -249,12 +247,6 @@ public class Player extends Unit
   }
 
   @Override
-  public Clip getSound()
-  {
-    return null;
-  }
-
-  @Override
   public BufferedImage getImage()
   {
     if (direction == null)
@@ -282,9 +274,4 @@ public class Player extends Unit
     return stamina;
   }
 
-  @Override
-  public void collide(GameObject other)
-  {
-
-  }
 }

@@ -6,7 +6,7 @@ import java.awt.*;
 /**
  *
  */
-public class MainFrame extends JFrame
+class MainFrame extends JFrame
 {
   MainFrame()
   {

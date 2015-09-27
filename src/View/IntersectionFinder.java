@@ -81,13 +81,13 @@ class IntersectionFinder
   /**
    * Return a Point if the lines intersect.
    *
-   * @param source      the source point (in Zombiehouse, usually the player)
+   * @param source      the source point (in Zombiehouse, usually the PLAYER)
    * @param destination the destination (usually box corner)
    * @param lineA       first point in line we may intersect
    * @param lineB       second point in line we may intersect
    * @return the intersection as a Point, or null if no intersection found.
    */
-  static Point getLineIntersection(Point source, Point destination, Point lineA, Point lineB)
+  private static Point getLineIntersection(Point source, Point destination, Point lineA, Point lineB)
   {
     if (!Line2D.linesIntersect(source.x, source.y, destination.x, destination.y, lineA.x, lineA.y, lineB.x, lineB.y))
     {

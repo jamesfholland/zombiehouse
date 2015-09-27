@@ -1,6 +1,5 @@
 package Model.Tile;
 
-import Model.GameObject;
 import Model.Settings;
 
 import javax.imageio.ImageIO;
@@ -82,12 +81,6 @@ public class Pillar extends Tile
         return BURN_IMAGE;
     }
     return BURN_IMAGE;
-  }
-
-  @Override
-  public void collide(GameObject other)
-  {
-
   }
 
   @Override

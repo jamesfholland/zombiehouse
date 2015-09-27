@@ -18,7 +18,7 @@ public abstract class GameObject
   /**
    * Our hitbox, assumed rectangular for simplicity
    */
-  protected Rectangle2D hitbox = new Rectangle();
+  private Rectangle2D hitbox = new Rectangle();
   protected static Level level;
 
 
@@ -99,11 +99,6 @@ public abstract class GameObject
    * @return BufferedImage with object to draw.
    */
   public abstract BufferedImage getImage();
-
-  /**
-   * Collide with other object and perform actions called for.
-   */
-  public abstract void collide(GameObject other);
 
   public void setLocation(Point location)
   {

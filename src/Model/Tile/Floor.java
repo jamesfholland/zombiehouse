@@ -1,6 +1,5 @@
 package Model.Tile;
 
-import Model.GameObject;
 import Model.Settings;
 
 import javax.imageio.ImageIO;
@@ -68,12 +67,6 @@ public class Floor extends Tile
     }
 
     return FLOOR_IMAGE;
-  }
-
-  @Override
-  public void collide(GameObject other)
-  {
-
   }
 
   @Override

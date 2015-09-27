@@ -24,7 +24,7 @@ public class AStar
 
   public static double eculiDistanceFromPlayer(Point zombLocation)
   {
-    return zombLocation.distance(level.player.getLocation());
+    return zombLocation.distance(level.PLAYER.getLocation());
   }
 
   private void search(Point zombLocation)
@@ -34,7 +34,7 @@ public class AStar
     visited.clear();
     neighbors.clear();
     Node start = new Node(zombLocation, 0);
-    Node goal = new Node(level.player.getCenterLocation(), 0);
+    Node goal = new Node(level.PLAYER.getCenterLocation(), 0);
     Node current;
     frontier.add(start);
     while (!frontier.isEmpty())
@@ -71,22 +71,22 @@ public class AStar
 
   private void setNeighbors(Node current)
   {
-    if (level.houseTiles[current.tileX][current.tileY - 1].isPassable())
+    if (level.TILES[current.tileX][current.tileY - 1].isPassable())
     {
       neighbors.add(new Node(current.tileX, current.tileY - 1, current.gScore + 1, current));
     }
 
-    if (level.houseTiles[current.tileX][current.tileY + 1].isPassable())
+    if (level.TILES[current.tileX][current.tileY + 1].isPassable())
     {
       neighbors.add(new Node(current.tileX, current.tileY + 1, current.gScore + 1, current));
     }
 
-    if (level.houseTiles[current.tileX + 1][current.tileY].isPassable())
+    if (level.TILES[current.tileX + 1][current.tileY].isPassable())
     {
       neighbors.add(new Node(current.tileX + 1, current.tileY, current.gScore + 1, current));
     }
 
-    if (level.houseTiles[current.tileX - 1][current.tileY].isPassable())
+    if (level.TILES[current.tileX - 1][current.tileY].isPassable())
     {
       neighbors.add(new Node(current.tileX - 1, current.tileY, current.gScore + 1, current));
     }
@@ -111,11 +111,11 @@ public class AStar
       toMoveTo = path.removeLast();
     } else
     {
-      return calcRotationAngleInDegrees(zombieLocation, level.player.getLocation());
+      return calcRotationAngleInDegrees(zombieLocation, level.PLAYER.getLocation());
     }
 
 
-    pointMoveTo = level.houseTiles[toMoveTo.tileX][toMoveTo.tileY].getCenterLocation();
+    pointMoveTo = level.TILES[toMoveTo.tileX][toMoveTo.tileY].getCenterLocation();
 
 
     return calcRotationAngleInDegrees(zombieLocation, pointMoveTo);
@@ -158,11 +158,7 @@ public class AStar
 
       Node node = (Node) o;
 
-      if (tileX != node.tileX)
-      {
-        return false;
-      }
-      return tileY == node.tileY;
+      return tileX == node.tileX && tileY == node.tileY;
 
     }
 
@@ -196,7 +192,7 @@ public class AStar
 
     public void setManhattanDistance()
     {
-      manhattanDistance = Math.abs(tileX - level.player.location.x / Settings.TILE_SIZE) + Math.abs(tileY - level.player.location.y / Settings.TILE_SIZE);
+      manhattanDistance = Math.abs(tileX - level.PLAYER.location.x / Settings.TILE_SIZE) + Math.abs(tileY - level.PLAYER.location.y / Settings.TILE_SIZE);
     }
 
     public void setfScore()

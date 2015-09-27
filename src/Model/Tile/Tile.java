@@ -10,8 +10,8 @@ public abstract class Tile extends GameObject
   /**
    * Used for switching to burned graphics.
    */
-  protected boolean burned;
-  protected boolean passable;
+  boolean burned;
+  boolean passable;
 
   Tile(Point location)
   {
