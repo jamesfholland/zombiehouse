@@ -12,6 +12,7 @@ import View.ViewManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.
@@ -40,14 +41,31 @@ class Controller
     VIEW.setLevel(currentLevel);
     currentLevel.PLAYER.setDoubleLocation();
 
-    Thread gameLoop = new GameLoop();
 
-    gameLoop.start();
+
 
     //Setup fire's static members especially graphics
     Object dump = new Fire(0,0);
 
+    while (VIEW.isPaused())
+    {
+      try
+      {
+        Thread.sleep(Settings.REFRESH_RATE);
+      } catch (InterruptedException e)
+      {
+        e.printStackTrace();
+      }
 
+    }
+
+    startGameLoop();
+  }
+
+  public void startGameLoop()
+  {
+    Thread gameLoop = new GameLoop();
+    gameLoop.start();
   }
 
   private void processInput()

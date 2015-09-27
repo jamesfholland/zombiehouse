@@ -3,13 +3,14 @@ package View;
 import Model.Settings;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
  * SettingsPanel allows the user to change default settings in the application.
  */
-public class SettingsPanel extends JPanel
+public class SettingsPanel extends JDialog
 {
   SettingsConverter converter = new SettingsConverter();
   JLabel textSightRange = new JLabel("Player sight range (tiles)");
@@ -33,16 +34,23 @@ public class SettingsPanel extends JPanel
   JLabel textZombieSpawnRate = new JLabel("Zombe spawn rate (%/tile)");
   JTextField jtfZombieSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.zombieSpawnRate), 5); // convert to %
 
-  SettingsPanel()
+  private ViewManager viewManager;
+  SettingsPanel(ViewManager viewManager, JFrame frame, String title)
   {
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    super(frame, title);
+    this.viewManager = viewManager;
+    setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+    setSize(new Dimension(200, 500));
+    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     JButton enter = new JButton("Save Settings");
     enter.addActionListener(new ActionListener()
     {
       @Override
       public void actionPerformed(ActionEvent actionEvent)
       {
+        viewManager.startGame();
         convertAndSave();
+        dispose();
       }
     });
 
@@ -79,6 +87,7 @@ public class SettingsPanel extends JPanel
 
     toParse = jtfWalkSpeed.getText();
     Settings.walkSpeed = converter.tilesToPixelSpeed(Double.parseDouble(toParse));
+    Settings.runSpeed = 2.0 * Settings.walkSpeed;
 
     toParse = jtfPlayerStamina.getText();
     Settings.playerStamina = converter.secondsToMilliseconds(Double.parseDouble(toParse));
@@ -97,6 +106,7 @@ public class SettingsPanel extends JPanel
 
     toParse = jtfZombieSpawnRate.getText();
     Settings.zombieSpawnRate = converter.percentToDecimal(Double.parseDouble(toParse));
+
   }
 
   private class SettingsConverter
