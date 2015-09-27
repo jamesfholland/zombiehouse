@@ -18,7 +18,6 @@ import java.util.LinkedList;
  */
 public class Level
 {
-  public HouseGeneration houseGen;
   public int levelNum;
   public Tile[][] houseTiles;
   public Exit exit;
@@ -33,7 +32,6 @@ public class Level
 
   public Level( HouseGeneration houseGen )
   {
-    this.houseGen = houseGen;
     player = houseGen.getPlayer();
     levelNum = houseGen.getCurrentLevelNum();
     houseTiles = houseGen.getHouseTiles();
@@ -42,7 +40,7 @@ public class Level
     fireTrapCount = houseGen.getFireTrapCount();
     exit = houseGen.getExit();
     this.aStar = new AStar(this);
-    fireList = new LinkedList<Fire>();
+    fireList = new LinkedList<>();
   }
 
 //  public void respawnLevel(HouseGeneration houseGen)
