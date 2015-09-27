@@ -171,11 +171,8 @@ public class Controller
               }
             }
 
-            Iterator<Fire> fireIterator = currentLevel.fireList.iterator();
-            while (fireIterator.hasNext())
+            for (Fire fire : currentLevel.fireList)
             {
-              Fire fire = fireIterator.next();
-
               if (fire.checkCollision(zombie.getHitbox()))
               {
                 zlIterator.remove();

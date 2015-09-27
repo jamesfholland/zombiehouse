@@ -75,8 +75,8 @@ public class HouseGeneration
   private void makeNewHouse()
   {
     // initialize new lists:
-    zombieList = new LinkedList<Zombie>();
-    firetrapList = new LinkedList<Firetrap>();
+    zombieList = new LinkedList<>();
+    firetrapList = new LinkedList<>();
 
     // 1 - fill with walls
     allWalls();
@@ -516,8 +516,8 @@ public class HouseGeneration
     playerX = 3;
     playerY = 2;
     // initialize new lists:
-    zombieList = new LinkedList<Zombie>();
-    firetrapList = new LinkedList<Firetrap>();
+    zombieList = new LinkedList<>();
+    firetrapList = new LinkedList<>();
     allWalls();
 
     // default used to fill house with open floor

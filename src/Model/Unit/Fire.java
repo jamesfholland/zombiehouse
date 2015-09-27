@@ -57,22 +57,27 @@ public class Fire extends Unit
       e.printStackTrace();
     }
 
+    assert fireIgnite != null;
     spriteHeight = fireIgnite.getHeight() / SPRITE_ROWS;
     spriteWidth = fireIgnite.getWidth() / SPRITES_PER_ROW;
     FIRE_IGNITE = SpriteParser.parseMultiRowSprites(fireIgnite, SPRITE_ROWS, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, SPRITES_PER_ROW);
 
+    assert fireStart != null;
     spriteHeight = fireStart.getHeight() / SPRITE_ROWS;
     spriteWidth = fireStart.getWidth() / SPRITES_PER_ROW;
     FIRE_START = SpriteParser.parseMultiRowSprites(fireStart, SPRITE_ROWS, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, SPRITES_PER_ROW);
 
+    assert fireFirst != null;
     spriteHeight = fireFirst.getHeight() / SPRITE_ROWS;
     spriteWidth = fireFirst.getWidth() / SPRITES_PER_ROW;
     FIRE_FIRST = SpriteParser.parseMultiRowSprites(fireFirst, SPRITE_ROWS, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, SPRITES_PER_ROW);
 
+    assert fireSecond != null;
     spriteHeight = fireSecond.getHeight() / SPRITE_ROWS;
     spriteWidth = fireSecond.getWidth() / SPRITES_PER_ROW;
     FIRE_SECOND = SpriteParser.parseMultiRowSprites(fireSecond, SPRITE_ROWS, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, SPRITES_PER_ROW);
 
+    assert fireSmoke != null;
     spriteHeight = fireSmoke.getHeight() / SPRITE_ROWS;
     spriteWidth = fireSmoke.getWidth() / SPRITES_PER_ROW;
     FIRE_SMOKE = SpriteParser.parseMultiRowSprites(fireSmoke, SPRITE_ROWS, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, SPRITES_PER_ROW);
