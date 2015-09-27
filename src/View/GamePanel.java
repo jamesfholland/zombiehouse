@@ -96,102 +96,108 @@ public class GamePanel extends JPanel
 
     Graphics2D graphics2D = (Graphics2D) graphics;
 
-    //Calculate scale factor of the resized window.
-    this.getSize();
-    windowScale = Settings.WIDTH_STANDARD / (double) this.getWidth();
-
-    if (player != null)
+    if(level != null)
     {
-
-      center.setLocation(player.getLocation());
-
-      center.translate(player.getSize().width / 2, player.getSize().height / 2);
-      corner.setLocation(center);
-      double dynamicHeight = this.getHeight() * windowScale;
-      corner.translate((-1) * Settings.WIDTH_STANDARD / 2, (int) ((-1) * dynamicHeight / 2));
-
-      setViewWindow();
-
-      Rectangle2D sightBox = new Rectangle();
-      Point sightCorner = new Point(center);
-      sightCorner.translate(Settings.SIGHT_RANGE, Settings.SIGHT_RANGE);
-      sightBox.setFrameFromCenter(center, sightCorner);
-      blackMask = new Area(
-          new Rectangle(
-              scaleX((int) viewWindow.getX()),
-              scaleY((int) viewWindow.getY()),
-              (int) (viewWindow.getWidth() / windowScale),
-              (int) (viewWindow.getHeight() / windowScale)));
-      circleMask = new Area(
-          new Rectangle(
-              scaleX((int) viewWindow.getX()),
-              scaleY((int) viewWindow.getY()),
-              (int) (viewWindow.getWidth() / windowScale),
-              (int) (viewWindow.getHeight() / windowScale)));
-      circleMask.subtract(new Area(new Ellipse2D.Double(scaleX((int) sightBox.getX()), scaleY((int) sightBox.getY()), sightBox.getWidth() / windowScale, sightBox.getHeight() / windowScale)));
-
-      LinkedList<Tile> walls = new LinkedList<>();
-
-      for (int i = 0; i < tiles.length; i++)
+      synchronized (level)
       {
-        for (int j = 0; j < tiles[i].length; j++)
+        //Calculate scale factor of the resized window.
+        this.getSize();
+        windowScale = Settings.WIDTH_STANDARD / (double) this.getWidth();
+
+        if (player != null)
         {
-          if (tiles[i][j] != null && tiles[i][j].checkCollision(sightBox))
+
+          center.setLocation(player.getLocation());
+
+          center.translate(player.getSize().width / 2, player.getSize().height / 2);
+          corner.setLocation(center);
+          double dynamicHeight = this.getHeight() * windowScale;
+          corner.translate((-1) * Settings.WIDTH_STANDARD / 2, (int) ((-1) * dynamicHeight / 2));
+
+          setViewWindow();
+
+          Rectangle2D sightBox = new Rectangle();
+          Point sightCorner = new Point(center);
+          sightCorner.translate(Settings.SIGHT_RANGE, Settings.SIGHT_RANGE);
+          sightBox.setFrameFromCenter(center, sightCorner);
+          blackMask = new Area(
+              new Rectangle(
+                  scaleX((int) viewWindow.getX()),
+                  scaleY((int) viewWindow.getY()),
+                  (int) (viewWindow.getWidth() / windowScale),
+                  (int) (viewWindow.getHeight() / windowScale)));
+          circleMask = new Area(
+              new Rectangle(
+                  scaleX((int) viewWindow.getX()),
+                  scaleY((int) viewWindow.getY()),
+                  (int) (viewWindow.getWidth() / windowScale),
+                  (int) (viewWindow.getHeight() / windowScale)));
+          circleMask.subtract(new Area(new Ellipse2D.Double(scaleX((int) sightBox.getX()), scaleY((int) sightBox.getY()), sightBox.getWidth() / windowScale, sightBox.getHeight() / windowScale)));
+
+          LinkedList<Tile> walls = new LinkedList<>();
+
+          for (int i = 0; i < tiles.length; i++)
           {
-            if (!(tiles[i][j] instanceof Wall))
+            for (int j = 0; j < tiles[i].length; j++)
             {
-              scaleAndDrawImage(tiles[i][j].getImage(), graphics, tiles[i][j].getLocation(), tiles[i][j].getSize());
-            } else
-            {
-              walls.add(tiles[i][j]);
+              if (tiles[i][j] != null && tiles[i][j].checkCollision(sightBox))
+              {
+                if (!(tiles[i][j] instanceof Wall))
+                {
+                  scaleAndDrawImage(tiles[i][j].getImage(), graphics, tiles[i][j].getLocation(), tiles[i][j].getSize());
+                } else
+                {
+                  walls.add(tiles[i][j]);
+                }
+              }
             }
           }
+
+          for (Zombie zombie : zombies)
+          {
+            if (zombie.checkCollision(sightBox))
+            {
+              scaleAndDrawImage(zombie.getImage(), graphics, zombie.getLocation(), zombie.getSize());
+            }
+          }
+
+          for (Firetrap firetrap : firetrapList)
+          {
+            if (firetrap.checkCollision(sightBox))
+            {
+              scaleAndDrawImage(firetrap.getImage(), graphics, firetrap.getLocation(), firetrap.getSize());
+            }
+          }
+
+          for (Fire fire : level.fireList)
+          {
+            if (fire.checkCollision(sightBox))
+            {
+              scaleAndDrawImage(fire.getImage(), graphics, fire.getLocation(), fire.getSize());
+            }
+          }
+
+          scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
+
+          detectShadows(player, sightBox, walls);
+
+          graphics.setColor(Color.BLACK);
+          graphics2D.fill(blackMask);
+
+          for (Tile wall : walls)
+          {
+            scaleAndDrawImage(wall.getImage(), graphics, wall.getLocation(), wall.getSize());
+          }
+          graphics.setColor(Color.BLACK);
+          graphics2D.fill(circleMask);
+
+          scaleAndDrawImage(
+              circularGradient,
+              graphics,
+              new Point((int) sightBox.getX(), (int) sightBox.getY()),
+              new Dimension((int) sightBox.getWidth(), (int) sightBox.getHeight()));
         }
       }
-
-      for (Zombie zombie : zombies)
-      {
-        if (zombie.checkCollision(sightBox))
-        {
-          scaleAndDrawImage(zombie.getImage(), graphics, zombie.getLocation(), zombie.getSize());
-        }
-      }
-
-      for (Firetrap firetrap : firetrapList)
-      {
-        if (firetrap.checkCollision(sightBox))
-        {
-          scaleAndDrawImage(firetrap.getImage(), graphics, firetrap.getLocation(), firetrap.getSize());
-        }
-      }
-
-      for (Fire fire : level.fireList)
-      {
-        if (fire.checkCollision(sightBox))
-        {
-          scaleAndDrawImage(fire.getImage(), graphics, fire.getLocation(), fire.getSize());
-        }
-      }
-
-      scaleAndDrawImage(player.getImage(), graphics, player.getLocation(), player.getSize());
-
-      detectShadows(player, sightBox, walls);
-
-      graphics.setColor(Color.BLACK);
-      graphics2D.fill(blackMask);
-
-      for(Tile wall : walls)
-      {
-        scaleAndDrawImage(wall.getImage(), graphics, wall.getLocation(), wall.getSize());
-      }
-      graphics.setColor(Color.BLACK);
-      graphics2D.fill(circleMask);
-
-      scaleAndDrawImage(
-          circularGradient,
-          graphics,
-          new Point((int)sightBox.getX(), (int)sightBox.getY()),
-          new Dimension((int)sightBox.getWidth(), (int)sightBox.getHeight()));
     }
   }
 

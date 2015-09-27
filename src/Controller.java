@@ -139,41 +139,56 @@ public class Controller
         }
         while(deltaTime < Settings.REFRESH_RATE);
 
-        view.keyboard.poll();
-        processInput();
-        currentLevel.player.setInputVector(heroDirection);
-        currentLevel.player.update(deltaTime, secondsFromStart);
-
-        Iterator<Zombie> zlIterator = currentLevel.zombieList.iterator();
-        while (zlIterator.hasNext())
+        synchronized (currentLevel)
         {
-          Zombie zombie = zlIterator.next();
-          zombie.update(deltaTime, secondsFromStart);
-          if (currentLevel.player.checkCollision(zombie.getHitbox()))
-          {
-            //GAME OVER
-            //hero = new Player(new Point(0, 0), null);
-            //houseGenerator.respawnSameMap();
-            //currentLevel = houseGenerator.getCurrentLevel();
+          view.keyboard.poll();
+          processInput();
+          currentLevel.player.setInputVector(heroDirection);
+          currentLevel.player.update(deltaTime, secondsFromStart);
 
-            //currentLevel.player.setDoubleLocation();
-            //view.setLevel(currentLevel);
-            //break;
-          }
-
-          Iterator<Firetrap> ftIterator = currentLevel.firetrapList.iterator();
-          while (ftIterator.hasNext())
+          Iterator<Zombie> zlIterator = currentLevel.zombieList.iterator();
+          while (zlIterator.hasNext())
           {
-            Firetrap ft = ftIterator.next();
-            if (ft.checkCollision(zombie.getHitbox()))
+            Zombie zombie = zlIterator.next();
+            zombie.update(deltaTime, secondsFromStart);
+            if (currentLevel.player.checkCollision(zombie.getHitbox()))
             {
-              ft.spawnFire();
-              ftIterator.remove();
+              //GAME OVER
+              //hero = new Player(new Point(0, 0), null);
+              //houseGenerator.respawnSameMap();
+              //currentLevel = houseGenerator.getCurrentLevel();
+
+              //currentLevel.player.setDoubleLocation();
+              //view.setLevel(currentLevel);
+              //break;
             }
-            if (currentLevel.player.isRunning() && currentLevel.player.checkCollision(ft.getHitbox()))
+
+            Iterator<Firetrap> ftIterator = currentLevel.firetrapList.iterator();
+            while (ftIterator.hasNext())
             {
-              ft.spawnFire();
-              ftIterator.remove();
+              Firetrap ft = ftIterator.next();
+              if (ft.checkCollision(zombie.getHitbox()))
+              {
+                ft.spawnFire();
+                ftIterator.remove();
+              }
+              if (currentLevel.player.isRunning() && currentLevel.player.checkCollision(ft.getHitbox()))
+              {
+                ft.spawnFire();
+                ftIterator.remove();
+              }
+            }
+
+            Iterator<Fire> fireIterator = currentLevel.fireList.iterator();
+            while (fireIterator.hasNext())
+            {
+              Fire fire = fireIterator.next();
+
+              if (fire.checkCollision(zombie.getHitbox()))
+              {
+                zlIterator.remove();
+                break;
+              }
             }
           }
 
@@ -181,6 +196,16 @@ public class Controller
           while (fireIterator.hasNext())
           {
             Fire fire = fireIterator.next();
+            fire.update(deltaTime, secondsFromStart);
+
+            if (!fire.isBurning())
+            {
+              Point tilePoint = fire.getTileLocation();
+              currentLevel.houseTiles[tilePoint.x][tilePoint.y].burn();
+              fireIterator.remove();
+              break;
+            }
+
             if (fire.checkCollision(currentLevel.player.getHitbox()))
             {
               //GAME OVER
@@ -192,19 +217,8 @@ public class Controller
               //view.setLevel(currentLevel);
               //break;
             }
-            if (fire.checkCollision(zombie.getHitbox()))
-            {
-              zlIterator.remove();
-              break;
-            }
           }
         }
-
-        for(Fire fire : currentLevel.fireList)
-        {
-          fire.update(deltaTime, secondsFromStart);
-        }
-
         view.repaint();
         lastTime = thisTime;
       }
