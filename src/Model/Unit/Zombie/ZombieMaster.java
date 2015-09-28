@@ -57,7 +57,7 @@ public class ZombieMaster extends ZombieRandom
     if (anOtherZombieKnows)
     {
       heading = level.ASTAR.getHeading(getCenterLocation());
-      super.move(Settings.zombieSpeed, heading, deltaTime);
+      super.move(Settings.zombieSpeed , heading, deltaTime);
     }
     else
     {

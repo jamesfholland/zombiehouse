@@ -166,7 +166,7 @@ class Controller
           }
 
           currentLevel.MASTER.update(deltaTime);
-          
+
           if (currentLevel.MASTER.checkCollision(currentLevel.PLAYER.getHitbox()))
           {
             playerDeath();

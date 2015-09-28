@@ -367,9 +367,10 @@ public abstract class Unit extends GameObject
 
   private void checkZombieZombieCollision()
   {
+    //|| (this != level.MASTER && this.nextHitbox.intersects(level.MASTER.getHitbox()))
     for (int i = 0; i < level.ZOMBIES.size(); ++i)
     {
-      if (this != level.ZOMBIES.get(i) && this.nextHitbox.intersects(level.ZOMBIES.get(i).getHitbox()) || (this != level.MASTER && this.nextHitbox.intersects(level.MASTER.getHitbox())))
+      if (this != level.ZOMBIES.get(i) && this.nextHitbox.intersects(level.ZOMBIES.get(i).getHitbox()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;

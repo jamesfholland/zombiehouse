@@ -45,7 +45,15 @@ public abstract class Zombie extends Unit
    */
   public void canSmellPlayer()
   {
-    knowsPlayerLocation = AStar.eculiDistanceFromPlayer(this.location) < Settings.zombieSmell;
+    if (AStar.eculiDistanceFromPlayer(this.location) < Settings.zombieSmell)
+    {
+      System.out.println("I SMELL YOU");
+      knowsPlayerLocation = true;
+    }
+    else
+    {
+      knowsPlayerLocation = false;
+    }
   }
 
   /**
