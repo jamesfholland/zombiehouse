@@ -91,6 +91,7 @@ public class ZombieLine extends Zombie
 
     if (direction != null)
     {
+      if(this.collided) SoundManager.playZombieThud(this.getCenterLocation(), level.PLAYER.getCenterLocation());
       SoundManager.playZombieWalk(this.getCenterLocation(), level.PLAYER.getCenterLocation());
       spriteState++;
       if (spriteState >= WALK_SPRITE_COUNT)

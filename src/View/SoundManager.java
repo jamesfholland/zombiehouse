@@ -20,6 +20,9 @@ public class SoundManager
   private static final SoundPlayer ZOMBIE_STEP_THREAD1;
   private static final SoundPlayer ZOMBIE_STEP_THREAD2;
 
+  private static final AudioClip ZOMBIE_THUD;
+  private static final SoundPlayer ZOMBIE_THUD_THREAD;
+
   private static final AudioClip FIRE_START;
   private static final AudioClip FIRE_CONTINOUS;
 
@@ -29,6 +32,7 @@ public class SoundManager
     AudioClip footstep = null;
     AudioClip zombieStep1 = null;
     AudioClip zombieStep2 = null;
+    AudioClip zombieThud = null;
     AudioClip FireStart = null;
     AudioClip FireContinous = null;
     try
@@ -36,6 +40,7 @@ public class SoundManager
       footstep = new AudioClip(View.SoundManager.class.getResource("sounds/footstep.wav").toURI().toASCIIString());
       zombieStep1 = new AudioClip(View.SoundManager.class.getResource("sounds/creak5.wav").toURI().toASCIIString());
       zombieStep2 = new AudioClip(View.SoundManager.class.getResource("sounds/creak7.wav").toURI().toASCIIString());
+      zombieThud = new AudioClip(View.SoundManager.class.getResource("sounds/thudGroan.wav").toURI().toASCIIString());
     }
     catch (URISyntaxException e)
     {
@@ -46,17 +51,21 @@ public class SoundManager
     FOOT_STEP = footstep;
     ZOMBIE_STEP1 = zombieStep1;
     ZOMBIE_STEP2 = zombieStep2;
+    ZOMBIE_THUD = zombieThud;
     FIRE_START = FireStart;
     FIRE_CONTINOUS = FireContinous;
 
-    WALK_THREAD = new SoundPlayer(FOOT_STEP, Settings.REFRESH_RATE, 1.0, .2, 1);
+    WALK_THREAD = new SoundPlayer(FOOT_STEP, Settings.REFRESH_RATE, 1.0, .2, 1, 1);
     WALK_THREAD.start();
 
-    ZOMBIE_STEP_THREAD1 = new SoundPlayer(ZOMBIE_STEP1, Settings.REFRESH_RATE, 1.0, .2, 1);
+    ZOMBIE_STEP_THREAD1 = new SoundPlayer(ZOMBIE_STEP1, Settings.REFRESH_RATE, 1.0, .2, 1, 1);
     ZOMBIE_STEP_THREAD1.start();
 
-    ZOMBIE_STEP_THREAD2 = new SoundPlayer(ZOMBIE_STEP2, Settings.REFRESH_RATE, 1.0, .2, 1);
+    ZOMBIE_STEP_THREAD2 = new SoundPlayer(ZOMBIE_STEP2, Settings.REFRESH_RATE, 1.0, .2, 1, 1);
     ZOMBIE_STEP_THREAD2.start();
+
+    ZOMBIE_THUD_THREAD = new SoundPlayer(ZOMBIE_THUD, Settings.REFRESH_RATE, 1.0, .2, 1, 2);
+    ZOMBIE_THUD_THREAD.start();
   }
 
   public static void playWalk(boolean isRunning)
@@ -75,7 +84,11 @@ public class SoundManager
     {
       ZOMBIE_STEP_THREAD2.play(zombie, player);
     }
+  }
 
+  public static void playZombieThud(Point zombie, Point player)
+  {
+    ZOMBIE_THUD_THREAD.play(zombie, player);
   }
 
   public static void stopWalk()
@@ -95,8 +108,9 @@ public class SoundManager
     private final int PRIORITY;
     private boolean alternator;
     private double rate;
+    private double distanceMultiplier;
 
-    SoundPlayer(AudioClip sound, long maxTime, double baseVolume, double baseBalance, int priority)
+    SoundPlayer(AudioClip sound, long maxTime, double baseVolume, double baseBalance, int priority, double distanceMultiplier)
     {
       this.CLIP = sound;
       this.PRIORITY = priority;
@@ -105,6 +119,8 @@ public class SoundManager
       this.balance = baseBalance;
       this.MAX_TIME = maxTime;
       rate = 1.0;
+      this.distanceMultiplier = distanceMultiplier;
+
     }
 
     private void updateBalance()
@@ -125,7 +141,7 @@ public class SoundManager
       synchronized (play)
       {
 
-        double tempVolume = 1.0 - Math.abs(source.distance(listener)/Settings.playerHearing);
+        double tempVolume = 1.0 - Math.abs(source.distance(listener)/(Settings.playerHearing * distanceMultiplier));
 
         if(tempVolume > 0.0)
         {
