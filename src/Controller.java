@@ -165,15 +165,22 @@ class Controller
             playerWinLevel();
           }
 
+          currentLevel.MASTER.update(deltaTime);
+
           Iterator<Zombie> zlIterator = currentLevel.ZOMBIES.iterator();
           while (zlIterator.hasNext())
           {
             Zombie zombie = zlIterator.next();
             zombie.update(deltaTime);
+            if (zombie.isKnowsPlayerLocation())
+            {
+              currentLevel.MASTER.setKnowsPlayerLocation();
+            }
+
             if (currentLevel.PLAYER.checkCollision(zombie.getHitbox()))
             {
               //GAME OVER
-              playerDeath();
+              //playerDeath();
               break;
             }
 
@@ -225,6 +232,7 @@ class Controller
             }
           }
         }
+
         VIEW.repaint();
         lastTime = thisTime;
       }

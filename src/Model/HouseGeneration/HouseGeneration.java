@@ -21,6 +21,7 @@ public class HouseGeneration
   private Tile[][] houseTiles;
   private LinkedList<Zombie> zombieList;
   private LinkedList<Firetrap> firetrapList;
+  private Zombie master;
 
   private Player player;
   private int levelInitFireTrapCount = 0;
@@ -393,6 +394,8 @@ public class HouseGeneration
         exitNotPlaced = false;
       }
     }
+
+    master = new ZombieMaster(exitX*Settings.TILE_SIZE, exitY* Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble()));
   }
 
   // method to remove walls that can't be seen
@@ -487,6 +490,15 @@ public class HouseGeneration
   }
 
   /**
+   * Returns a pointer to the master zombie
+   * @return the master zombie
+   */
+  public Zombie getMasterZombie()
+  {
+    return master;
+  }
+
+  /**
    * Returns the number of firetraps held by the player at level start
    * @return levelInitFireTrapCount
    */
@@ -570,8 +582,12 @@ public class HouseGeneration
 
     houseTiles[5][4] = new Pillar(new Point(5 * Settings.TILE_SIZE, 4 * Settings.TILE_SIZE));
 
-    zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
+    //zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
 
     firetrapList.add(new Firetrap(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE)));
+
+    master = new ZombieMaster(10*Settings.TILE_SIZE, exitY*Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble()));
+
+    playerSpawn();
   }
 }

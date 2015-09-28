@@ -21,6 +21,7 @@ public class Level
   public final LinkedList<Zombie> ZOMBIES;
   public final LinkedList<Firetrap> FIRETRAPS;
   public final LinkedList<Fire> FIRES;
+  public final Zombie MASTER;
   // fireTrapCount - when a PLAYER enters a new level the count should carry over
   //                 but when a PLAYER respawns, they should have as many as before.
   public int fireTrapCount;
@@ -33,6 +34,7 @@ public class Level
     LEVEL_NUM = houseGen.getCurrentLevelNum();
     TILES = houseGen.getHouseTiles();
     ZOMBIES = houseGen.getZombieList();
+    MASTER = houseGen.getMasterZombie();
     FIRETRAPS = houseGen.getFiretrapList();
     fireTrapCount = houseGen.getFireTrapCount() + 1;
     EXIT = houseGen.getExit();

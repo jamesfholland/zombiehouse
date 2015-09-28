@@ -1,12 +1,15 @@
 package Model.Unit.Zombie;
 
+import Model.Direction;
+import Model.Settings;
 import Model.Unit.SpriteParser;
+import View.SoundManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class ZombieMaster extends ZombieLine
+public class ZombieMaster extends ZombieRandom
 {
   private static final BufferedImage[] WALK_UP_IMAGE;
   private static final BufferedImage[] WALK_RIGHT_IMAGE;
@@ -21,7 +24,7 @@ public class ZombieMaster extends ZombieLine
 
     try
     {
-      imageTemp = ImageIO.read(ZombieMaster.class.getResourceAsStream("heroSprites.png"));
+      imageTemp = ImageIO.read(ZombieRandom.class.getResourceAsStream("zombieMaster.png"));
     }
     catch (IOException e)
     {
@@ -44,6 +47,12 @@ public class ZombieMaster extends ZombieLine
   public ZombieMaster(int x, int y, double heading)
   {
     super(x, y, heading);
+  }
+
+  @Override
+  public void update(long deltaTime)
+  {
+    super.update(deltaTime);
   }
 
   @Override

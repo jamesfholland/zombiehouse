@@ -8,6 +8,7 @@ import Model.Unit.Fire;
 import Model.Unit.Firetrap;
 import Model.Unit.Unit;
 import Model.Unit.Zombie.Zombie;
+import Model.Unit.Zombie.ZombieMaster;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -157,6 +158,7 @@ class GamePanel extends JPanel
             }
           }
 
+
           for (Firetrap firetrap : level.FIRETRAPS)
           {
             if (firetrap.checkCollision(sightBox))
@@ -164,6 +166,8 @@ class GamePanel extends JPanel
               scaleAndDrawImage(firetrap.getImage(), graphics, firetrap.getLocation(), firetrap.getSize());
             }
           }
+
+          scaleAndDrawImage(level.MASTER.getImage(), graphics, level.MASTER.getLocation(), level.MASTER.getSize());
 
           scaleAndDrawImage(level.PLAYER.getImage(), graphics, level.PLAYER.getLocation(), level.PLAYER.getSize());
 

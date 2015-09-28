@@ -31,8 +31,8 @@ public abstract class Unit extends GameObject
   private double nextLocationX;
   private double nextLocationY;
 
-  int tileX;
-  int tileY;
+  private int tileX;
+  private int tileY;
 
   private double bottomRightCornerX;
   private double bottomRightCornerY;

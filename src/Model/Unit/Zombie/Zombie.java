@@ -12,7 +12,6 @@ public abstract class Zombie extends Unit
 
   boolean knowsPlayerLocation = false;
 
-
   Zombie(int x, int y, double heading)
   {
     this.location = new Point(x, y);
@@ -28,8 +27,18 @@ public abstract class Zombie extends Unit
     this.nextHitbox = new Rectangle(location, size);
   }
 
-  void canSmellPlayer()
+  public void canSmellPlayer()
   {
     knowsPlayerLocation = AStar.eculiDistanceFromPlayer(this.location) < Settings.zombieSmell;
+  }
+
+  public boolean isKnowsPlayerLocation()
+  {
+    return knowsPlayerLocation;
+  }
+
+  public void setKnowsPlayerLocation()
+  {
+    knowsPlayerLocation = true;
   }
 }
