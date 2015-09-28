@@ -466,8 +466,8 @@ public class HouseGeneration
   {
     lastRandomSeed = System.nanoTime();
     Settings.RANDOM.setSeed(lastRandomSeed);
-    makeNewHouse();
     currentLevelNum++;
+    makeNewHouse();
     this.player.setLevel(currentLevel);
   }
 

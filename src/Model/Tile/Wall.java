@@ -7,6 +7,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Wall is default tile for at initilization
+ * It is unpassable and obscures vision
+ * Nothing but fire can occupy the space of a wall tile
+ */
 public class Wall extends Tile
 {
   private final static BufferedImage WALL_IMAGE;
@@ -40,7 +45,10 @@ public class Wall extends Tile
 
   private boolean markedForDeletion;
 
-
+  /**
+   * The constructor for walls
+   * @param location - is the pixel (x,y) cordinates of the wall in the house
+   */
   public Wall(Point location)
   {
     super(location); //Sets up shared Tile settings.
@@ -48,6 +56,10 @@ public class Wall extends Tile
     this.markedForDeletion = false;
   }
 
+  /**
+   * Returns the image for walls, saved in resources
+   * @return WALL_IMAGE
+   */
   @Override
   public BufferedImage getImage()
   {
@@ -58,24 +70,31 @@ public class Wall extends Tile
 
     return WALL_IMAGE;
   }
+
+  /**
+   * All tiles have isWall().  Walls are only one to return true
+   * @return true
+   */
   @Override
   public boolean isWall()
   {
     return true;
   }
 
-  @Override
-  public String toString()
-  {
-    return "x";
-  }
-
+  /**
+   * markedForDeletion() is used to save if a wall should be deleted
+   * for removeHiddenWalls()
+   */
   @Override
   public void markForDeletion()
   {
     markedForDeletion = true;
   }
 
+  /**
+   * returns the boolean for if a wall should be deleted
+   * @return markedForDeletion
+   */
   @Override
   public boolean getDeletion()
   {

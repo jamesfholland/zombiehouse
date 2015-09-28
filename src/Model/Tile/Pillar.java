@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Pillar is a derivative of floor and wall
  * Acts as a Wall for movement collision but does not block sight
- * If burned the Pillar will become 'like' a Burned floor.  it is passable
+ * If burned the Pillar will become 'like' a Burned floor and becomes passable
  */
 public class Pillar extends Tile
 {
@@ -56,6 +56,10 @@ public class Pillar extends Tile
     graphics.drawImage(imageBurn, 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
   }
 
+  /**
+   * Constuctor for pillar tiles
+   * @param location - is the pixel (x,y) cordinates of the Pillar in the house
+   */
   public Pillar(Point location)
   {
     super(location); //Sets up shared Tile settings.
@@ -70,6 +74,10 @@ public class Pillar extends Tile
 
   }
 
+  /**
+   * Returns the image for Pillar, saved in resources
+   * @return PillarImg - May be plant or table or burned
+   */
   @Override
   public BufferedImage getImage()
   {
@@ -85,18 +93,15 @@ public class Pillar extends Tile
     return BURN_IMAGE;
   }
 
+  /**
+   * burn() is used with fire to change to properties of Pillar
+   */
   @Override
   public void burn()
   {
     super.burn();
     this.passable = true;
     this.PILLAR_TYPE = PillarType.BURN;
-  }
-
-  @Override
-  public String toString()
-  {
-    return "I";
   }
 
   //Types of pillars

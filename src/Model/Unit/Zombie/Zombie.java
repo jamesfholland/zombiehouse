@@ -6,12 +6,25 @@ import Model.Unit.Unit;
 
 import java.awt.*;
 
+/**
+ * Abstract class Zombie is the parent of all Zombie units (Linewalk, Random and Master)
+ * Holds all the common variables and methods used by Zombie units
+ */
 public abstract class Zombie extends Unit
 {
+  /**
+   * lastDecision holds the millisecond time since a zombie made its last decision
+   * knowsPlayerLocation holds if the zombie can 'smell'/ sense the the player
+   */
   int lastDecision = 0;
-
   boolean knowsPlayerLocation = false;
 
+  /**
+   * Is the super constructor for all zombies
+   * @param x - x coordinate (pixels)
+   * @param y - y coordinate (pixels)
+   * @param heading - is a double for direction that zombie is facing / walking
+   */
   Zombie(int x, int y, double heading)
   {
     this.location = new Point(x, y);
@@ -27,6 +40,10 @@ public abstract class Zombie extends Unit
     this.nextHitbox = new Rectangle(location, size);
   }
 
+  /**
+   * Sets the boolean value of if zombie can sense player - based on euclidian distance
+   */
+  void canSmellPlayer()
   public void canSmellPlayer()
   {
     knowsPlayerLocation = AStar.eculiDistanceFromPlayer(this.location) < Settings.zombieSmell;
