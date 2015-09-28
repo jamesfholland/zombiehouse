@@ -46,11 +46,21 @@ public class ZombieMaster extends ZombieRandom
     WALK_RIGHT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
   }
 
+  /**
+   * Zombie constructor
+   * @param x - pixel x cooridnate
+   * @param y - pixel y coordinate
+   * @param heading - 360 degree double
+   */
   public ZombieMaster(int x, int y, double heading)
   {
     super(x, y, heading);
   }
 
+  /**
+   * Zombie update() changes the zombie's position as well as checks for a new heading
+   * @param deltaTime - millisecond time since last update call
+   */
   @Override
   public void update(long deltaTime)
   {

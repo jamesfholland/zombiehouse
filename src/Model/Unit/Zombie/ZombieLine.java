@@ -9,6 +9,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * ZombieLine is a type of zombie
+ * They move in straight lines until they hit a wall (or sense the player)
+ */
 public class ZombieLine extends Zombie
 {
   private static final BufferedImage[] WALK_UP_IMAGE;
@@ -44,11 +48,21 @@ public class ZombieLine extends Zombie
     WALK_RIGHT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
   }
 
+  /**
+   * Zombie constructor
+   * @param x - pixel x cooridnate
+   * @param y - pixel y coordinate
+   * @param heading - 360 degree double
+   */
   public ZombieLine(int x, int y, double heading)
   {
     super(x, y, heading);
   }
 
+  /**
+   * Zombie update() changes the zombie's position as well as checks for a new heading
+   * @param deltaTime - millisecond time since last update call
+   */
   @Override
   public void update(long deltaTime)
   {
