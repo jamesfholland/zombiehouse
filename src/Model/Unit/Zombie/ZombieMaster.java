@@ -16,6 +16,8 @@ public class ZombieMaster extends ZombieRandom
   private static final BufferedImage[] WALK_LEFT_IMAGE;
   private static final BufferedImage[] WALK_DOWN_IMAGE;
 
+  private boolean anOtherZombieKnows;
+
   static
   {
     BufferedImage imageTemp = null;
@@ -52,7 +54,25 @@ public class ZombieMaster extends ZombieRandom
   @Override
   public void update(long deltaTime)
   {
-    super.update(deltaTime);
+    if (anOtherZombieKnows)
+    {
+      heading = level.ASTAR.getHeading(getCenterLocation());
+      super.move(Settings.zombieSpeed, heading, deltaTime);
+    }
+    else
+    {
+      super.update(deltaTime);
+    }
+  }
+
+  public void setAnOtherZombieKnowsTrue()
+  {
+    anOtherZombieKnows = true;
+  }
+
+  public void setAnOtherZombieKnowsFalse()
+  {
+    anOtherZombieKnows = false;
   }
 
   @Override

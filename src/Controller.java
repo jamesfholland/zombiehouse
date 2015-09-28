@@ -166,21 +166,31 @@ class Controller
           }
 
           currentLevel.MASTER.update(deltaTime);
+          
+          if (currentLevel.MASTER.checkCollision(currentLevel.PLAYER.getHitbox()))
+          {
+            playerDeath();
+            break;
+          }
 
           Iterator<Zombie> zlIterator = currentLevel.ZOMBIES.iterator();
           while (zlIterator.hasNext())
           {
             Zombie zombie = zlIterator.next();
             zombie.update(deltaTime);
-            if (zombie.isKnowsPlayerLocation())
+            if (zombie.knowsPlayerLocation())
             {
-              currentLevel.MASTER.setKnowsPlayerLocation();
+              currentLevel.MASTER.setAnOtherZombieKnowsTrue();
+            }
+            else
+            {
+              currentLevel.MASTER.setAnOtherZombieKnowsFalse();
             }
 
             if (currentLevel.PLAYER.checkCollision(zombie.getHitbox()))
             {
               //GAME OVER
-              //playerDeath();
+              playerDeath();
               break;
             }
 

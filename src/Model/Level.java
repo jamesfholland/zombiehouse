@@ -7,6 +7,7 @@ import Model.Unit.Fire;
 import Model.Unit.Firetrap;
 import Model.Unit.Player;
 import Model.Unit.Zombie.Zombie;
+import Model.Unit.Zombie.ZombieMaster;
 
 import java.util.LinkedList;
 
@@ -21,7 +22,7 @@ public class Level
   public final LinkedList<Zombie> ZOMBIES;
   public final LinkedList<Firetrap> FIRETRAPS;
   public final LinkedList<Fire> FIRES;
-  public final Zombie MASTER;
+  public final ZombieMaster MASTER;
   // fireTrapCount - when a PLAYER enters a new level the count should carry over
   //                 but when a PLAYER respawns, they should have as many as before.
   public int fireTrapCount;

@@ -21,7 +21,7 @@ public class HouseGeneration
   private Tile[][] houseTiles;
   private LinkedList<Zombie> zombieList;
   private LinkedList<Firetrap> firetrapList;
-  private Zombie master;
+  private ZombieMaster master;
 
   private Player player;
   private int levelInitFireTrapCount = 0;
@@ -493,7 +493,7 @@ public class HouseGeneration
    * Returns a pointer to the master zombie
    * @return the master zombie
    */
-  public Zombie getMasterZombie()
+  public ZombieMaster getMasterZombie()
   {
     return master;
   }
