@@ -43,7 +43,6 @@ public abstract class Zombie extends Unit
   /**
    * Sets the boolean value of if zombie can sense player - based on euclidian distance
    */
-  void canSmellPlayer()
   public void canSmellPlayer()
   {
     knowsPlayerLocation = AStar.eculiDistanceFromPlayer(this.location) < Settings.zombieSmell;
