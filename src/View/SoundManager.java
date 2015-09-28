@@ -15,8 +15,10 @@ public class SoundManager
   private static final AudioClip FOOT_STEP;
   private static final SoundPlayer WALK_THREAD;
 
-  private static final AudioClip ZOMBIE_STEP;
-  private static final SoundPlayer ZOMBIE_STEP_THREAD;
+  private static final AudioClip ZOMBIE_STEP1;
+  private static final AudioClip ZOMBIE_STEP2;
+  private static final SoundPlayer ZOMBIE_STEP_THREAD1;
+  private static final SoundPlayer ZOMBIE_STEP_THREAD2;
 
   private static final AudioClip FIRE_START;
   private static final AudioClip FIRE_CONTINOUS;
@@ -25,13 +27,15 @@ public class SoundManager
   static
   {
     AudioClip footstep = null;
-    AudioClip zombieStep = null;
+    AudioClip zombieStep1 = null;
+    AudioClip zombieStep2 = null;
     AudioClip FireStart = null;
     AudioClip FireContinous = null;
     try
     {
       footstep = new AudioClip(View.SoundManager.class.getResource("sounds/footstep.wav").toURI().toASCIIString());
-      zombieStep = new AudioClip(View.SoundManager.class.getResource("sounds/stepsnow_2.wav").toURI().toASCIIString());
+      zombieStep1 = new AudioClip(View.SoundManager.class.getResource("sounds/creak5.wav").toURI().toASCIIString());
+      zombieStep2 = new AudioClip(View.SoundManager.class.getResource("sounds/creak7.wav").toURI().toASCIIString());
     }
     catch (URISyntaxException e)
     {
@@ -40,15 +44,19 @@ public class SoundManager
 
 
     FOOT_STEP = footstep;
-    ZOMBIE_STEP = zombieStep;
+    ZOMBIE_STEP1 = zombieStep1;
+    ZOMBIE_STEP2 = zombieStep2;
     FIRE_START = FireStart;
     FIRE_CONTINOUS = FireContinous;
 
     WALK_THREAD = new SoundPlayer(FOOT_STEP, Settings.REFRESH_RATE, 1.0, .2, 1);
     WALK_THREAD.start();
 
-    ZOMBIE_STEP_THREAD = new SoundPlayer(ZOMBIE_STEP, Settings.REFRESH_RATE, 1.0, .2, 1);
-    ZOMBIE_STEP_THREAD.start();
+    ZOMBIE_STEP_THREAD1 = new SoundPlayer(ZOMBIE_STEP1, Settings.REFRESH_RATE, 1.0, .2, 1);
+    ZOMBIE_STEP_THREAD1.start();
+
+    ZOMBIE_STEP_THREAD2 = new SoundPlayer(ZOMBIE_STEP2, Settings.REFRESH_RATE, 1.0, .2, 1);
+    ZOMBIE_STEP_THREAD2.start();
   }
 
   public static void playWalk(boolean isRunning)
@@ -59,7 +67,15 @@ public class SoundManager
 
   public static void playZombieWalk(Point zombie, Point player)
   {
-    ZOMBIE_STEP_THREAD.play(zombie, player);
+    if(Settings.RANDOM.nextBoolean())
+    {
+      ZOMBIE_STEP_THREAD1.play(zombie, player);
+    }
+    else
+    {
+      ZOMBIE_STEP_THREAD2.play(zombie, player);
+    }
+
   }
 
   public static void stopWalk()
