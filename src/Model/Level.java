@@ -29,6 +29,10 @@ public class Level
   public final Player PLAYER;
   public final AStar ASTAR;
 
+  /**
+   * Level is constructed from the HouseGenerator
+   * @param houseGen - contains all the values needed for a level
+   */
   public Level(HouseGeneration houseGen)
   {
     PLAYER = houseGen.getPlayer();
@@ -37,7 +41,7 @@ public class Level
     ZOMBIES = houseGen.getZombieList();
     MASTER = houseGen.getMasterZombie();
     FIRETRAPS = houseGen.getFiretrapList();
-    fireTrapCount = houseGen.getFireTrapCount() + 1;
+    fireTrapCount = houseGen.getFireTrapCount();
     EXIT = houseGen.getExit();
     ASTAR = new AStar(this);
     FIRES = new LinkedList<>();

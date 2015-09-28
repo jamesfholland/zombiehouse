@@ -17,11 +17,20 @@ public class AStar
   private LinkedList<Node> path = new LinkedList<>();
   private List<Node> neighbors = new LinkedList<>();
 
+  /**
+   * Constructor for AStar.  needs the current level object for computations
+   * @param level - level holds the 2d tile array used for pathing
+   */
   public AStar(Level level)
   {
     AStar.level = level;
   }
 
+  /**
+   * Calculates the euclidian distance between the player and a zombie
+   * @param zombLocation - the point for a zombie's location
+   * @return a pixel distance from zombie to player
+   */
   public static double eculiDistanceFromPlayer(Point zombLocation)
   {
     return zombLocation.distance(level.PLAYER.getLocation());
@@ -92,6 +101,11 @@ public class AStar
     }
   }
 
+  /**
+   * Uses the AStar algorithm to determine which direction a zombie should 'currently' / actively head (not the full path)
+   * @param zombieLocation - the zombie's current location Point
+   * @return angle - a double value giving a 360 degree angle (not radian)
+   */
   public double getHeading(Point zombieLocation)
   {
     Node toMoveTo;
@@ -114,9 +128,7 @@ public class AStar
       return calcRotationAngleInDegrees(zombieLocation, level.PLAYER.getLocation());
     }
 
-
     pointMoveTo = level.TILES[toMoveTo.tileX][toMoveTo.tileY].getCenterLocation();
-
 
     return calcRotationAngleInDegrees(zombieLocation, pointMoveTo);
   }
@@ -199,7 +211,6 @@ public class AStar
     {
       fScore = gScore + manhattanDistance;
     }
-
 
     @Override
     public int compareTo(Node o)

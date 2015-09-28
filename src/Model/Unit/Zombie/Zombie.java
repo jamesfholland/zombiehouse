@@ -48,6 +48,10 @@ public abstract class Zombie extends Unit
     knowsPlayerLocation = AStar.eculiDistanceFromPlayer(this.location) < Settings.zombieSmell;
   }
 
+  /**
+   * returns if the zombie knows where the player is
+   * @return knowsPlayerLocation - boolean
+   */
   public boolean knowsPlayerLocation()
   {
     return knowsPlayerLocation;

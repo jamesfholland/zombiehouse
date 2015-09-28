@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * This class handles displaying the stamina bar, zombie death count, and current level.
+ * This class handles displaying the current level and firetrap count.
  */
 class ScoreBar extends JPanel
 {
@@ -24,6 +24,7 @@ class ScoreBar extends JPanel
   @Override
   public void paintComponent(Graphics graphics)
   {
+    if(currentLevel == null) { return; }
     levelText.setText("Welcome to our ZOMBIE TREEHOUSE!! :)   ||   Level: " + currentLevel.LEVEL_NUM + "   ||   Firetrap count: " + currentLevel.fireTrapCount);
   }
 

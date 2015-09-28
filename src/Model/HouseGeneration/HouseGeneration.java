@@ -465,6 +465,7 @@ public class HouseGeneration
   public void spawnNewLevel()
   {
     lastRandomSeed = System.nanoTime();
+    levelInitFireTrapCount = currentLevel.fireTrapCount;
     Settings.RANDOM.setSeed(lastRandomSeed);
     currentLevelNum++;
     makeNewHouse();
