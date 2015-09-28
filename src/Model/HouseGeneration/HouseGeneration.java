@@ -33,7 +33,6 @@ public class HouseGeneration
 
   private int playerX, playerY;
   private int exitX, exitY;
-  private Direction exitDir;
 
   private int currentLevelNum;
   private Level currentLevel;
@@ -42,6 +41,10 @@ public class HouseGeneration
   //                            on new level, take new seed
   private static long lastRandomSeed;
 
+  /**
+   * Constructor for HouseGeneration
+   * Should be called exactly once by the controller
+   */
   public HouseGeneration()
   {
     houseWidth = Settings.PRACTICE_MAP_SIZE;
@@ -69,8 +72,10 @@ public class HouseGeneration
   }
 
 
-  // THE NEW APPROACH
-  // using roguebasin.com's algorithm
+  /**
+   * makeNewHouse() is the method that holds the algorithm used for procedural generation
+   * the algorithm is borrowed from RougeBasin.com
+   */
   private void makeNewHouse()
   {
     // initialize new lists:
@@ -89,6 +94,7 @@ public class HouseGeneration
     int failedCarvings = 0;
     int roomCount = 0;
     int corridorCount = 0;
+    int pillarCount = 10;
     while (houseNotDone)
     {
       boolean needWallSeg = true;
@@ -183,7 +189,7 @@ public class HouseGeneration
       {
         failedCarvings++;
       }
-      if (roomCount >= Settings.DEFAULT_NUMBER_ROOMS && corridorCount >= Settings.DEFAULT_NUMBER_HALLS)
+      if (roomCount >= Settings.DEFAULT_NUMBER_ROOMS && corridorCount >= Settings.DEFAULT_NUMBER_HALLS && pillarCount >= Settings.DEFAULT_NUMBER_OBSTACLES)
       {
         houseNotDone = false;
       }
@@ -193,14 +199,13 @@ public class HouseGeneration
       } // rather than just stopping might be good to restart..
     }
 
-    // late step - place PLAYER (needed for quick testing)
+    // late step - place player
     playerSpawn();
 
-    // last step - place EXIT
-    // trying to keep at a distance of at least some percentage distance of the map size (can't spawn next to PLAYER)
+    // 2nd to last step - place exit
     exitSpawn();
 
-    // last last step - remove excess walls (should help search/sight algorithms) --> is not working yet! breaks other codes..
+    // last last step - remove excess walls
     removeHiddenWalls();
 
     createLevel();
@@ -361,7 +366,6 @@ public class HouseGeneration
     if (Settings.RANDOM.nextDouble() < Settings.firetrapSpawnRate)
     {
       firetrapList.add(new Firetrap(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE)));
-      return;
     }
   }
 
@@ -382,7 +386,6 @@ public class HouseGeneration
       }
       exitX = currentWallX + currentDir.getDX();
       exitY = currentWallY + currentDir.getDY();
-      exitDir = currentDir.inverseDir();
       if (isSpaceClear(exitX, exitY, 1, 1))
       {
         houseTiles[currentWallX][currentWallY] = new Floor(new Point(currentWallX * Settings.TILE_SIZE, currentWallY * Settings.TILE_SIZE));
@@ -392,9 +395,7 @@ public class HouseGeneration
     }
   }
 
-  // Always always breaks...
-  // mark for deletion
-  // check all 8 directions before removal
+  // method to remove walls that can't be seen
   private void removeHiddenWalls()
   {
 
@@ -442,6 +443,10 @@ public class HouseGeneration
     currentLevel = new Level(this);
   }
 
+  /**
+   * respawnSameMap() is used to recreate a level on playerDeath()
+   * uses a saved seed of the level to retrieve same random calls to recreate a level
+   */
   public void respawnSameMap()
   {
     Settings.RANDOM.setSeed(lastRandomSeed);
@@ -450,6 +455,10 @@ public class HouseGeneration
     this.player.setLevel(currentLevel);
   }
 
+  /**
+   * spawnNewLevel() is used to create a new level on playerWinLevel()
+   * generates a new random seed, saves it and uses it to create a new level
+   */
   public void spawnNewLevel()
   {
     lastRandomSeed = System.nanoTime();
@@ -459,41 +468,75 @@ public class HouseGeneration
     this.player.setLevel(currentLevel);
   }
 
+  /**
+   * Returns a 2d array of tiles
+   * @return houseTiles
+   */
   public Tile[][] getHouseTiles()
   {
     return houseTiles;
   }
 
+  /**
+   * Returns a linked list of zombies
+   * @return zombieList
+   */
   public LinkedList<Zombie> getZombieList()
   {
     return zombieList;
   }
 
+  /**
+   * Returns the number of firetraps held by the player at level start
+   * @return levelInitFireTrapCount
+   */
   public int getFireTrapCount()
   {
     return levelInitFireTrapCount;
   }
 
+  /**
+   * Returns the full Level object that contains all level details
+   * @return currentLevel
+   */
   public Level getCurrentLevel()
   {
     return currentLevel;
   }
 
+  /**
+   * Returns the number of the current level
+   * 1-indexed
+   * @return currentLevelNum
+   */
   public int getCurrentLevelNum()
   {
     return currentLevelNum;
   }
 
+  /**
+   * HouseGeneration constructs a new player object for each level
+   * Returns the player
+   * @return player
+   */
   public Player getPlayer()
   {
     return player;
   }
 
+  /**
+   * Returns a linked list of Firetraps
+   * @return firetrapList
+   */
   public LinkedList<Firetrap> getFiretrapList()
   {
     return firetrapList;
   }
 
+  /**
+   * Returns the exit object
+   * @return Exit
+   */
   public Exit getExit()
   {
     return (Exit) houseTiles[exitX][exitY];
@@ -501,21 +544,14 @@ public class HouseGeneration
 
 
   // DEMO + PRACTICE MAP below.  to be deleted on completion.
-
-
-  // Quick ASTAR test case.
-  // 5x11 room, with wall seperating halfs
   private void aStarTestRoom()
   {
-    playerX = 3;
-    playerY = 2;
     // initialize new lists:
     zombieList = new LinkedList<>();
     firetrapList = new LinkedList<>();
+
     allWalls();
 
-    // default used to fill house with open floor
-    // makeRoom(1, 1, Settings.PRACTICE_MAP_SIZE - 2, Settings.PRACTICE_MAP_SIZE - 2);
     for (int i = 1; i < 6; i++)
     {
       for (int j = 1; j < 6; j++)
@@ -530,14 +566,12 @@ public class HouseGeneration
     exitX = 12;
     exitY = 2;
 
-    houseTiles[5][4] = new Pillar(new Point(5 * Settings.TILE_SIZE, 4 * Settings.TILE_SIZE));
+    playerSpawn();
 
-    //PLAYER.setLocation(new Point(playerX * Settings.TILE_SIZE, playerY * Settings.TILE_SIZE));
+    houseTiles[5][4] = new Pillar(new Point(5 * Settings.TILE_SIZE, 4 * Settings.TILE_SIZE));
 
     zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
 
     firetrapList.add(new Firetrap(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE)));
-
-    playerSpawn();
   }
 }

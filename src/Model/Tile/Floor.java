@@ -7,16 +7,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Floor is a child Tile
+ * it is the walkable space on the maps and does not obstruct vision
+ * Players/Zombies/Firetraps/Fire can occupy floor tiles
+ * Pillars may overwrite floor tiles after creation
+ * Floors (like walls and Pillars) can be burned and their image will change
+ */
 public class Floor extends Tile
 {
   private final static BufferedImage FLOOR_IMAGE;
   private final static BufferedImage FLOOR_BURNED_IMAGE;
 
-  // floor tiles are created either in rooms or hallways
-  // by numbering the floor tiles, we can assess which room a floor is part of
-  // 0 = hallway - special rule - hallways may not have obstructions
-  // 1+ = rooms
-  private int roomNum;
   private boolean empty;
 
   static
@@ -45,19 +47,21 @@ public class Floor extends Tile
     graphics.drawImage(imageBurn, 0, 0, Settings.TILE_SIZE, Settings.TILE_SIZE, null);
   }
 
+  /**
+   * Constuctor for floor tiles
+   * at time of initilization all floors are by default empty (though may be filled shortly after)
+   * @param location - is the pixel (x,y) cordinates of the floor in the house
+   */
   public Floor(Point location)
   {
     super(location); /*Sets up shared Tile settings*/
     empty = true;
   }
 
-  public Floor(Point location, int roomNum)
-  {
-    super(location); //Sets up shared Tile settings.
-    this.roomNum = roomNum;
-    empty = true;
-  }
-
+  /**
+   * Returns the image for Floor, saved in resources
+   * @return FloorImage - may be clean or burned
+   */
   @Override
   public BufferedImage getImage()
   {
@@ -69,38 +73,35 @@ public class Floor extends Tile
     return FLOOR_IMAGE;
   }
 
-  @Override
-  public String toString()
-  {
-    return ".";
-  }
-
+  /**
+   * All Tile objects have a isFloor() method.  Only floors return true
+   * @return true
+   */
   @Override
   public boolean isFloor()
   {
     return true;
   }
 
+  /**
+   * Like isFloor, all Tile objects have a isEmptyFloor.  Only empty floors
+   * with member variable empty return true
+   * @return true - if empty || false if not empty
+   */
   @Override
   public boolean isEmptyFloor()
   {
     return empty;
   }
 
+  /**
+   * setEmpty is used to change the member variable empty
+   * empty is only relevant to map initialization (not for collision/movement)
+   * @param empty - boolean
+   */
   @Override
   public void setEmpty(boolean empty)
   {
     this.empty = empty;
-  }
-
-  public int getRoomNum()
-  {
-    return roomNum;
-  }
-
-  @Override
-  public boolean isWall()
-  {
-    return false;
   }
 }

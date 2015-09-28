@@ -12,24 +12,25 @@ class ScoreBar extends JPanel
 {
   Level currentLevel;
   JLabel levelText = new JLabel();
-  JButton menu = new JButton("Menu");
 
   ScoreBar()
   {
     super();
     setBackground(Color.BLACK);
     levelText.setForeground(Color.RED);
-
-//    levelText.setText("Welcome to Hell!  Level: 1  ||  Firetrap Count: 1");
     this.add(levelText);
-
   }
+
+  @Override
+  public void paintComponent(Graphics graphics)
+  {
+    levelText.setText("Welcome to Hell! :)   ||   Level: " + currentLevel.LEVEL_NUM + "   ||   Firetrap count: " + currentLevel.fireTrapCount);
+  }
+
 
   public void setLevel( Level level)
   {
     currentLevel = level;
   }
-
-
 
 }

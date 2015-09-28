@@ -9,6 +9,8 @@ import java.io.IOException;
 
 /**
  * Pillar is a derivative of floor and wall
+ * Acts as a Wall for movement collision but does not block sight
+ * If burned the Pillar will become 'like' a Burned floor.  it is passable
  */
 public class Pillar extends Tile
 {
