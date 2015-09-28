@@ -23,8 +23,8 @@ public class SoundManager
   private static final AudioClip ZOMBIE_THUD;
   private static final SoundPlayer ZOMBIE_THUD_THREAD;
 
-  private static final AudioClip FIRE_START;
-  private static final AudioClip FIRE_CONTINOUS;
+  private static final AudioClip FIRE;
+  private static final SoundPlayer FIRE_THREAD;
 
 
   static
@@ -33,14 +33,14 @@ public class SoundManager
     AudioClip zombieStep1 = null;
     AudioClip zombieStep2 = null;
     AudioClip zombieThud = null;
-    AudioClip FireStart = null;
-    AudioClip FireContinous = null;
+    AudioClip fire = null;
     try
     {
       footstep = new AudioClip(View.SoundManager.class.getResource("sounds/footstep.wav").toURI().toASCIIString());
       zombieStep1 = new AudioClip(View.SoundManager.class.getResource("sounds/creak5.wav").toURI().toASCIIString());
       zombieStep2 = new AudioClip(View.SoundManager.class.getResource("sounds/creak7.wav").toURI().toASCIIString());
       zombieThud = new AudioClip(View.SoundManager.class.getResource("sounds/thudGroan.wav").toURI().toASCIIString());
+      fire = new AudioClip(View.SoundManager.class.getResource("sounds/crackle.wav").toURI().toASCIIString());
     }
     catch (URISyntaxException e)
     {
@@ -52,8 +52,7 @@ public class SoundManager
     ZOMBIE_STEP1 = zombieStep1;
     ZOMBIE_STEP2 = zombieStep2;
     ZOMBIE_THUD = zombieThud;
-    FIRE_START = FireStart;
-    FIRE_CONTINOUS = FireContinous;
+    FIRE = fire;
 
     WALK_THREAD = new SoundPlayer(FOOT_STEP, Settings.REFRESH_RATE, 1.0, .2, 1, 1);
     WALK_THREAD.start();
@@ -66,12 +65,20 @@ public class SoundManager
 
     ZOMBIE_THUD_THREAD = new SoundPlayer(ZOMBIE_THUD, Settings.REFRESH_RATE, 1.0, .2, 1, 2);
     ZOMBIE_THUD_THREAD.start();
+
+    FIRE_THREAD = new SoundPlayer(FIRE, Settings.REFRESH_RATE, 1.0, .2, 1, 1);
+    FIRE_THREAD.start();
   }
 
   public static void playWalk(boolean isRunning)
   {
     if(isRunning) WALK_THREAD.playAlternateFast();
     else WALK_THREAD.playAlternate();
+  }
+
+  public static void playFire(Point fire, Point player)
+  {
+    FIRE_THREAD.play(fire, player);
   }
 
   public static void playZombieWalk(Point zombie, Point player)

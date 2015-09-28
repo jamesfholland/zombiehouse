@@ -1,6 +1,7 @@
 package Model.Unit;
 
 import Model.Settings;
+import View.SoundManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -98,6 +99,7 @@ public class Fire extends Unit
     if (isBurning && timeBurning < 15000)
     {
       timeBurning += deltaTime;
+      SoundManager.playFire(this.getCenterLocation(), level.PLAYER.getCenterLocation());
     }
     else if (isBurning && timeBurning >= 15000)
     {

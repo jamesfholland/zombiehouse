@@ -10,9 +10,9 @@ Fire graphics http://opengameart.org/content/animated-particle-effects-2
 Fire Trap modified version of pillar.png
 
 #### Audio credits
-Footsteps and Bumps http://opengameart.org/content/foot-walking-step-sounds-on-stone-water-snow-wood-and-dirt
+Creaks and Bumps http://opengameart.org/content/25-spooky-sound-effects
 footstep.wav https://www.freesound.org/people/OwlStorm/sounds/151232/
-Fire trap ignite and burn http://www.freesound.org/people/Nic3_one/sounds/166542/
+Fire http://opengameart.org/content/fire-crackling
 Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 #### Todo
 ###### Interface
