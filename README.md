@@ -17,5 +17,7 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 
 ###### TODO
 * Fires set off fire traps
+* Game starts to lag after playing for ~10 minutes (yes I played that long) Probably a memory leak somewhere.
+
 
 *Not required
