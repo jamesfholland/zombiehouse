@@ -21,18 +21,13 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
     * Fire trap count
     * Zombies killed*
 * Sound
-    * Unit based sounds
-        * Zombie
-            * Shuffle
-            * Wall collide
-        * Player
-            * Wall collide
-            * Run
+    * Zombie
+        * Shuffle
+        * Wall collide
     * Fire trap
         * Explosion
         * Basic fire
 * Loading graphic*
-* Dialog for changing default settings
 
 ###### Units
 * Zombie
@@ -43,5 +38,6 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 
 ###### House Generation
 * Pillars
+    *Guarantee 5 pillars
 
 *Not required
