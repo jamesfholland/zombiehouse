@@ -170,7 +170,7 @@ class Controller
           if (currentLevel.MASTER.checkCollision(currentLevel.PLAYER.getHitbox()))
           {
             playerDeath();
-            break;
+            continue;
           }
 
           Iterator<Zombie> zlIterator = currentLevel.ZOMBIES.iterator();
