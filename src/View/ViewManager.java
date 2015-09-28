@@ -20,12 +20,12 @@ public class ViewManager
 
   public ViewManager()
   {
-    this.isPaused = false;
+    this.isPaused = true;
     this.FRAME = new MainFrame();
     this.FRAME.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.FRAME.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-    JDialog dialog = new SettingsPanel(this, this.FRAME, "Settings");
+    JDialog dialog = new SettingsDialog(this, this.FRAME, "Settings");
     dialog.setVisible(true);
 
     this.SCORE_BAR = new ScoreBar();

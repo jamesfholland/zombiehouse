@@ -8,9 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * SettingsPanel allows the user to change default settings in the application.
+ * SettingsDialog allows the user to change default settings in the application.
  */
-public class SettingsPanel extends JDialog
+public class SettingsDialog extends JDialog
 {
   SettingsConverter converter = new SettingsConverter();
   JLabel textSightRange = new JLabel("Player sight range (tiles)");
@@ -35,7 +35,7 @@ public class SettingsPanel extends JDialog
   JTextField jtfZombieSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.zombieSpawnRate), 5); // convert to %
 
   private ViewManager viewManager;
-  SettingsPanel(ViewManager viewManager, JFrame frame, String title)
+  SettingsDialog(ViewManager viewManager, JFrame frame, String title)
   {
     super(frame, title);
     this.viewManager = viewManager;

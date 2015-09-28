@@ -24,7 +24,7 @@ class ScoreBar extends JPanel
   @Override
   public void paintComponent(Graphics graphics)
   {
-    levelText.setText("Welcome to Hell! :)   ||   Level: " + currentLevel.LEVEL_NUM + "   ||   Firetrap count: " + currentLevel.fireTrapCount);
+    levelText.setText("Welcome to our ZOMBIE TREEHOUSE!! :)   ||   Level: " + currentLevel.LEVEL_NUM + "   ||   Firetrap count: " + currentLevel.fireTrapCount);
   }
 
 
