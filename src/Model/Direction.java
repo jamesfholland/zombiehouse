@@ -16,6 +16,7 @@ public enum Direction
 
   /**
    * Constuctor for the enums
+   *
    * @param x - change in X
    * @param y - change in Y
    */
@@ -27,6 +28,7 @@ public enum Direction
 
   /**
    * returns the change in X associated with the direction
+   *
    * @return deltaX - int
    */
   public int getDX()
@@ -36,6 +38,7 @@ public enum Direction
 
   /**
    * returns the change in Y associated with the direction
+   *
    * @return deltaY - int
    */
   public int getDY()
@@ -45,6 +48,7 @@ public enum Direction
 
   /**
    * returns the direction that is 'opposite' (ie: north returns south)
+   *
    * @return dir - Direction Enum
    */
   public Direction inverseDir()

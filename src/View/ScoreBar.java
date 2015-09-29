@@ -23,20 +23,25 @@ class ScoreBar extends JPanel
 
   /**
    * Used to keep the info up to date (not actually repainting graphically, but just changing text)
+   *
    * @param graphics
    */
   @Override
   public void paintComponent(Graphics graphics)
   {
-    if(currentLevel == null) { return; }
+    if (currentLevel == null)
+    {
+      return;
+    }
     levelText.setText("Welcome to our ZOMBIE TREEHOUSE!! :)   ||   Level: " + currentLevel.LEVEL_NUM + "   ||   Firetrap count: " + currentLevel.fireTrapCount);
   }
 
   /**
    * Passes the current Level to ScoreBar, which it uses to keep track of relavent info
+   *
    * @param level
    */
-  public void setLevel( Level level)
+  public void setLevel(Level level)
   {
     currentLevel = level;
   }

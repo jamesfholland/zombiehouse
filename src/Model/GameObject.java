@@ -6,14 +6,14 @@ import java.awt.image.BufferedImage;
 
 /**
  * This class is the abstract class for all of the game objects in zombiehouse.
- *
+ * <p>
  * This class is the highest class in the model hierarchy. Every other class in the model will eventually extend GameObject.
  * The level data class in the zombiehouse program holds instances of GameObjects which the controller tells the model to update on each refresh.
  * The view reads in from the level the existing game objects and paints them on the screen accordingly.
- *
+ * <p>
  * Every zombiehouse element with which the player interacts extends GameObject.
  * This includes every tile type, every zombie type, the player, the firetraps, and the fire.
- *
+ * <p>
  * Every class which extends GameObject will have data members such as its size, location, and hitbox
  * Every class which extends GameObject will have the functions necessary to get its current location on the tile array,
  * return the values of its data members, and check if the hitbox of a GameObject is overlapping with the hitbox
@@ -117,6 +117,7 @@ public abstract class GameObject
 
   /**
    * Sets an instance of GameObject to the location passed in
+   *
    * @param location
    */
   public void setLocation(Point location)
@@ -126,6 +127,7 @@ public abstract class GameObject
 
   /**
    * Gives a pointer to the level data class to this instance of GameObject
+   *
    * @param level
    */
   public void setLevel(Level level)

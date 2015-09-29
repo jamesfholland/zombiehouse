@@ -13,7 +13,7 @@ import java.io.IOException;
  * ZombieLine is the class which is instantiated when a linear zombie is added to the game
  * If a ZombieLine cannot smell the player, then it walks in a random direction until it collides with something.
  * When it collides with something, it chooses a new direction on the next zombie decision update.
- *
+ * <p>
  * From the program perspective, ZombieLines are added to the level in HouseGeneration. The level holds an array of type Zombie which
  * the controller can update and the view can draw. However, outside of the HouseGeneration and the level, the ZombieLine isn't directly touched by anything.
  */
@@ -54,8 +54,9 @@ public class ZombieLine extends Zombie
 
   /**
    * Zombie constructor
-   * @param x - pixel x cooridnate
-   * @param y - pixel y coordinate
+   *
+   * @param x       - pixel x cooridnate
+   * @param y       - pixel y coordinate
    * @param heading - 360 degree double
    */
   public ZombieLine(int x, int y, double heading)
@@ -65,6 +66,7 @@ public class ZombieLine extends Zombie
 
   /**
    * Zombie update() changes the zombie's position as well as checks for a new heading
+   *
    * @param deltaTime - millisecond time since last update call
    */
   @Override
@@ -81,7 +83,8 @@ public class ZombieLine extends Zombie
         collided = false;
         heading = level.ASTAR.getHeading(getCenterLocation());
         setHeadingVector();
-      } else if (collided)
+      }
+      else if (collided)
       {
         collided = false;
         makeDecision();
@@ -97,20 +100,26 @@ public class ZombieLine extends Zombie
     if (headingVector.y > 0)
     {
       direction = Direction.SOUTH;
-    } else if (headingVector.y < 0)
+    }
+    else if (headingVector.y < 0)
     {
       direction = Direction.NORTH;
-    } else if (headingVector.x > 0)
+    }
+    else if (headingVector.x > 0)
     {
       direction = Direction.EAST;
-    } else if (headingVector.x < 0)
+    }
+    else if (headingVector.x < 0)
     {
       direction = Direction.WEST;
     }
 
     if (direction != null)
     {
-      if(this.collided) SoundManager.playZombieThud(this.getCenterLocation(), level.PLAYER.getCenterLocation());
+      if (this.collided)
+      {
+        SoundManager.playZombieThud(this.getCenterLocation(), level.PLAYER.getCenterLocation());
+      }
       SoundManager.playZombieWalk(this.getCenterLocation(), level.PLAYER.getCenterLocation());
       spriteState++;
       if (spriteState >= WALK_SPRITE_COUNT)
@@ -130,6 +139,7 @@ public class ZombieLine extends Zombie
 
   /**
    * returns the current image of the zombie (based on stage of animation)
+   *
    * @return img - BufferedImage to be drawn
    */
   @Override

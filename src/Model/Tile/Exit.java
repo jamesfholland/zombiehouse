@@ -31,6 +31,7 @@ public class Exit extends Tile
 
   /**
    * The constructor for the Exit
+   *
    * @param location - is the pixel (x,y) cordinates of the exit in the house
    */
   public Exit(Point location)
@@ -40,6 +41,7 @@ public class Exit extends Tile
 
   /**
    * Returns the image for Exit, saved in resources
+   *
    * @return EXIT_IMAGE
    */
   @Override

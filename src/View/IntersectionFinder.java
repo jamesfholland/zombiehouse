@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * This class returns intersection points between 2 Point objects(forming a line) and Rectangle2D objects.
- *
+ * <p>
  * This is a utility class used in shadow detection.
  */
 class IntersectionFinder

@@ -5,13 +5,13 @@ import java.awt.event.KeyListener;
 
 /**
  * KeyboardInput is the class responsible for listening to all of the user's keyboard input
- *
+ * <p>
  * On a program wide level, the KeyboardInput deals with view and controller. It is added to the GamePanel which displays the game
  * However, the controller does the most with the KeyboardInput as it reads in what keys are being pressed from KeyboardInput
  * and tells the model to behave accordingly.
- *
+ * <p>
  * ViewManager holds the only instance of this class in the game and Controller is the only class to ask for information from it
- *
+ * <p>
  * Based off of the tutorial found at this page
  * http://www.gamedev.net/page/resources/_/technical/general-programming/java-games-keyboard-and-mouse-r2439
  */
@@ -32,7 +32,7 @@ public class KeyboardInput implements KeyListener
 
   /**
    * Constructor for the KeyboardInput class
-   *
+   * <p>
    * initializes key arrays and sets the keystate for every key to released
    */
   public KeyboardInput()
@@ -57,11 +57,13 @@ public class KeyboardInput implements KeyListener
         if (keys[i] == KeyState.RELEASED) //if key is down now but not down last frame, set to once
         {
           keys[i] = KeyState.ONCE;
-        } else
+        }
+        else
         {
           keys[i] = KeyState.PRESSED; //otherwise set key to pressed
         }
-      } else
+      }
+      else
       {
         keys[i] = KeyState.RELEASED; //if key is not down set to released
       }
@@ -70,6 +72,7 @@ public class KeyboardInput implements KeyListener
 
   /**
    * Asks KeyboardInput if a certain key is currently down
+   *
    * @param keyCode corresponds to which key has been pressed
    * @return true if key is down, false if key isn't
    */
@@ -86,6 +89,7 @@ public class KeyboardInput implements KeyListener
 
   /**
    * If a key is pressed, sets it to true in the currentKeys array
+   *
    * @param e keyEvent from the keylistener
    */
   @Override
@@ -101,6 +105,7 @@ public class KeyboardInput implements KeyListener
 
   /**
    * If a key is not pressed, sets it to false in the currentKeys array
+   *
    * @param e keyEvent from the keylistener
    */
   @Override

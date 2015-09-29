@@ -47,6 +47,7 @@ public class Wall extends Tile
 
   /**
    * The constructor for walls
+   *
    * @param location - is the pixel (x,y) cordinates of the wall in the house
    */
   public Wall(Point location)
@@ -58,6 +59,7 @@ public class Wall extends Tile
 
   /**
    * Returns the image for walls, saved in resources
+   *
    * @return WALL_IMAGE
    */
   @Override
@@ -73,6 +75,7 @@ public class Wall extends Tile
 
   /**
    * All tiles have isWall().  Walls are only one to return true
+   *
    * @return true
    */
   @Override
@@ -93,6 +96,7 @@ public class Wall extends Tile
 
   /**
    * returns the boolean for if a wall should be deleted
+   *
    * @return markedForDeletion
    */
   @Override

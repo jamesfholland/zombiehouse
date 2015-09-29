@@ -11,9 +11,9 @@ import java.io.IOException;
 
 /**
  * Player class holds the functions and member variables necessary to move/keep track of all the player actions.
- *
+ * <p>
  * The player is held in the data class level which also holds all the other game objects and units.
- *
+ * <p>
  * On a program level, Player is part of the model and has some peripheral interactions with the controller.
  * On a class level, most of Player's interactions are with other GameObjects and calculated within the model. The controller reads in the user input
  * and tells Player where to go.
@@ -69,6 +69,7 @@ public class Player extends Unit
   /**
    * Constuctor for Player
    * A new player is created for every level
+   *
    * @param location a point location. Which x,y pixel to make the player at on the map
    */
   public Player(Point location)
@@ -95,28 +96,36 @@ public class Player extends Unit
     if (p.x == 0 & p.y == 0)
     {
       heading = -1;
-    } else if (p.x == 1 && p.y == 0)
+    }
+    else if (p.x == 1 && p.y == 0)
     {
       heading = 0.0;
-    } else if (p.x == 1 && p.y == 1)
+    }
+    else if (p.x == 1 && p.y == 1)
     {
       heading = 45.0;
-    } else if (p.x == 0 && p.y == 1)
+    }
+    else if (p.x == 0 && p.y == 1)
     {
       heading = 90.0;
-    } else if (p.x == -1 && p.y == 1)
+    }
+    else if (p.x == -1 && p.y == 1)
     {
       heading = 135.0;
-    } else if (p.x == -1 && p.y == 0)
+    }
+    else if (p.x == -1 && p.y == 0)
     {
       heading = 180.0;
-    } else if (p.x == -1 && p.y == -1)
+    }
+    else if (p.x == -1 && p.y == -1)
     {
       heading = 225.0;
-    } else if (p.x == 0 && p.y == -1)
+    }
+    else if (p.x == 0 && p.y == -1)
     {
       heading = 270.0;
-    } else if (p.x == 1 && p.y == -1)
+    }
+    else if (p.x == 1 && p.y == -1)
     {
       heading = 315.0;
     }
@@ -143,6 +152,7 @@ public class Player extends Unit
 
   /**
    * Returns if the player is set to running or not
+   *
    * @return running - boolean
    */
   public boolean isRunning()
@@ -171,6 +181,7 @@ public class Player extends Unit
 
   /**
    * used to pick up a fire trap from the map and take into inventory
+   *
    * @param firetrap - is the firetrap object currently being picked up
    */
   public void pickUpFireTrap(Firetrap firetrap)
@@ -183,6 +194,7 @@ public class Player extends Unit
   /**
    * returns if the player is activly picking up or setting a firetrap
    * (if so the player can't move)
+   *
    * @return pickup || placing - booleans
    */
   public boolean pickingOrPlacing()
@@ -195,6 +207,7 @@ public class Player extends Unit
    * updates the player character
    * counts the time associated with placing/picking up traps
    * and changes heading/position on map
+   *
    * @param deltaTime the time since last update
    */
   @Override
@@ -246,7 +259,8 @@ public class Player extends Unit
     if (inputVector.x != 0 || inputVector.y != 0)
     {
       SoundManager.playWalk(isRunning());
-    } else
+    }
+    else
     {
       SoundManager.stopWalk();
     }
@@ -278,13 +292,16 @@ public class Player extends Unit
     if (inputVector.y > 0)
     {
       direction = Direction.SOUTH;
-    } else if (inputVector.y < 0)
+    }
+    else if (inputVector.y < 0)
     {
       direction = Direction.NORTH;
-    } else if (inputVector.x > 0)
+    }
+    else if (inputVector.x > 0)
     {
       direction = Direction.EAST;
-    } else if (inputVector.x < 0)
+    }
+    else if (inputVector.x < 0)
     {
       direction = Direction.WEST;
     }
@@ -301,6 +318,7 @@ public class Player extends Unit
 
   /**
    * returns the current image for the player (based on stage of animation)
+   *
    * @return img - BufferedImage to be drawn
    */
   @Override
@@ -328,6 +346,7 @@ public class Player extends Unit
 
   /**
    * returns the amount of stamina the player currently has
+   *
    * @return stamina - double value
    */
   public double getStamina()

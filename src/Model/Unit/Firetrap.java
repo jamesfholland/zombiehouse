@@ -32,6 +32,7 @@ public class Firetrap extends Unit
 
   /**
    * constuctor for firetraps
+   *
    * @param location - point location, pixel coordinate
    */
   public Firetrap(Point location)
@@ -58,6 +59,7 @@ public class Firetrap extends Unit
 
   /**
    * as a unit, firetrap has an update method, but has nothing to update
+   *
    * @param deltaTime the time since last update
    */
   @Override
@@ -67,6 +69,7 @@ public class Firetrap extends Unit
 
   /**
    * returns the image of a fire trap
+   *
    * @return img - BufferedImage to be drawn
    */
   @Override

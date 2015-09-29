@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 /**
  * This class handles all zounds made in the game.
  * Currently sound files are coded here.
- *
+ * <p>
  * Each sound type gets its own thread and has a corresponding play method for it.
  * This is not ideal, but time was limited.
  */
@@ -76,17 +76,25 @@ public class SoundManager
 
   /**
    * Plays a walking sound with alternating balances to simulate right and left steps.
+   *
    * @param isRunning doubles the rate if running.
    */
   public static void playWalk(boolean isRunning)
   {
-    if(isRunning) WALK_THREAD.playAlternateFast();
-    else WALK_THREAD.playAlternate();
+    if (isRunning)
+    {
+      WALK_THREAD.playAlternateFast();
+    }
+    else
+    {
+      WALK_THREAD.playAlternate();
+    }
   }
 
   /**
    * Plays a fire crackling sound sourced at the fire Point.
-   * @param fire point on map where fire is located.
+   *
+   * @param fire   point on map where fire is located.
    * @param player location of player at time of sound.
    */
   public static void playFire(Point fire, Point player)
@@ -96,12 +104,13 @@ public class SoundManager
 
   /**
    * Plays a zombie sound.
+   *
    * @param zombie the source point of the sound.
    * @param player the location of the player.
    */
   public static void playZombieWalk(Point zombie, Point player)
   {
-    if(Settings.RANDOM.nextBoolean())
+    if (Settings.RANDOM.nextBoolean())
     {
       ZOMBIE_STEP_THREAD1.play(zombie, player);
     }
@@ -113,6 +122,7 @@ public class SoundManager
 
   /**
    * Play zombie thud and groan.
+   *
    * @param zombie location of sound.
    * @param player location of player.
    */
@@ -165,9 +175,9 @@ public class SoundManager
     {
       synchronized (balance)
       {
-        if(source != null && listener != null)
+        if (source != null && listener != null)
         {
-          balance = Math.cos(Math.atan2(listener.x - source.x ,  listener.y - source.y) + Math.PI/2);
+          balance = Math.cos(Math.atan2(listener.x - source.x, listener.y - source.y) + Math.PI / 2);
         }
         listener = null;
         source = null;
@@ -179,9 +189,9 @@ public class SoundManager
       synchronized (play)
       {
 
-        double tempVolume = 1.0 - Math.abs(source.distance(listener)/(Settings.playerHearing * distanceMultiplier));
+        double tempVolume = 1.0 - Math.abs(source.distance(listener) / (Settings.playerHearing * distanceMultiplier));
 
-        if(tempVolume > 0.0)
+        if (tempVolume > 0.0)
         {
           this.source = source;
           this.listener = listener;
@@ -246,7 +256,8 @@ public class SoundManager
             }
             CLIP.play(volume, balance, rate, 0, PRIORITY);
             play = false;
-          } else if (CLIP.isPlaying() && (startTime - System.currentTimeMillis()) > MAX_TIME)
+          }
+          else if (CLIP.isPlaying() && (startTime - System.currentTimeMillis()) > MAX_TIME)
           {
             CLIP.stop();
           }

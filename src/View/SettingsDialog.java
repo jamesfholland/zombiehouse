@@ -10,10 +10,9 @@ import java.awt.event.ActionListener;
 /**
  * The SettingsDialog class is the class responsible for the pop up when zombiehouse opens. It allows the user to
  * set the default settings before the game begins.
- *
+ * <p>
  * From a program prospective, only the View touches the the SettingsDialog class.
  * The SettingsDialog has ability to write over the default settings shown Settings after it reads in the user's input
- *
  */
 public class SettingsDialog extends JDialog
 {
@@ -21,11 +20,11 @@ public class SettingsDialog extends JDialog
 
   //field for the sight range
   JLabel textSightRange = new JLabel("Player sight range (tiles)");
-  JTextField jtfSightRange = new JTextField(""+ converter.pixelsToTiles(Settings.sightRange),5); //convert to tiles
+  JTextField jtfSightRange = new JTextField("" + converter.pixelsToTiles(Settings.sightRange), 5); //convert to tiles
 
   //field for the player hearing
   JLabel textPlayerHearing = new JLabel("Player hearing (tiles)");
-  JTextField jtfPlayerHearing = new JTextField("" + converter.pixelsToTiles(Settings.playerHearing),5); //convert to tiles
+  JTextField jtfPlayerHearing = new JTextField("" + converter.pixelsToTiles(Settings.playerHearing), 5); //convert to tiles
 
   //field for the walk speed
   JLabel textWalkSpeed = new JLabel("Player walk speed (tiles/sec)");
@@ -33,7 +32,7 @@ public class SettingsDialog extends JDialog
 
   //field for the player stamina
   JLabel textPlayerStamina = new JLabel("Player stamina (sec)");
-  JTextField jtfPlayerStamina = new JTextField("" + converter.millisecondsToSeconds(Settings.playerStamina),5); //conversions to seconds
+  JTextField jtfPlayerStamina = new JTextField("" + converter.millisecondsToSeconds(Settings.playerStamina), 5); //conversions to seconds
 
   //field for the regen
   JLabel textPlayerRegen = new JLabel("Player stamina regen (stamina/sec)");
@@ -61,9 +60,10 @@ public class SettingsDialog extends JDialog
 
   /**
    * Creates our Settings dialog for the player to pick settings.
+   *
    * @param viewManager This is used to signal a gamestart once the player sets their settings.
-   * @param frame the parents Frame of the dialog
-   * @param title title screen for dialog.
+   * @param frame       the parents Frame of the dialog
+   * @param title       title screen for dialog.
    */
   SettingsDialog(ViewManager viewManager, JFrame frame, String title)
   {
@@ -111,7 +111,7 @@ public class SettingsDialog extends JDialog
     String toParse = jtfSightRange.getText();
     Settings.sightRange = converter.tilesToPixels(Double.parseDouble(toParse));
 
-    toParse  = jtfPlayerHearing.getText();
+    toParse = jtfPlayerHearing.getText();
     Settings.playerHearing = converter.tilesToPixels(Double.parseDouble(toParse));
 
     toParse = jtfWalkSpeed.getText();
@@ -127,7 +127,7 @@ public class SettingsDialog extends JDialog
     toParse = jtfZombieDecisionRate.getText();
     Settings.zombieDecisionRate = converter.secondsToMilliseconds(Double.parseDouble(toParse));
 
-    toParse  = jtfZombieSmell.getText();
+    toParse = jtfZombieSmell.getText();
     Settings.zombieSmell = converter.tilesToPixels(Double.parseDouble(toParse));
 
     toParse = jtfFiretrapSpawnRate.getText();
@@ -141,15 +141,17 @@ public class SettingsDialog extends JDialog
   {
     private double tilesToPixels(double tiles)
     {
-      return tiles*Settings.TILE_SIZE;
+      return tiles * Settings.TILE_SIZE;
     }
+
     private double pixelsToTiles(double pixels)
     {
-      return pixels/Settings.TILE_SIZE;
+      return pixels / Settings.TILE_SIZE;
     }
+
     private double pixelsToTileSpeed(double pixels)
     {
-      return (pixels*1000)/Settings.TILE_SIZE;
+      return (pixels * 1000) / Settings.TILE_SIZE;
     }
 
     private double tilesToPixelSpeed(double tiles)
@@ -159,12 +161,12 @@ public class SettingsDialog extends JDialog
 
     private double millisecondsToSeconds(double milliseconds)
     {
-      return (milliseconds/1000);
+      return (milliseconds / 1000);
     }
 
     private double secondsToMilliseconds(double seconds)
     {
-      return (seconds*1000);
+      return (seconds * 1000);
     }
 
     private double decimalToPercent(double decimal)
@@ -174,7 +176,7 @@ public class SettingsDialog extends JDialog
 
     private double percentToDecimal(double percent)
     {
-      return percent/100;
+      return percent / 100;
     }
   }
 

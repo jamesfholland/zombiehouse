@@ -50,6 +50,7 @@ public class Floor extends Tile
   /**
    * Constuctor for floor tiles
    * at time of initilization all floors are by default empty (though may be filled shortly after)
+   *
    * @param location - is the pixel (x,y) cordinates of the floor in the house
    */
   public Floor(Point location)
@@ -60,6 +61,7 @@ public class Floor extends Tile
 
   /**
    * Returns the image for Floor, saved in resources
+   *
    * @return FloorImage - may be clean or burned
    */
   @Override
@@ -75,6 +77,7 @@ public class Floor extends Tile
 
   /**
    * All Tile objects have a isFloor() method.  Only floors return true
+   *
    * @return true
    */
   @Override
@@ -86,6 +89,7 @@ public class Floor extends Tile
   /**
    * Like isFloor, all Tile objects have a isEmptyFloor.  Only empty floors
    * with member variable empty return true
+   *
    * @return true - if empty || false if not empty
    */
   @Override
@@ -97,6 +101,7 @@ public class Floor extends Tile
   /**
    * setEmpty is used to change the member variable empty
    * empty is only relevant to map initialization (not for collision/movement)
+   *
    * @param empty - boolean
    */
   @Override

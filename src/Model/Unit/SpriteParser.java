@@ -11,13 +11,14 @@ public class SpriteParser
 {
   /**
    * method for parsing sprites on a single page
-   * @param sheet - a page of images/sprites
-   * @param spriteRow - which row of sprites to take
+   *
+   * @param sheet        - a page of images/sprites
+   * @param spriteRow    - which row of sprites to take
    * @param spriteHeight - the height of each sprite in pixels
-   * @param spriteWidth - the width of each sprite in pixels
-   * @param xOffset - x offset in pixels
-   * @param yOffset - y offset in pixels
-   * @param spriteCount - how many sprites to take from row
+   * @param spriteWidth  - the width of each sprite in pixels
+   * @param xOffset      - x offset in pixels
+   * @param yOffset      - y offset in pixels
+   * @param spriteCount  - how many sprites to take from row
    * @return an array of BufferedImages for the sprite
    */
   public static BufferedImage[] parseSprites(BufferedImage sheet, int spriteRow, int spriteHeight, int spriteWidth, int xOffset, int yOffset, int spriteCount)
@@ -38,13 +39,14 @@ public class SpriteParser
 
   /**
    * method for parsing sprites from across multiple rows (specifically used with fire)
-   * @param sheet - a page of images/sprites
-   * @param numberRows - the number of rows to process/parse
+   *
+   * @param sheet        - a page of images/sprites
+   * @param numberRows   - the number of rows to process/parse
    * @param spriteHeight - the sprite height in pixels
-   * @param spriteWidth - the sprite width in pixels
-   * @param xOffset - the x offset in pixels
-   * @param yOffset - the y offset in pixels
-   * @param spriteCount - the number of sprites to take from page
+   * @param spriteWidth  - the sprite width in pixels
+   * @param xOffset      - the x offset in pixels
+   * @param yOffset      - the y offset in pixels
+   * @param spriteCount  - the number of sprites to take from page
    * @return an array of BufferedImages for the sprites
    */
   public static BufferedImage[] parseMultiRowSprites(BufferedImage sheet, int numberRows, int spriteHeight, int spriteWidth, int xOffset, int yOffset, int spriteCount)

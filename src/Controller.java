@@ -12,14 +12,14 @@ import java.util.Iterator;
 
 /**
  * The Controller class is responsible for holding and updating the game loop. It tries to update every 1/60th of a second.
- *
+ * <p>
  * On the program level, Controller is responsible for dictating when things move.
- *
+ * <p>
  * On the class level, the Controller has touches both the model and the view. It has a pointer to the current level which is essentially the model
  * and a pointer to the view. It tells both to update. It goes through the data in the model and tells it to update.
  * It checks for death conditions for the zombies and the player and updates the model accordingly. It also tells the view to repaint
  * after every update cycle.
- *
+ * <p>
  * only the Main class has an instance of the controller as that is where zombiehouse is entered from
  */
 
@@ -28,7 +28,7 @@ public class Controller
   private final ViewManager VIEW;
 
   private HouseGeneration houseGenerator;
-  private  Level currentLevel;
+  private Level currentLevel;
   private Point heroDirection;
 
   public Controller()
@@ -48,14 +48,15 @@ public class Controller
 
 
     //Setup fire's static members especially graphics
-    Object dump = new Fire(0,0);
+    Object dump = new Fire(0, 0);
 
     while (VIEW.isPaused())
     {
       try
       {
         Thread.sleep(Settings.REFRESH_RATE);
-      } catch (InterruptedException e)
+      }
+      catch (InterruptedException e)
       {
         e.printStackTrace();
       }
@@ -122,7 +123,8 @@ public class Controller
     if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_R))
     {
       currentLevel.PLAYER.setSpeedRun();
-    } else
+    }
+    else
     {
       currentLevel.PLAYER.setSpeedWalk();
     }
@@ -171,7 +173,7 @@ public class Controller
           currentLevel.PLAYER.setInputVector(heroDirection);
           currentLevel.PLAYER.update(deltaTime); //update the player
 
-          if( currentLevel.PLAYER.checkCollision(currentLevel.EXIT.getHitbox()))
+          if (currentLevel.PLAYER.checkCollision(currentLevel.EXIT.getHitbox()))
           {
             //if the player finds the exit, win the live
             playerWinLevel();

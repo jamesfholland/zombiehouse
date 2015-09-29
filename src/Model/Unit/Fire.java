@@ -91,6 +91,7 @@ public class Fire extends Unit
 
   /**
    * The constructor for fire
+   *
    * @param tileX - is the x-index in the 2d tiles array (rather than pixel location)
    * @param tileY - is the y-index in the 2d tiles array (rather than pixel location)
    */
@@ -106,6 +107,7 @@ public class Fire extends Unit
 
   /**
    * keeps track of fire lifespan and updates the desired image
+   *
    * @param deltaTime the time since last update
    */
   @Override
@@ -125,6 +127,7 @@ public class Fire extends Unit
 
   /**
    * returns if fire is burning
+   *
    * @return isBurning - boolean
    */
   public boolean isBurning()
@@ -134,6 +137,7 @@ public class Fire extends Unit
 
   /**
    * returns the current image of the fire (based on stage of animation)
+   *
    * @return img - BufferedImage to be drawn
    */
   @Override

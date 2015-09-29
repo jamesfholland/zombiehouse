@@ -8,7 +8,6 @@ import Model.Unit.Fire;
 import Model.Unit.Firetrap;
 import Model.Unit.Unit;
 import Model.Unit.Zombie.Zombie;
-import Model.Unit.Zombie.ZombieMaster;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -86,10 +85,10 @@ class GamePanel extends JPanel
 
   /**
    * Paints all the units and tiles.
-   *
+   * <p>
    * It loops over all game objects and draws them if they are within the scene.
    * If an object is inside our determined view window it is drawn.
-   *
+   * <p>
    * Level is used here constantly.
    *
    * @param graphics the graphics of the JPanel.
@@ -122,20 +121,10 @@ class GamePanel extends JPanel
 
           Rectangle2D sightBox = new Rectangle();
           Point sightCorner = new Point(center);
-          sightCorner.translate((int)Settings.sightRange, (int)Settings.sightRange);
+          sightCorner.translate((int) Settings.sightRange, (int) Settings.sightRange);
           sightBox.setFrameFromCenter(center, sightCorner);
-          blackMask = new Area(
-              new Rectangle(
-                  scaleX((int) viewWindow.getX()),
-                  scaleY((int) viewWindow.getY()),
-                  (int) (viewWindow.getWidth() / windowScale),
-                  (int) (viewWindow.getHeight() / windowScale)));
-          Area circleMask = new Area(
-              new Rectangle(
-                  scaleX((int) viewWindow.getX()),
-                  scaleY((int) viewWindow.getY()),
-                  (int) (viewWindow.getWidth() / windowScale),
-                  (int) (viewWindow.getHeight() / windowScale)));
+          blackMask = new Area(new Rectangle(scaleX((int) viewWindow.getX()), scaleY((int) viewWindow.getY()), (int) (viewWindow.getWidth() / windowScale), (int) (viewWindow.getHeight() / windowScale)));
+          Area circleMask = new Area(new Rectangle(scaleX((int) viewWindow.getX()), scaleY((int) viewWindow.getY()), (int) (viewWindow.getWidth() / windowScale), (int) (viewWindow.getHeight() / windowScale)));
           circleMask.subtract(new Area(new Ellipse2D.Double(scaleX((int) sightBox.getX()), scaleY((int) sightBox.getY()), sightBox.getWidth() / windowScale, sightBox.getHeight() / windowScale)));
 
           LinkedList<Tile> walls = new LinkedList<>();
@@ -149,7 +138,8 @@ class GamePanel extends JPanel
                 if (!(level.TILES[i][j] instanceof Wall))
                 {
                   scaleAndDrawImage(level.TILES[i][j].getImage(), graphics, level.TILES[i][j].getLocation(), level.TILES[i][j].getSize());
-                } else
+                }
+                else
                 {
                   walls.add(level.TILES[i][j]);
                 }
@@ -190,14 +180,10 @@ class GamePanel extends JPanel
           graphics.setColor(Color.BLACK);
           graphics2D.fill(circleMask);
 
-          scaleAndDrawImage(
-              circularGradient,
-              graphics,
-              new Point((int) sightBox.getX(), (int) sightBox.getY()),
-              new Dimension((int) sightBox.getWidth(), (int) sightBox.getHeight()));
+          scaleAndDrawImage(circularGradient, graphics, new Point((int) sightBox.getX(), (int) sightBox.getY()), new Dimension((int) sightBox.getWidth(), (int) sightBox.getHeight()));
           for (Fire fire : level.FIRES)
           {
-              scaleAndDrawImage(fire.getImage(), graphics, fire.getLocation(), fire.getSize());
+            scaleAndDrawImage(fire.getImage(), graphics, fire.getLocation(), fire.getSize());
 
           }
           scaleAndDrawImage(level.EXIT.getImage(), graphics, level.EXIT.getLocation(), level.EXIT.getSize());
@@ -308,7 +294,8 @@ class GamePanel extends JPanel
     {
       xPrime = xPrime + (sightBox.getWidth());
       wallHit.setLocation(xPrime, m * xPrime + b);
-    } else
+    }
+    else
     {
       wallHit.setLocation(xPrime, m * xPrime + b);
     }
