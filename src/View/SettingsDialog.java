@@ -43,11 +43,10 @@ class SettingsDialog extends JDialog
    *
    * @param viewManager This is used to signal a gamestart once the player sets their settings.
    * @param frame       the parents Frame of the dialog
-   * @param title       title screen for dialog.
    */
-  SettingsDialog(ViewManager viewManager, JFrame frame, String title)
+  SettingsDialog(ViewManager viewManager, JFrame frame)
   {
-    super(frame, title);
+    super(frame, "Settings");
     setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
     setSize(new Dimension(200, 500));
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

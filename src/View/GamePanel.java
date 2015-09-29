@@ -41,7 +41,7 @@ class GamePanel extends JPanel
   private Point corner;
 
   private Area blackMask;
-  private static BufferedImage circularGradient;
+  private static final BufferedImage CIRCULAR_GRADIENT;
 
   private double windowScale;
 
@@ -58,7 +58,7 @@ class GamePanel extends JPanel
       e.printStackTrace();
     }
 
-    circularGradient = imageTemp;
+    CIRCULAR_GRADIENT = imageTemp;
   }
 
 
@@ -180,7 +180,7 @@ class GamePanel extends JPanel
           graphics.setColor(Color.BLACK);
           graphics2D.fill(circleMask);
 
-          scaleAndDrawImage(circularGradient, graphics, new Point((int) sightBox.getX(), (int) sightBox.getY()), new Dimension((int) sightBox.getWidth(), (int) sightBox.getHeight()));
+          scaleAndDrawImage(CIRCULAR_GRADIENT, graphics, new Point((int) sightBox.getX(), (int) sightBox.getY()), new Dimension((int) sightBox.getWidth(), (int) sightBox.getHeight()));
           for (Fire fire : level.FIRES)
           {
             scaleAndDrawImage(fire.getImage(), graphics, fire.getLocation(), fire.getSize());

@@ -29,7 +29,7 @@ public class ViewManager
     this.FRAME.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.FRAME.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-    JDialog dialog = new SettingsDialog(this, this.FRAME, "Settings");
+    JDialog dialog = new SettingsDialog(this, this.FRAME);
     dialog.setVisible(true);
 
     this.SCORE_BAR = new ScoreBar();
