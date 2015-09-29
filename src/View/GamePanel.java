@@ -22,7 +22,9 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
- * This class handles drawing the actual game window. It is always centered on the PLAYER.
+ * This class handles drawing the actual game. It is always centered on the PLAYER.
+ * This class is managed by the ViewManager. Nothing else has access to it.
+ * This class reads from its copy of the current level and draws all sub components.
  */
 class GamePanel extends JPanel
 {
@@ -62,13 +64,13 @@ class GamePanel extends JPanel
 
 
   /**
-   * Setup the new GamePanel
+   * Setup the new GamePanel where the game will be drawn.
    */
   GamePanel()
   {
     super();
     //Set to red to distinguish from ScoreBar for now.
-    setBackground(Color.RED);
+    setBackground(Color.BLACK);
 
     viewWindow = new Rectangle(0, 0, Settings.WIDTH_STANDARD, Settings.HEIGHT_STANDARD);
     center = new Point();
@@ -83,9 +85,14 @@ class GamePanel extends JPanel
   }
 
   /**
-   * Paint all the units and tiles.
+   * Paints all the units and tiles.
    *
-   * @param graphics the graphics of the jpanel.
+   * It loops over all game objects and draws them if they are within the scene.
+   * If an object is inside our determined view window it is drawn.
+   *
+   * Level is used here constantly.
+   *
+   * @param graphics the graphics of the JPanel.
    */
   @Override
   public void paintComponent(Graphics graphics)
