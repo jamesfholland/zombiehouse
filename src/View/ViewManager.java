@@ -8,6 +8,8 @@ import java.awt.*;
 
 /**
  * This class manages the view and all gui components
+ * It is called by the Controller for level changes and repaints.
+ * It initializes all GUI components.
  */
 public class ViewManager
 {
@@ -18,6 +20,9 @@ public class ViewManager
   public final KeyboardInput KEYBOARD;
   private boolean isPaused;
 
+  /**
+   * Sets up the entire GUI and spawns the Settings Dialog.
+   */
   public ViewManager()
   {
     this.isPaused = true;
@@ -40,6 +45,10 @@ public class ViewManager
 
   }
 
+  /**
+   * Sets the isPaused flag to true for the controller to detect.
+   * Called from the Settings Dialog after settings have been made.
+   */
   void startGame()
   {
     this.isPaused = false;
@@ -65,6 +74,10 @@ public class ViewManager
     FRAME.repaint();
   }
 
+  /**
+   * Called by the controller to check if the Settings have been set and then start the game.
+   * @return true if the game is paused.
+   */
   public boolean isPaused()
   {
     return isPaused;
