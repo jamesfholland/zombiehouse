@@ -226,7 +226,7 @@ public class AStar
     }
 
     @Override
-    public int compareTo(@NotNull Node o)
+    public int compareTo(Node o)
     {
       return Integer.compare(this.fScore, o.fScore);
     }

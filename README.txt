@@ -1,19 +1,19 @@
-CS351 DESIGN OF LARGE PROGRAMS
-GROUP PROJECT 1:
+#### CS351 DESIGN OF LARGE PROGRAMS
+#### GROUP PROJECT 1:
 
-ZOMBIE HOUSE
+# ZOMBIE HOUSE
 
 By
 James Holland
-Rob Doyle
 Julian Weisburd
+Rob Doyle
 
 Entry Point: Main.java
 
 Zombie House is an overhead 2D survival game. The player is put into a dark house full of zombies and can only see a short distance.
 The goal of each level is to find exit before zombies eat you.
 
-CONTROLS:
+###### CONTROLS:
 W, UP ARROW -  Move up
 A, LEFT ARROW - Move left
 S, DOWN ARROW - Move down
@@ -22,20 +22,20 @@ D, RIGHT ARROW - Move down
 R - If the player has stamina available, make the move at twice the walking speed
 P - If player is standing over a firetrap, pick up the fire trap. If the player has a firetrap in their inventory and not standing over a firetrap, place a firetrap on a tile
 
-PLAYER:
+###### PLAYER:
 The unit the user controls. The player moves around the map searching for the exit and trying to avoid zombies. If a zombie catches the player, the level will reset to its original state.
 By default, the player has 5 seconds of stamina. The player can run at twice their walk speed while holding down the R key and while stamina is available.
 Stamina regenerates at 0.2 seconds/second.
 Be careful! If you pass through a firetrap while running you will set it off and die!
 
-OBSTACLE:
+###### OBSTACLE:
 Random desks and plants will spawn in the zombie house to hinder your progress through the house.
 
-ZOMBIES:
+###### ZOMBIES:
 Zombies make a decision of what to do every 2 seconds by default.
 If a zombie can smell the player, the zombie knows the shortest path to the player and walks towards them. Only knows the player’s location as of the last 2 second update.
 
-ZOMBIE TYPES:
+###### ZOMBIE TYPES:
 Line Zombie - If this zombie cannot smell the player, then he moves in a straight line until he walks into a wall.
 If he walks into a wall, a new random heading will be determined.
 
@@ -45,19 +45,19 @@ If this zombie walks into a wall, then a new heading will be calculated in the e
 Master Zombie - A Random Zombie with a few extra abilities. This zombie does not set off fire traps. This zombie is immune to fire. This zombie spawns on the exit of every level.
 If any zombie on the map can smell the player, then the Master Zombie knows the exact location of the player and will walk towards them. Only one Master Zombie spawns per level.
 
-TOOLS:
+###### TOOLS:
 Firetrap - A trap which triggers if a player runs or a zombie moves through it. Firetraps will spawn fire in the 9 tiles around the firetrap, including the tile the firetrap is placed in.
 If a player or zombie hits a fire, the player will die and the level will reset and the zombie will also be killed. Fire lasts 15 seconds. Beware! Smoke will still kill you! 
 If an obstacle is caught in the blaze then it will be destroyed at the end of the burn.
 
-SETTINGS:
+###### SETTINGS:
 A player can change the default settings when starting a new game of Zombie House.
 
 
 
 
 
-WHO DID WHAT
+###### WHO DID WHAT
 
 James Holland:
 View, Graphics
@@ -90,5 +90,3 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 * Game starts to lag after playing for ~10 minutes (yes I played that long) Probably a memory leak somewhere.
 * If said lag occurs the player may fly off the map and crash the game.
 * Other zombies can pass through the Master Zombie. Probably a feature actually.
-
-*Not required
