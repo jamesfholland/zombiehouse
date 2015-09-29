@@ -91,22 +91,22 @@ public class AStar
 
   private void setNeighbors(Node current)
   {
-    if (level.TILES[current.tileX][current.tileY - 1].isPassable())
+    if (level.TILES[current.tileX][current.tileY - 1].isPassable()&& level.TILES[current.tileX][current.tileY-1] != null)
     {
       neighbors.add(new Node(current.tileX, current.tileY - 1, current.gScore + 1, current));
     }
 
-    if (level.TILES[current.tileX][current.tileY + 1].isPassable())
+    if (level.TILES[current.tileX][current.tileY + 1].isPassable() && level.TILES[current.tileX][current.tileY+1] != null)
     {
       neighbors.add(new Node(current.tileX, current.tileY + 1, current.gScore + 1, current));
     }
 
-    if (level.TILES[current.tileX + 1][current.tileY].isPassable())
+    if (level.TILES[current.tileX + 1][current.tileY].isPassable() && level.TILES[current.tileX + 1][current.tileY] != null)
     {
       neighbors.add(new Node(current.tileX + 1, current.tileY, current.gScore + 1, current));
     }
 
-    if (level.TILES[current.tileX - 1][current.tileY].isPassable())
+    if (level.TILES[current.tileX - 1][current.tileY].isPassable()&& level.TILES[current.tileX-1][current.tileY] != null)
     {
       neighbors.add(new Node(current.tileX - 1, current.tileY, current.gScore + 1, current));
     }
