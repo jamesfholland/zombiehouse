@@ -26,6 +26,8 @@ class SettingsDialog extends JDialog
 
   private JTextField jtfPlayerStamina = new JTextField("" + converter.millisecondsToSeconds(Settings.playerStamina), 5); //conversions to seconds
 
+  private JTextField jtfPlayerRegen = new JTextField("" + Settings.playerRegen);
+
   private JTextField jtfZombieSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.zombieSpeed), 5); //convert to tiles/sec
 
   private JTextField jtfZombieDecisionRate = new JTextField("" + converter.millisecondsToSeconds(Settings.zombieDecisionRate), 5); //convert to seconds
@@ -75,7 +77,6 @@ class SettingsDialog extends JDialog
     this.add(jtfPlayerStamina);
     JLabel textPlayerRegen = new JLabel("Player stamina regen (stamina/sec)");
     this.add(textPlayerRegen);
-    JTextField jtfPlayerRegen = new JTextField("" + Settings.playerRegen, 5);
     this.add(jtfPlayerRegen);
     JLabel textZombieSpeed = new JLabel("Zombie speed (tiles/sec)");
     this.add(textZombieSpeed);
@@ -109,6 +110,9 @@ class SettingsDialog extends JDialog
 
     toParse = jtfPlayerStamina.getText();
     Settings.playerStamina = converter.secondsToMilliseconds(Double.parseDouble(toParse));
+
+    toParse = jtfPlayerRegen.getText();
+    Settings.playerRegen = Double.parseDouble(toParse);
 
     toParse = jtfZombieSpeed.getText();
     Settings.zombieSpeed = converter.tilesToPixelSpeed(Double.parseDouble(toParse));
