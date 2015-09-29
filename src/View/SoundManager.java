@@ -8,6 +8,10 @@ import java.net.URISyntaxException;
 
 /**
  * This class handles all zounds made in the game.
+ * Currently sound files are coded here.
+ *
+ * Each sound type gets its own thread and has a corresponding play method for it.
+ * This is not ideal, but time was limited.
  */
 public class SoundManager
 {
@@ -70,17 +74,31 @@ public class SoundManager
     FIRE_THREAD.start();
   }
 
+  /**
+   * Plays a walking sound with alternating balances to simulate right and left steps.
+   * @param isRunning doubles the rate if running.
+   */
   public static void playWalk(boolean isRunning)
   {
     if(isRunning) WALK_THREAD.playAlternateFast();
     else WALK_THREAD.playAlternate();
   }
 
+  /**
+   * Plays a fire crackling sound sourced at the fire Point.
+   * @param fire point on map where fire is located.
+   * @param player location of player at time of sound.
+   */
   public static void playFire(Point fire, Point player)
   {
     FIRE_THREAD.play(fire, player);
   }
 
+  /**
+   * Plays a zombie sound.
+   * @param zombie the source point of the sound.
+   * @param player the location of the player.
+   */
   public static void playZombieWalk(Point zombie, Point player)
   {
     if(Settings.RANDOM.nextBoolean())
@@ -93,16 +111,29 @@ public class SoundManager
     }
   }
 
+  /**
+   * Play zombie thud and groan.
+   * @param zombie location of sound.
+   * @param player location of player.
+   */
   public static void playZombieThud(Point zombie, Point player)
   {
     ZOMBIE_THUD_THREAD.play(zombie, player);
   }
 
+  /**
+   * This is called to have crisp sounds when the player quits moving.
+   * Other sounds don't need this, just the player since his movement is not continous.
+   */
   public static void stopWalk()
   {
     WALK_THREAD.stopSound();
   }
 
+  /**
+   * The SoundPlayer class handles threading and synchronizing sounds handed to it.
+   * There is a running instance for each type of sound.
+   */
   private static class SoundPlayer extends Thread
   {
     private Point source;

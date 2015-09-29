@@ -59,6 +59,12 @@ public class SettingsDialog extends JDialog
   JLabel textZombieSpawnRate = new JLabel("Zombie spawn rate (%/tile)");
   JTextField jtfZombieSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.zombieSpawnRate), 5); // convert to %
 
+  /**
+   * Creates our Settings dialog for the player to pick settings.
+   * @param viewManager This is used to signal a gamestart once the player sets their settings.
+   * @param frame the parents Frame of the dialog
+   * @param title title screen for dialog.
+   */
   SettingsDialog(ViewManager viewManager, JFrame frame, String title)
   {
     super(frame, title);
