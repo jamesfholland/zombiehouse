@@ -569,7 +569,7 @@ public class HouseGeneration
 
   private void raiseDifficulty()
   {
-    // Settings.sightRange -= 0.25;
+    Settings.sightRange -= 0.25 * Settings.TILE_SIZE;
     Settings.zombieSpawnRate += 0.01;
   }
 
