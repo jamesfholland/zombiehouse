@@ -79,7 +79,39 @@ public class ZombieMaster extends ZombieRandom
     if (knowsPlayerLocation) //if another zombie knows where the player is
     {
       heading = level.ASTAR.getHeading(getCenterLocation()); //calcuate the quickest path to the player
-      super.update(deltaTime);
+      move(Settings.zombieSpeed, heading, deltaTime); //move
+
+      direction = null;
+      if (headingVector.y > 0)
+      {
+        direction = Direction.SOUTH;
+      }
+      else if (headingVector.y < 0)
+      {
+        direction = Direction.NORTH;
+      }
+      else if (headingVector.x > 0)
+      {
+        direction = Direction.EAST;
+      }
+      else if (headingVector.x < 0)
+      {
+        direction = Direction.WEST;
+      }
+
+      if (direction != null)
+      {
+        if (this.collided)
+        {
+          SoundManager.playZombieThud(this.getCenterLocation(), level.PLAYER.getCenterLocation());
+        }
+        SoundManager.playZombieWalk(this.getCenterLocation(), level.PLAYER.getCenterLocation());
+        spriteState++;
+        if (spriteState >= WALK_SPRITE_COUNT)
+        {
+          spriteState = 0;
+        }
+      }
     }
     else
     {
