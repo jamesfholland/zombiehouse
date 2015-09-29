@@ -64,7 +64,6 @@ public class HouseGeneration
 
     currentDir = Direction.NORTH;
 
-    //aStarTestRoom();
     makeNewHouse();
 
     createLevel();
@@ -575,39 +574,4 @@ public class HouseGeneration
   }
 
 
-  // DEMO + PRACTICE MAP below.  to be deleted on completion.
-  private void aStarTestRoom()
-  {
-    // initialize new lists:
-    zombieList = new LinkedList<>();
-    firetrapList = new LinkedList<>();
-
-    allWalls();
-
-    for (int i = 1; i < 6; i++)
-    {
-      for (int j = 1; j < 6; j++)
-      {
-        houseTiles[i][j] = new Floor(new Point(i * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
-        houseTiles[i + 6][j] = new Floor(new Point((i + 6) * Settings.TILE_SIZE, j * Settings.TILE_SIZE));
-      }
-    }
-    houseTiles[6][5] = new Floor(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE));
-
-    houseTiles[12][2] = new Exit(new Point(12 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE));
-    exitX = 12;
-    exitY = 2;
-
-    playerSpawn();
-
-    houseTiles[5][4] = new Pillar(new Point(5 * Settings.TILE_SIZE, 4 * Settings.TILE_SIZE));
-
-    //zombieList.add(new ZombieLine(11 * Settings.TILE_SIZE, 2 * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
-
-    firetrapList.add(new Firetrap(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE)));
-
-    master = new ZombieMaster(10 * Settings.TILE_SIZE, exitY * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble()));
-
-    playerSpawn();
-  }
 }

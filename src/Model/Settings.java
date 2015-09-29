@@ -46,12 +46,6 @@ public abstract class Settings
   public static final int TILE_SIZE = 80;
 
   /**
-   * Tiles per Width
-   * Width is forced by requirements to be 24 tiles wide on the screen.
-   */
-  public static final double TILED_WIDTH = WIDTH_STANDARD / (double) TILE_SIZE;
-
-  /**
    * Tiles on practice level - TEMPORARY VARIABLE
    * square size - variable is length of side
    */

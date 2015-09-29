@@ -10,8 +10,8 @@ import java.awt.*;
  */
 class ScoreBar extends JPanel
 {
-  Level currentLevel;
-  JLabel levelText = new JLabel();
+  private Level currentLevel;
+  private JLabel levelText = new JLabel();
 
   ScoreBar()
   {

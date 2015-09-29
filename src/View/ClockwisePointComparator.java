@@ -14,7 +14,7 @@ class ClockwisePointComparator implements Comparator<Point>
   /**
    * Sets up a new comparator with CENTER to sort around.
    *
-   * @param center
+   * @param center center to compare around
    */
   ClockwisePointComparator(Point center)
   {
@@ -24,8 +24,8 @@ class ClockwisePointComparator implements Comparator<Point>
   /**
    * Compare two points angles from the predetermined CENTER
    *
-   * @param pointA
-   * @param pointB
+   * @param pointA first point to compare
+   * @param pointB second point to compare
    * @return -1 to 1 if pointA is less than to greater than pointB on a clockwise angle.  If both angles are the same, it returns a Double.compare of the distanceSq(A,B)
    */
   @Override

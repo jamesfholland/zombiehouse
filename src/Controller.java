@@ -23,7 +23,7 @@ import java.util.Iterator;
  * only the Main class has an instance of the controller as that is where zombiehouse is entered from
  */
 
-public class Controller
+class Controller
 {
   private final ViewManager VIEW;
 
@@ -68,7 +68,7 @@ public class Controller
   /**
    * A simple function which spawns and starts the GameLoop
    */
-  public void startGameLoop()
+  private void startGameLoop()
   {
     Thread gameLoop = new GameLoop();
     gameLoop.start();
@@ -141,13 +141,10 @@ public class Controller
     long lastTime;
     long thisTime;
     long deltaTime;
-    long start;
-    long secondsFromStart;
 
     public void run()
     {
       lastTime = System.currentTimeMillis();
-      start = lastTime;
       while (true)
       {
         do
@@ -161,7 +158,6 @@ public class Controller
             break; //Something interrupted us probably application closing, break to kill refreshing.
           }
           thisTime = System.currentTimeMillis();
-          secondsFromStart = (thisTime - start) / 1000;
           deltaTime = thisTime - lastTime;
         }
         while (deltaTime < Settings.REFRESH_RATE);

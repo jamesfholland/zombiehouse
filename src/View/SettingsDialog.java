@@ -14,49 +14,49 @@ import java.awt.event.ActionListener;
  * From a program prospective, only the View touches the the SettingsDialog class.
  * The SettingsDialog has ability to write over the default settings shown Settings after it reads in the user's input
  */
-public class SettingsDialog extends JDialog
+class SettingsDialog extends JDialog
 {
-  SettingsConverter converter = new SettingsConverter();
+  private SettingsConverter converter = new SettingsConverter();
 
   //field for the sight range
-  JLabel textSightRange = new JLabel("Player sight range (tiles)");
-  JTextField jtfSightRange = new JTextField("" + converter.pixelsToTiles(Settings.sightRange), 5); //convert to tiles
+  private JLabel textSightRange = new JLabel("Player sight range (tiles)");
+  private JTextField jtfSightRange = new JTextField("" + converter.pixelsToTiles(Settings.sightRange), 5); //convert to tiles
 
   //field for the player hearing
-  JLabel textPlayerHearing = new JLabel("Player hearing (tiles)");
-  JTextField jtfPlayerHearing = new JTextField("" + converter.pixelsToTiles(Settings.playerHearing), 5); //convert to tiles
+  private JLabel textPlayerHearing = new JLabel("Player hearing (tiles)");
+  private JTextField jtfPlayerHearing = new JTextField("" + converter.pixelsToTiles(Settings.playerHearing), 5); //convert to tiles
 
   //field for the walk speed
-  JLabel textWalkSpeed = new JLabel("Player walk speed (tiles/sec)");
-  JTextField jtfWalkSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.walkSpeed), 5); //convert to tiles/sec
+  private JLabel textWalkSpeed = new JLabel("Player walk speed (tiles/sec)");
+  private JTextField jtfWalkSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.walkSpeed), 5); //convert to tiles/sec
 
   //field for the player stamina
-  JLabel textPlayerStamina = new JLabel("Player stamina (sec)");
-  JTextField jtfPlayerStamina = new JTextField("" + converter.millisecondsToSeconds(Settings.playerStamina), 5); //conversions to seconds
+  private JLabel textPlayerStamina = new JLabel("Player stamina (sec)");
+  private JTextField jtfPlayerStamina = new JTextField("" + converter.millisecondsToSeconds(Settings.playerStamina), 5); //conversions to seconds
 
   //field for the regen
-  JLabel textPlayerRegen = new JLabel("Player stamina regen (stamina/sec)");
-  JTextField jtfPlayerRegen = new JTextField("" + Settings.playerRegen, 5); //no conversion
+  private JLabel textPlayerRegen = new JLabel("Player stamina regen (stamina/sec)");
+  private JTextField jtfPlayerRegen = new JTextField("" + Settings.playerRegen, 5); //no conversion
 
   //field for the zombie speed
-  JLabel textZombieSpeed = new JLabel("Zombie speed (tiles/sec)");
-  JTextField jtfZombieSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.zombieSpeed), 5); //convert to tiles/sec
+  private JLabel textZombieSpeed = new JLabel("Zombie speed (tiles/sec)");
+  private JTextField jtfZombieSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.zombieSpeed), 5); //convert to tiles/sec
 
   //field for the zombie decision rate
-  JLabel textZombieDecisionRate = new JLabel("Seconds until decision");
-  JTextField jtfZombieDecisionRate = new JTextField("" + converter.millisecondsToSeconds(Settings.zombieDecisionRate), 5); //convert to seconds
+  private JLabel textZombieDecisionRate = new JLabel("Seconds until decision");
+  private JTextField jtfZombieDecisionRate = new JTextField("" + converter.millisecondsToSeconds(Settings.zombieDecisionRate), 5); //convert to seconds
 
   //field for the zombie smell
-  JLabel textZombieSmell = new JLabel("Zombie smell distance (tiles)");
-  JTextField jtfZombieSmell = new JTextField("" + converter.pixelsToTiles(Settings.zombieSmell), 5); //convert to tiles
+  private JLabel textZombieSmell = new JLabel("Zombie smell distance (tiles)");
+  private JTextField jtfZombieSmell = new JTextField("" + converter.pixelsToTiles(Settings.zombieSmell), 5); //convert to tiles
 
   //field for the firetrap spawn rate
-  JLabel textFiretrapSpawnRate = new JLabel("Fire trap spawn rate (%/tile)");
-  JTextField jtfFiretrapSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.firetrapSpawnRate), 5); //convert to %
+  private JLabel textFiretrapSpawnRate = new JLabel("Fire trap spawn rate (%/tile)");
+  private JTextField jtfFiretrapSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.firetrapSpawnRate), 5); //convert to %
 
   //field for the zombie spawn rate
-  JLabel textZombieSpawnRate = new JLabel("Zombie spawn rate (%/tile)");
-  JTextField jtfZombieSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.zombieSpawnRate), 5); // convert to %
+  private JLabel textZombieSpawnRate = new JLabel("Zombie spawn rate (%/tile)");
+  private JTextField jtfZombieSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.zombieSpawnRate), 5); // convert to %
 
   /**
    * Creates our Settings dialog for the player to pick settings.

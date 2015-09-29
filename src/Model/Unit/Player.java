@@ -344,13 +344,4 @@ public class Player extends Unit
     }
   }
 
-  /**
-   * returns the amount of stamina the player currently has
-   *
-   * @return stamina - double value
-   */
-  public double getStamina()
-  {
-    return stamina;
-  }
 }

@@ -116,16 +116,6 @@ public abstract class GameObject
   public abstract BufferedImage getImage();
 
   /**
-   * Sets an instance of GameObject to the location passed in
-   *
-   * @param location
-   */
-  public void setLocation(Point location)
-  {
-    this.location = location;
-  }
-
-  /**
    * Gives a pointer to the level data class to this instance of GameObject
    *
    * @param level
