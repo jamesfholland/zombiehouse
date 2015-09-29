@@ -1,4 +1,4 @@
-package Model.HouseGeneration;
+package Model;
 
 import Model.Level;
 import Model.Settings;

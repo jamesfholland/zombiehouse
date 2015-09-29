@@ -1,6 +1,5 @@
 package Model;
 
-import Model.HouseGeneration.HouseGeneration;
 import Model.Tile.Exit;
 import Model.Tile.Tile;
 import Model.Unit.Fire;

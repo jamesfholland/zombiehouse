@@ -1,4 +1,4 @@
-import Model.HouseGeneration.HouseGeneration;
+import Model.HouseGeneration;
 import Model.Level;
 import Model.Settings;
 import Model.Unit.Fire;
