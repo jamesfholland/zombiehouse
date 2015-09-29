@@ -9,6 +9,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * ZombieRandom is a type of zombie
+ * They move in random directions at every decision (unless they sense the player)
+ */
 public class ZombieRandom extends Zombie
 {
   private static final BufferedImage[] WALK_UP_IMAGE;
@@ -111,6 +115,9 @@ public class ZombieRandom extends Zombie
     }
   }
 
+  /**
+   * used for a zombie to determine its current heading (when it cant sense player)
+   */
   private void makeDecision()
   {
     if (collided)
@@ -123,6 +130,10 @@ public class ZombieRandom extends Zombie
     }
   }
 
+  /**
+   * returns the current image of the zombie (based on stage of animation)
+   * @return img - BufferedImage to be drawn
+   */
   @Override
   public BufferedImage getImage()
   {

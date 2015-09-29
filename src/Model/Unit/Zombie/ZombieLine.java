@@ -115,13 +115,18 @@ public class ZombieLine extends Zombie
     }
   }
 
-
+  /**
+   * used for a zombie to determine its current heading (when it cant sense player)
+   */
   private void makeDecision()
   {
     heading = (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble());
   }
 
-
+  /**
+   * returns the current image of the zombie (based on stage of animation)
+   * @return img - BufferedImage to be drawn
+   */
   @Override
   public BufferedImage getImage()
   {

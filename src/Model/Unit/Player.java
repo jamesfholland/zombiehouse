@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Player contains the logic for the player character
+ */
 public class Player extends Unit
 {
 
@@ -57,6 +60,11 @@ public class Player extends Unit
     WALK_RIGHT_IMAGE = SpriteParser.parseSprites(imageTemp, spriteRow, spriteHeight, spriteWidth, SPRITE_HORIZONTAL_OFFSET, SPRITE_VERTICAL_OFFSET, WALK_SPRITE_COUNT);
   }
 
+  /**
+   * Constuctor for Player
+   * A new player is created for every level
+   * @param location
+   */
   public Player(Point location)
   {
     this.location = location;
@@ -127,23 +135,38 @@ public class Player extends Unit
     }
   }
 
+  /**
+   * Returns if the player is set to running or not
+   * @return running - boolean
+   */
   public boolean isRunning()
   {
     return running;
   }
 
+  /**
+   * Sets the player walk speed (based on the value saved in Settings)
+   * and turns off running
+   */
   public void setSpeedWalk()
   {
     speed = Settings.walkSpeed;
     running = false;
   }
 
+  /**
+   * used for player to place a fire trap from inventory on to map
+   */
   public void placeFireTrap()
   {
     placingFireTrap = true;
     fireTrapTime = 0.0;
   }
 
+  /**
+   * used to pick up a fire trap from the map and take into inventory
+   * @param firetrap - is the firetrap object currently being picked up
+   */
   public void pickUpFireTrap(Firetrap firetrap)
   {
     gettingFireTrap = true;
@@ -151,12 +174,23 @@ public class Player extends Unit
     fireTrapTime = 0.0;
   }
 
+  /**
+   * returns if the player is activly picking up or setting a firetrap
+   * (if so the player can't move)
+   * @return pickup || placing - booleans
+   */
   public boolean pickingOrPlacing()
   {
     return (placingFireTrap || gettingFireTrap);
   }
 
 
+  /**
+   * updates the player character
+   * counts the time associated with placing/picking up traps
+   * and changes heading/position on map
+   * @param deltaTime the time since last update
+   */
   @Override
   public void update(long deltaTime)
   {
@@ -246,6 +280,10 @@ public class Player extends Unit
     }
   }
 
+  /**
+   * returns the current image for the player (based on stage of animation)
+   * @return img - BufferedImage to be drawn
+   */
   @Override
   public BufferedImage getImage()
   {
@@ -269,6 +307,10 @@ public class Player extends Unit
     }
   }
 
+  /**
+   * returns the amount of stamina the player currently has
+   * @return stamina - double value
+   */
   public double getStamina()
   {
     return stamina;

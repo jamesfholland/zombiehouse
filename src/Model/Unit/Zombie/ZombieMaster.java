@@ -9,6 +9,13 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * ZombieMaster is a type of zombie
+ * When any other zombie can sense the player, zombie master will also sense the player
+ * and will use aStar pathing from where ever it is (if no zombie senses the player it will move randomly)
+ *
+ * Additionally the ZombieMaster is immune to fire and always spawns on the exit tile
+ */
 public class ZombieMaster extends ZombieRandom
 {
   private static final BufferedImage[] WALK_UP_IMAGE;
@@ -75,16 +82,24 @@ public class ZombieMaster extends ZombieRandom
     }
   }
 
+  /**
+   * when any other zombie on map knows player location, master zombie knows too
+   * used to turn on member variable anOtherZombieKnows
+   */
   public void setAnOtherZombieKnowsTrue()
   {
     anOtherZombieKnows = true;
   }
 
-  public void setAnOtherZombieKnowsFalse()
-  {
-    anOtherZombieKnows = false;
-  }
+  /**
+   * used to turn off anOtherZombieKnows
+   */
+  public void setAnOtherZombieKnowsFalse() { anOtherZombieKnows = false; }
 
+  /**
+   * returns the current image of the zombie (based on stage of animation)
+   * @return img - BufferedImage to be drawn
+   */
   @Override
   public BufferedImage getImage()
   {
