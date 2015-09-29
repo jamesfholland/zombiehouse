@@ -194,11 +194,15 @@ public class Player extends Unit
   @Override
   public void update(long deltaTime)
   {
+    //if getting a fire trap and still picking up the firetrap, don't move the character
     if (gettingFireTrap && fireTrapTime < 5000)
     {
       fireTrapTime += deltaTime;
       return;
-    } else if (gettingFireTrap && fireTrapTime >= 5000)
+    }
+
+    //if player has spent 5 secs getting a fire trap, remove firetrap from the level and add one to the fireTrapCount
+    else if (gettingFireTrap && fireTrapTime >= 5000)
     {
       fireTrapTime = 0;
       gettingFireTrap = false;
@@ -207,25 +211,32 @@ public class Player extends Unit
       this.firetrap = null;
     }
 
+    //if player is placing a firetrap and still less than 5 secs, don't move the character
     if (!gettingFireTrap && placingFireTrap && fireTrapTime < 5000)
     {
       fireTrapTime += deltaTime;
       return;
-    } else if (!gettingFireTrap && placingFireTrap && fireTrapTime >= 5000)
+    }
+
+    //if player has spent 5 secs placing a firetrap, add a firetrap to the tile at the players center location
+    else if (!gettingFireTrap && placingFireTrap && fireTrapTime >= 5000)
     {
+      int playerCenterTileX = getCenterLocation().x / Settings.TILE_SIZE;
+      int playerCenterTileY = getCenterLocation().y / Settings.TILE_SIZE;
+
       fireTrapTime = 0;
       placingFireTrap = false;
       --level.fireTrapCount;
-      int playerCenterTileX = getCenterLocation().x / Settings.TILE_SIZE;
-      int playerCenterTileY = getCenterLocation().y / Settings.TILE_SIZE;
 
       Point p = new Point(playerCenterTileX * Settings.TILE_SIZE, playerCenterTileY * Settings.TILE_SIZE);
 
       level.FIRETRAPS.add(new Firetrap(p));
     }
 
+    //get what direction the player is moving from the controller
     setHeading(inputVector);
 
+    //play walk sound if moving
     if (inputVector.x != 0 || inputVector.y != 0)
     {
       SoundManager.playWalk(isRunning());
@@ -234,6 +245,7 @@ public class Player extends Unit
       SoundManager.stopWalk();
     }
 
+    //do stamina logic here
     if (!running)
     {
       if (stamina < Settings.playerStamina)
@@ -253,6 +265,7 @@ public class Player extends Unit
       stamina = Math.max(stamina - (int) deltaTime, 0);
     }
 
+    //move the character according to his speed, heading, and deltatime
     move(speed, heading, deltaTime);
 
     direction = null;

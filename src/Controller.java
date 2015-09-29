@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.
  */
-class Controller
+public class Controller
 {
   private final ViewManager VIEW;
 
