@@ -24,7 +24,7 @@ class ScoreBar extends JPanel
   /**
    * Used to keep the info up to date (not actually repainting graphically, but just changing text)
    *
-   * @param graphics
+   * @param graphics The Jpanel's graphics object
    */
   @Override
   public void paintComponent(Graphics graphics)
@@ -39,7 +39,7 @@ class ScoreBar extends JPanel
   /**
    * Passes the current Level to ScoreBar, which it uses to keep track of relavent info
    *
-   * @param level
+   * @param level the current level. This is updated after level changes by the controller calling ViewManager.
    */
   public void setLevel(Level level)
   {

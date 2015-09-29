@@ -90,7 +90,7 @@ public abstract class GameObject
   /**
    * Gets the tile coordinates where the center of the object is located.
    *
-   * @return
+   * @return returns the tile based location of the object
    */
   public Point getTileLocation()
   {
@@ -118,7 +118,7 @@ public abstract class GameObject
   /**
    * Gives a pointer to the level data class to this instance of GameObject
    *
-   * @param level
+   * @param level The new level object that all game units should have.
    */
   public void setLevel(Level level)
   {

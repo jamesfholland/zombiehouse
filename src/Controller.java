@@ -27,7 +27,7 @@ class Controller
 {
   private final ViewManager VIEW;
 
-  private HouseGeneration houseGenerator;
+  private final HouseGeneration HOUSE_GENERATOR;
   private Level currentLevel;
   private Point heroDirection;
 
@@ -39,9 +39,9 @@ class Controller
     heroDirection = new Point(0, 0);
 
     // Run house generator
-    houseGenerator = new HouseGeneration();
+    HOUSE_GENERATOR = new HouseGeneration();
 
-    currentLevel = houseGenerator.getCurrentLevel();
+    currentLevel = HOUSE_GENERATOR.getCurrentLevel();
 
     VIEW.setLevel(currentLevel);
     currentLevel.PLAYER.setDoubleLocation();
@@ -266,16 +266,16 @@ class Controller
 
     private void playerDeath()
     {
-      houseGenerator.respawnSameMap();
-      currentLevel = houseGenerator.getCurrentLevel();
+      HOUSE_GENERATOR.respawnSameMap();
+      currentLevel = HOUSE_GENERATOR.getCurrentLevel();
       currentLevel.PLAYER.setDoubleLocation();
       VIEW.setLevel(currentLevel);
     }
 
     private void playerWinLevel()
     {
-      houseGenerator.spawnNewLevel();
-      currentLevel = houseGenerator.getCurrentLevel();
+      HOUSE_GENERATOR.spawnNewLevel();
+      currentLevel = HOUSE_GENERATOR.getCurrentLevel();
       currentLevel.PLAYER.setDoubleLocation();
       VIEW.setLevel(currentLevel);
     }

@@ -18,44 +18,22 @@ class SettingsDialog extends JDialog
 {
   private SettingsConverter converter = new SettingsConverter();
 
-  //field for the sight range
-  private JLabel textSightRange = new JLabel("Player sight range (tiles)");
   private JTextField jtfSightRange = new JTextField("" + converter.pixelsToTiles(Settings.sightRange), 5); //convert to tiles
 
-  //field for the player hearing
-  private JLabel textPlayerHearing = new JLabel("Player hearing (tiles)");
   private JTextField jtfPlayerHearing = new JTextField("" + converter.pixelsToTiles(Settings.playerHearing), 5); //convert to tiles
 
-  //field for the walk speed
-  private JLabel textWalkSpeed = new JLabel("Player walk speed (tiles/sec)");
   private JTextField jtfWalkSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.walkSpeed), 5); //convert to tiles/sec
 
-  //field for the player stamina
-  private JLabel textPlayerStamina = new JLabel("Player stamina (sec)");
   private JTextField jtfPlayerStamina = new JTextField("" + converter.millisecondsToSeconds(Settings.playerStamina), 5); //conversions to seconds
 
-  //field for the regen
-  private JLabel textPlayerRegen = new JLabel("Player stamina regen (stamina/sec)");
-  private JTextField jtfPlayerRegen = new JTextField("" + Settings.playerRegen, 5); //no conversion
-
-  //field for the zombie speed
-  private JLabel textZombieSpeed = new JLabel("Zombie speed (tiles/sec)");
   private JTextField jtfZombieSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.zombieSpeed), 5); //convert to tiles/sec
 
-  //field for the zombie decision rate
-  private JLabel textZombieDecisionRate = new JLabel("Seconds until decision");
   private JTextField jtfZombieDecisionRate = new JTextField("" + converter.millisecondsToSeconds(Settings.zombieDecisionRate), 5); //convert to seconds
 
-  //field for the zombie smell
-  private JLabel textZombieSmell = new JLabel("Zombie smell distance (tiles)");
   private JTextField jtfZombieSmell = new JTextField("" + converter.pixelsToTiles(Settings.zombieSmell), 5); //convert to tiles
 
-  //field for the firetrap spawn rate
-  private JLabel textFiretrapSpawnRate = new JLabel("Fire trap spawn rate (%/tile)");
   private JTextField jtfFiretrapSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.firetrapSpawnRate), 5); //convert to %
 
-  //field for the zombie spawn rate
-  private JLabel textZombieSpawnRate = new JLabel("Zombie spawn rate (%/tile)");
   private JTextField jtfZombieSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.zombieSpawnRate), 5); // convert to %
 
   /**
@@ -83,24 +61,35 @@ class SettingsDialog extends JDialog
       }
     });
 
+    JLabel textSightRange = new JLabel("Player sight range (tiles)");
     this.add(textSightRange);
     this.add(jtfSightRange);
+    JLabel textPlayerHearing = new JLabel("Player hearing (tiles)");
     this.add(textPlayerHearing);
     this.add(jtfPlayerHearing);
+    JLabel textWalkSpeed = new JLabel("Player walk speed (tiles/sec)");
     this.add(textWalkSpeed);
     this.add(jtfWalkSpeed);
+    JLabel textPlayerStamina = new JLabel("Player stamina (sec)");
     this.add(textPlayerStamina);
     this.add(jtfPlayerStamina);
+    JLabel textPlayerRegen = new JLabel("Player stamina regen (stamina/sec)");
     this.add(textPlayerRegen);
+    JTextField jtfPlayerRegen = new JTextField("" + Settings.playerRegen, 5);
     this.add(jtfPlayerRegen);
+    JLabel textZombieSpeed = new JLabel("Zombie speed (tiles/sec)");
     this.add(textZombieSpeed);
     this.add(jtfZombieSpeed);
+    JLabel textZombieDecisionRate = new JLabel("Seconds until decision");
     this.add(textZombieDecisionRate);
     this.add(jtfZombieDecisionRate);
+    JLabel textZombieSmell = new JLabel("Zombie smell distance (tiles)");
     this.add(textZombieSmell);
     this.add(jtfZombieSmell);
+    JLabel textFiretrapSpawnRate = new JLabel("Fire trap spawn rate (%/tile)");
     this.add(textFiretrapSpawnRate);
     this.add(jtfFiretrapSpawnRate);
+    JLabel textZombieSpawnRate = new JLabel("Zombie spawn rate (%/tile)");
     this.add(textZombieSpawnRate);
     this.add(jtfZombieSpawnRate);
     this.add(enter);

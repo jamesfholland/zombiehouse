@@ -95,10 +95,6 @@ public class ZombieMaster extends ZombieRandom
   }
 
   /**
-   * returns the current image of the zombie (based on stage of animation)
-   *
-   * @return img - BufferedImage to be drawn
-   * <p>
    * If no other zombie knows where the player is set the player to false
    */
   public void setAnOtherZombieKnowsFalse()
