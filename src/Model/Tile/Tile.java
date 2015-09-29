@@ -7,7 +7,10 @@ import java.awt.*;
 
 /**
  * Abstract class Tile is the parent of all tile objects (Exit, Floor, Pillar, Wall)
- * holds the common variables and methods used by all tiles
+ * holds the common variables and methods used by all tiles such as if the tile is burned or passable
+ *
+ * On a program perspective, the level data class holds an array of tiles which represents the map.
+ * Other members of the model check their location relative to this tile array and other members of the model
  */
 public abstract class Tile extends GameObject
 {

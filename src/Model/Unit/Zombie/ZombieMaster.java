@@ -1,20 +1,24 @@
 package Model.Unit.Zombie;
 
-import Model.Direction;
 import Model.Settings;
 import Model.Unit.SpriteParser;
-import View.SoundManager;
+
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * ZombieMaster is a type of zombie
- * When any other zombie can sense the player, zombie master will also sense the player
- * and will use aStar pathing from where ever it is (if no zombie senses the player it will move randomly)
+
+ * ZombieMaster is the class which is instantiated when a master zombie is added to the game
+ * If a ZombieMaster cannot smell the player and another zombie cannot smell the player then the ZombieMaster behaves like a random zombie.
+ * If a ZombieMaster can smell the player then it knows the quickest route to the player.
+ * If a ZombieMaster cannot smell the player but an other zombie can smell the player, the the ZombieMaster knows the quickest route to the player.
+ * The master zombie is immune to fire and starts at the exit and does not obey the zombie decision update cycle
  *
- * Additionally the ZombieMaster is immune to fire and always spawns on the exit tile
+ * From the program perspective, ZombieMaster is added once to the level in HouseGeneration.
+ * The controller updates the data in the level on each update cycle. The view draws the ZombieMaster based on the data held in the level.
+>>>>>>> Stashed changes
  */
 public class ZombieMaster extends ZombieRandom
 {
@@ -71,10 +75,10 @@ public class ZombieMaster extends ZombieRandom
   @Override
   public void update(long deltaTime)
   {
-    if (anOtherZombieKnows)
+    if (anOtherZombieKnows) //if another zombie knows where the player is
     {
-      heading = level.ASTAR.getHeading(getCenterLocation());
-      super.move(Settings.zombieSpeed , heading, deltaTime);
+      heading = level.ASTAR.getHeading(getCenterLocation()); //calcuate the quickest path to the player
+      move(Settings.zombieSpeed, heading, deltaTime); //move
     }
     else
     {
@@ -83,8 +87,12 @@ public class ZombieMaster extends ZombieRandom
   }
 
   /**
+<<<<<<< Updated upstream
    * when any other zombie on map knows player location, master zombie knows too
    * used to turn on member variable anOtherZombieKnows
+=======
+   * If an other zombie knows where the player is set the player to true
+>>>>>>> Stashed changes
    */
   public void setAnOtherZombieKnowsTrue()
   {
@@ -92,13 +100,20 @@ public class ZombieMaster extends ZombieRandom
   }
 
   /**
-   * used to turn off anOtherZombieKnows
-   */
-  public void setAnOtherZombieKnowsFalse() { anOtherZombieKnows = false; }
-
-  /**
    * returns the current image of the zombie (based on stage of animation)
    * @return img - BufferedImage to be drawn
+   *
+   * If no other zombie knows where the player is set the player to false
+   */
+  public void setAnOtherZombieKnowsFalse()
+  {
+    anOtherZombieKnows = false;
+  }
+
+  /**
+   * returns the appropriate sprite based on the direction the zombie is walking and the moment of animation
+   * @return BufferedImage of the sprite
+>>>>>>> Stashed changes
    */
   @Override
   public BufferedImage getImage()

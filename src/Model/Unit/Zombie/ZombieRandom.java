@@ -10,8 +10,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * ZombieRandom is a type of zombie
- * They move in random directions at every decision (unless they sense the player)
+ * ZombieRandom is the class which is instantiated when a random zombie is added to the game
+ * If a ZombieRandom cannot smell the player, then it walks in a random direction until the next zombie decision update.
+ * If a ZombieRandom has collided with something, then, on a decision update, it chooses a new direction 180 degrees opposite of where it just collided.
+ *
+ * From the program perspective, ZombieRandom are added to the level in HouseGeneration. The level holds an array of type Zombie which
+ * the controller can update and the view can draw. However, outside of the HouseGeneration and the level, the ZombieRandom isn't directly touched by anything.
  */
 public class ZombieRandom extends Zombie
 {
@@ -19,8 +23,6 @@ public class ZombieRandom extends Zombie
   private static final BufferedImage[] WALK_RIGHT_IMAGE;
   private static final BufferedImage[] WALK_LEFT_IMAGE;
   private static final BufferedImage[] WALK_DOWN_IMAGE;
-
-  private boolean collided;
 
   static
   {
@@ -131,6 +133,7 @@ public class ZombieRandom extends Zombie
   }
 
   /**
+<<<<<<< Updated upstream
    * returns the current image of the zombie (based on stage of animation)
    * @return img - BufferedImage to be drawn
    */

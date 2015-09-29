@@ -10,8 +10,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * ZombieLine is a type of zombie
- * They move in straight lines until they hit a wall (or sense the player)
+ * ZombieLine is the class which is instantiated when a linear zombie is added to the game
+ * If a ZombieLine cannot smell the player, then it walks in a random direction until it collides with something.
+ * When it collides with something, it chooses a new direction on the next zombie decision update.
+ *
+ * From the program perspective, ZombieLines are added to the level in HouseGeneration. The level holds an array of type Zombie which
+ * the controller can update and the view can draw. However, outside of the HouseGeneration and the level, the ZombieLine isn't directly touched by anything.
  */
 public class ZombieLine extends Zombie
 {
@@ -85,6 +89,7 @@ public class ZombieLine extends Zombie
       }
     }
 
+    //Try to move the zombie based on move function in Unit
     move(Settings.zombieSpeed, heading, deltaTime);
 
 

@@ -7,7 +7,14 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 /**
- * This class handles the computation of astar paths.
+ * AStar is the class responsible for calculating the shortest distance to the player.
+ *
+ * From the program perspective, only the model uses the AStar class.
+ *
+ * The data class level has a copy of AStar
+ * Each zombie asks AStar for the shortest path if it can smell the player.
+ * AStar hands the zombie a heading to the next tile it should move to
+ * AStar calculates the shortest distance to the player through the AStar pathfinding algorithm.
  */
 public class AStar
 {
@@ -149,12 +156,12 @@ public class AStar
 
   private class Node implements Comparable<Node>
   {
-    public int tileX;
-    public int tileY;
-    public int gScore;
-    public int manhattanDistance;
-    public int fScore;
-    public Node parent;
+    private int tileX;
+    private int tileY;
+    private int gScore;
+    private int manhattanDistance;
+    private int fScore;
+    private Node parent;
 
     @Override
     public boolean equals(Object o)
@@ -202,12 +209,12 @@ public class AStar
       this.parent = current;
     }
 
-    public void setManhattanDistance()
+    private void setManhattanDistance()
     {
       manhattanDistance = Math.abs(tileX - level.PLAYER.location.x / Settings.TILE_SIZE) + Math.abs(tileY - level.PLAYER.location.y / Settings.TILE_SIZE);
     }
 
-    public void setfScore()
+    private void setfScore()
     {
       fScore = gScore + manhattanDistance;
     }

@@ -38,7 +38,6 @@ public class ViewManager
     this.FRAME.add(this.GAME_PANEL, BorderLayout.CENTER);
 
 
-
   }
 
   void startGame()
