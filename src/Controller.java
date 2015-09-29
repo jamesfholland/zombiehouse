@@ -213,13 +213,13 @@ class Controller
               Firetrap ft = ftIterator.next();
               if (ft.checkCollision(zombie.getHitbox())) //if zombie hits fire trap, make sure it explodes
               {
-                ft.spawnFire(currentLevel);
+                ft.spawnFire();
                 ftIterator.remove();
               }
               //if a player is running and hits a fire trap, explode it
               if (currentLevel.PLAYER.isRunning() && currentLevel.PLAYER.checkCollision(ft.getHitbox()))
               {
-                ft.spawnFire(currentLevel);
+                ft.spawnFire();
                 ftIterator.remove();
               }
             }

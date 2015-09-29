@@ -33,6 +33,11 @@ class ScoreBar extends JPanel
     {
       return;
     }
+    if (currentLevel.LEVEL_NUM > 5)
+    {
+      levelText.setText("YOU WIN! Congrats. As your prize why don't you continue to play the bonus levels.");
+      return;
+    }
     levelText.setText("Welcome to our ZOMBIE TREEHOUSE!! :)   ||   Level: " + currentLevel.LEVEL_NUM + "   ||   Firetrap count: " + currentLevel.fireTrapCount);
   }
 

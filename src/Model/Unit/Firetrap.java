@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * Firetraps are objects placed around map at random
@@ -46,7 +47,7 @@ public class Firetrap extends Unit
   /**
    * if fire trap is set off, it explodes leaving fire
    */
-  public void spawnFire(Level currentLevel)
+  public void spawnFire()
   {
     Point tile = this.getTileLocation();
 
@@ -57,21 +58,6 @@ public class Firetrap extends Unit
         level.FIRES.add(new Fire(i, j));
       }
     }
-
-//    currentLevel.FIRETRAPS.remove(this);
-
-//    for (Firetrap ft: currentLevel.FIRETRAPS)
-//    {
-//      Point checkTile = ft.getTileLocation();
-//
-//      if (checkTile.x >= tile.x - 1 && checkTile.x <= tile.x)
-//      {
-//        if (checkTile.x >= tile.x - 1 && checkTile.x <= tile.x)
-//        {
-//          ft.spawnFire(currentLevel);
-//        }
-//      }
-//    }
   }
 
   /**
