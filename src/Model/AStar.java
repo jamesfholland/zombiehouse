@@ -1,5 +1,7 @@
 package Model;
 
+import com.sun.istack.internal.NotNull;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -224,7 +226,7 @@ public class AStar
     }
 
     @Override
-    public int compareTo(Node o)
+    public int compareTo(@NotNull Node o)
     {
       return Integer.compare(this.fScore, o.fScore);
     }
