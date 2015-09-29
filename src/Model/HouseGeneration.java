@@ -94,7 +94,7 @@ public class HouseGeneration
     int failedCarvings = 0;
     int roomCount = 0;
     int corridorCount = 0;
-    int pillarCount = 10;
+    int pillarCount = 0;
     while (houseNotDone)
     {
       boolean needWallSeg = true;

@@ -1,5 +1,7 @@
 package Model.Unit;
 
+import Model.Level;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -44,7 +46,7 @@ public class Firetrap extends Unit
   /**
    * if fire trap is set off, it explodes leaving fire
    */
-  public void spawnFire()
+  public void spawnFire(Level currentLevel)
   {
     Point tile = this.getTileLocation();
 
@@ -55,6 +57,21 @@ public class Firetrap extends Unit
         level.FIRES.add(new Fire(i, j));
       }
     }
+
+//    currentLevel.FIRETRAPS.remove(this);
+
+//    for (Firetrap ft: currentLevel.FIRETRAPS)
+//    {
+//      Point checkTile = ft.getTileLocation();
+//
+//      if (checkTile.x >= tile.x - 1 && checkTile.x <= tile.x)
+//      {
+//        if (checkTile.x >= tile.x - 1 && checkTile.x <= tile.x)
+//        {
+//          ft.spawnFire(currentLevel);
+//        }
+//      }
+//    }
   }
 
   /**
