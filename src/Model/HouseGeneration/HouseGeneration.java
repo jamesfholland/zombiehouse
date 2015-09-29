@@ -65,7 +65,7 @@ public class HouseGeneration
     currentDir = Direction.NORTH;
 
     //aStarTestRoom();
-    makeNewHouse(); // uncomment when ready to use
+    makeNewHouse();
 
     createLevel();
 
@@ -464,6 +464,7 @@ public class HouseGeneration
    */
   public void spawnNewLevel()
   {
+    raiseDifficulty();
     lastRandomSeed = System.nanoTime();
     levelInitFireTrapCount = currentLevel.fireTrapCount;
     Settings.RANDOM.setSeed(lastRandomSeed);
@@ -553,6 +554,12 @@ public class HouseGeneration
   public Exit getExit()
   {
     return (Exit) houseTiles[exitX][exitY];
+  }
+
+  private void raiseDifficulty()
+  {
+    // Settings.sightRange -= 0.25;
+    Settings.zombieSpawnRate += 0.01;
   }
 
 

@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Fire is spawned from firetraps
+ * it lasts for 15 seconds
+ * while burning it kills the player or zombies that contact it (except master zombie)
+ * after it burns out it will leave burn marks on floor or walls and will 'burn down' pillars
+ */
 public class Fire extends Unit
 {
 
@@ -83,6 +89,11 @@ public class Fire extends Unit
 
   }
 
+  /**
+   * The constructor for fire
+   * @param tileX - is the x-index in the 2d tiles array (rather than pixel location)
+   * @param tileY - is the y-index in the 2d tiles array (rather than pixel location)
+   */
   public Fire(int tileX, int tileY)
   {
     this.location = new Point(tileX * Settings.TILE_SIZE, tileY * Settings.TILE_SIZE);
@@ -93,6 +104,10 @@ public class Fire extends Unit
     this.timeBurning = 0;
   }
 
+  /**
+   * keeps track of fire lifespan and updates the desired image
+   * @param deltaTime the time since last update
+   */
   @Override
   public void update(long deltaTime)
   {
@@ -108,11 +123,19 @@ public class Fire extends Unit
     }
   }
 
+  /**
+   * returns if fire is burning
+   * @return isBurning - boolean
+   */
   public boolean isBurning()
   {
     return isBurning;
   }
 
+  /**
+   * returns the current image of the fire (based on stage of animation)
+   * @return img - BufferedImage to be drawn
+   */
   @Override
   public BufferedImage getImage()
   {
