@@ -1,12 +1,12 @@
 package Model;
 
-import Model.Level;
-import Model.Settings;
 import Model.Tile.*;
 import Model.Unit.Firetrap;
 import Model.Unit.Player;
-import Model.Unit.Zombie.*;
-import Model.Direction;
+import Model.Unit.Zombie.Zombie;
+import Model.Unit.Zombie.ZombieLine;
+import Model.Unit.Zombie.ZombieMaster;
+import Model.Unit.Zombie.ZombieRandom;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -182,11 +182,13 @@ public class HouseGeneration
         if (buildRoom)
         {
           roomCount++;
-        } else
+        }
+        else
         {
           corridorCount++;
         }
-      } else
+      }
+      else
       {
         failedCarvings++;
       }
@@ -343,7 +345,8 @@ public class HouseGeneration
       if (Settings.RANDOM.nextBoolean())
       {
         zombieList.add(new ZombieLine(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
-      } else
+      }
+      else
       {
         zombieList.add(new ZombieRandom(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble())));
       }
@@ -395,7 +398,7 @@ public class HouseGeneration
       }
     }
 
-    master = new ZombieMaster(exitX*Settings.TILE_SIZE, exitY* Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble()));
+    master = new ZombieMaster(exitX * Settings.TILE_SIZE, exitY * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble()));
   }
 
   // method to remove walls that can't be seen
@@ -475,6 +478,7 @@ public class HouseGeneration
 
   /**
    * Returns a 2d array of tiles
+   *
    * @return houseTiles
    */
   public Tile[][] getHouseTiles()
@@ -484,6 +488,7 @@ public class HouseGeneration
 
   /**
    * Returns a linked list of zombies
+   *
    * @return zombieList
    */
   public LinkedList<Zombie> getZombieList()
@@ -493,6 +498,7 @@ public class HouseGeneration
 
   /**
    * Returns a pointer to the master zombie
+   *
    * @return the master zombie
    */
   public ZombieMaster getMasterZombie()
@@ -502,6 +508,7 @@ public class HouseGeneration
 
   /**
    * Returns the number of firetraps held by the player at level start
+   *
    * @return levelInitFireTrapCount
    */
   public int getFireTrapCount()
@@ -511,6 +518,7 @@ public class HouseGeneration
 
   /**
    * Returns the full Level object that contains all level details
+   *
    * @return currentLevel
    */
   public Level getCurrentLevel()
@@ -521,6 +529,7 @@ public class HouseGeneration
   /**
    * Returns the number of the current level
    * 1-indexed
+   *
    * @return currentLevelNum
    */
   public int getCurrentLevelNum()
@@ -531,6 +540,7 @@ public class HouseGeneration
   /**
    * HouseGeneration constructs a new player object for each level
    * Returns the player
+   *
    * @return player
    */
   public Player getPlayer()
@@ -540,6 +550,7 @@ public class HouseGeneration
 
   /**
    * Returns a linked list of Firetraps
+   *
    * @return firetrapList
    */
   public LinkedList<Firetrap> getFiretrapList()
@@ -549,6 +560,7 @@ public class HouseGeneration
 
   /**
    * Returns the exit object
+   *
    * @return Exit
    */
   public Exit getExit()
@@ -594,7 +606,7 @@ public class HouseGeneration
 
     firetrapList.add(new Firetrap(new Point(6 * Settings.TILE_SIZE, 5 * Settings.TILE_SIZE)));
 
-    master = new ZombieMaster(10*Settings.TILE_SIZE, exitY*Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble()));
+    master = new ZombieMaster(10 * Settings.TILE_SIZE, exitY * Settings.TILE_SIZE, (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble()));
 
     playerSpawn();
   }

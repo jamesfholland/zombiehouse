@@ -13,6 +13,7 @@ class ClockwisePointComparator implements Comparator<Point>
 
   /**
    * Sets up a new comparator with CENTER to sort around.
+   *
    * @param center
    */
   ClockwisePointComparator(Point center)
@@ -22,6 +23,7 @@ class ClockwisePointComparator implements Comparator<Point>
 
   /**
    * Compare two points angles from the predetermined CENTER
+   *
    * @param pointA
    * @param pointB
    * @return -1 to 1 if pointA is less than to greater than pointB on a clockwise angle.  If both angles are the same, it returns a Double.compare of the distanceSq(A,B)
@@ -29,9 +31,7 @@ class ClockwisePointComparator implements Comparator<Point>
   @Override
   public int compare(Point pointA, Point pointB)
   {
-    int angleCompare = Double.compare(
-        Math.atan2(pointA.y - CENTER.y, pointA.x - CENTER.x),
-        Math.atan2(pointB.y - CENTER.y, pointB.x - CENTER.x));
+    int angleCompare = Double.compare(Math.atan2(pointA.y - CENTER.y, pointA.x - CENTER.x), Math.atan2(pointB.y - CENTER.y, pointB.x - CENTER.x));
 
     if (angleCompare == 0)
     {

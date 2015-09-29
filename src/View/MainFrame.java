@@ -1,9 +1,7 @@
 package View;
 
-import javax.swing.JFrame;
-import java.awt.Dimension;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * MainFrame is the JFrame where all game components are displayed in.

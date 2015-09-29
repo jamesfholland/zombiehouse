@@ -11,16 +11,15 @@ import java.awt.geom.Rectangle2D;
 /**
  * This class is the abstract class for all game units in the zombie house.
  * Game units include every class of zombie, the player, the fire, and the firetraps.
- *
+ * <p>
  * The classes which use Unit are primarily the ones which directly extend it: the zombie, the player
  * the fire, and the firetrap. What separates the Unit class from the Tile class is that the Tile class is not updatable.
  * That is, when the controller calls for the model to update, only the game objects of type Unit are updatable. Thus,
  * every zombie, player, etc. has an update method which is declared as an abstract method within Unit.
- *
+ * <p>
  * Unit holds the data and functions necessary for the player, zombies, fire, and fire traps to update on each update cycle.
  * This includes a vector which represents the units heading, the exact heading, and all of the game logic responsible
  * for unit/unit collisions.
- *
  */
 public abstract class Unit extends GameObject
 {
@@ -69,8 +68,8 @@ public abstract class Unit extends GameObject
 
   /**
    * This updates the game object's state as determined by its child class.
-   *  @param deltaTime the time since last update
    *
+   * @param deltaTime the time since last update
    */
   public abstract void update(long deltaTime);
 
@@ -193,10 +192,12 @@ public abstract class Unit extends GameObject
       if ((checkCollideW() || checkCollideSW()) && !checkCollideS())
       {
         nextLocationX = locationXD;
-      } else if ((checkCollideS() || checkCollideSE()) && !checkCollideW())
+      }
+      else if ((checkCollideS() || checkCollideSE()) && !checkCollideW())
       {
         nextLocationY = locationYD;
-      } else if ((checkCollideS() && checkCollideW()))
+      }
+      else if ((checkCollideS() && checkCollideW()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
@@ -219,13 +220,16 @@ public abstract class Unit extends GameObject
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
-      } else if ((checkCollideSW() || checkCollideW()) && !checkCollideN())
+      }
+      else if ((checkCollideSW() || checkCollideW()) && !checkCollideN())
       {
         nextLocationX = locationXD;
-      } else if ((checkCollideN() || checkCollideNE()) && !checkCollideW())
+      }
+      else if ((checkCollideN() || checkCollideNE()) && !checkCollideW())
       {
         nextLocationY = locationYD;
-      } else if ((checkCollideN() && checkCollideW()))
+      }
+      else if ((checkCollideN() && checkCollideW()))
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
@@ -247,10 +251,12 @@ public abstract class Unit extends GameObject
       if ((checkCollideE() || checkCollideSE()) && !checkCollideN())
       {
         nextLocationX = locationXD;
-      } else if ((checkCollideN() || checkCollideNE()) && !checkCollideE())
+      }
+      else if ((checkCollideN() || checkCollideNE()) && !checkCollideE())
       {
         nextLocationY = locationYD;
-      } else if (checkCollideE() && checkCollideN())
+      }
+      else if (checkCollideE() && checkCollideN())
       {
         nextLocationX = locationXD;
         nextLocationY = locationYD;
@@ -405,32 +411,39 @@ public abstract class Unit extends GameObject
     {
       headingVector.x = 1;
       headingVector.y = 0;
-    } else if (heading > 0.0 && heading < 90.0)
+    }
+    else if (heading > 0.0 && heading < 90.0)
     {
       headingVector.x = 1;
       headingVector.y = 1;
-    } else if (heading == 90.0)
+    }
+    else if (heading == 90.0)
     {
       headingVector.x = 0;
       headingVector.y = 1;
-    } else if (heading > 90.0 && heading < 180.0)
+    }
+    else if (heading > 90.0 && heading < 180.0)
     {
       headingVector.x = -1;
       headingVector.y = 1;
-    } else if (heading == 180.0)
+    }
+    else if (heading == 180.0)
     {
       headingVector.x = -1;
       headingVector.y = 0;
-    } else if (heading > 180.0 && heading < 270.0)
+    }
+    else if (heading > 180.0 && heading < 270.0)
     {
       headingVector.x = -1;
       headingVector.y = -1;
-    } else if (heading == 270.0)
+    }
+    else if (heading == 270.0)
     {
 
       headingVector.x = 0;
       headingVector.y = -1;
-    } else if (heading > 270.0 && heading < 360.0)
+    }
+    else if (heading > 270.0 && heading < 360.0)
     {
       headingVector.x = 1;
       headingVector.y = -1;

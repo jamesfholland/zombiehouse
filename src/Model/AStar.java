@@ -8,9 +8,9 @@ import java.util.PriorityQueue;
 
 /**
  * AStar is the class responsible for calculating the shortest distance to the player.
- *
+ * <p>
  * From the program perspective, only the model uses the AStar class.
- *
+ * <p>
  * The data class level has a copy of AStar
  * Each zombie asks AStar for the shortest path if it can smell the player.
  * AStar hands the zombie a heading to the next tile it should move to
@@ -26,6 +26,7 @@ public class AStar
 
   /**
    * Constructor for AStar.  needs the current level object for computations
+   *
    * @param level - level holds the 2d tile array used for pathing
    */
   public AStar(Level level)
@@ -35,6 +36,7 @@ public class AStar
 
   /**
    * Calculates the euclidian distance between the player and a zombie
+   *
    * @param zombLocation - the point for a zombie's location
    * @return a pixel distance from zombie to player
    */
@@ -110,6 +112,7 @@ public class AStar
 
   /**
    * Uses the AStar algorithm to determine which direction a zombie should 'currently' / actively head (not the full path)
+   *
    * @param zombieLocation - the zombie's current location Point
    * @return angle - a double value giving a 360 degree angle (not radian)
    */
@@ -130,7 +133,8 @@ public class AStar
     if (toMoveTo.tileX == zombieLocation.x / Settings.TILE_SIZE && toMoveTo.tileY == zombieLocation.y / Settings.TILE_SIZE && path.size() >= 1)
     {
       toMoveTo = path.removeLast();
-    } else
+    }
+    else
     {
       return calcRotationAngleInDegrees(zombieLocation, level.PLAYER.getLocation());
     }

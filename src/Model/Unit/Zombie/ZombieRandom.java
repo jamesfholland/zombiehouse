@@ -13,7 +13,7 @@ import java.io.IOException;
  * ZombieRandom is the class which is instantiated when a random zombie is added to the game
  * If a ZombieRandom cannot smell the player, then it walks in a random direction until the next zombie decision update.
  * If a ZombieRandom has collided with something, then, on a decision update, it chooses a new direction 180 degrees opposite of where it just collided.
- *
+ * <p>
  * From the program perspective, ZombieRandom are added to the level in HouseGeneration. The level holds an array of type Zombie which
  * the controller can update and the view can draw. However, outside of the HouseGeneration and the level, the ZombieRandom isn't directly touched by anything.
  */
@@ -54,8 +54,9 @@ public class ZombieRandom extends Zombie
 
   /**
    * Zombie constructor
-   * @param x - pixel x cooridnate
-   * @param y - pixel y coordinate
+   *
+   * @param x       - pixel x cooridnate
+   * @param y       - pixel y coordinate
    * @param heading - 360 degree double
    */
   public ZombieRandom(int x, int y, double heading)
@@ -65,6 +66,7 @@ public class ZombieRandom extends Zombie
 
   /**
    * Zombie update() changes the zombie's position as well as checks for a new heading
+   *
    * @param deltaTime - millisecond time since last update call
    */
   @Override
@@ -81,7 +83,8 @@ public class ZombieRandom extends Zombie
         collided = false;
         heading = level.ASTAR.getHeading(getCenterLocation());
         setHeadingVector();
-      } else
+      }
+      else
       {
         makeDecision();
         setHeadingVector();
@@ -94,20 +97,26 @@ public class ZombieRandom extends Zombie
     if (headingVector.y > 0)
     {
       direction = Direction.SOUTH;
-    } else if (headingVector.y < 0)
+    }
+    else if (headingVector.y < 0)
     {
       direction = Direction.NORTH;
-    } else if (headingVector.x > 0)
+    }
+    else if (headingVector.x > 0)
     {
       direction = Direction.EAST;
-    } else if (headingVector.x < 0)
+    }
+    else if (headingVector.x < 0)
     {
       direction = Direction.WEST;
     }
 
     if (direction != null)
     {
-      if(this.collided) SoundManager.playZombieThud(this.getCenterLocation(), level.PLAYER.getCenterLocation());
+      if (this.collided)
+      {
+        SoundManager.playZombieThud(this.getCenterLocation(), level.PLAYER.getCenterLocation());
+      }
       SoundManager.playZombieWalk(this.getCenterLocation(), level.PLAYER.getCenterLocation());
       spriteState++;
       if (spriteState >= WALK_SPRITE_COUNT)
@@ -126,15 +135,17 @@ public class ZombieRandom extends Zombie
     {
       heading = (heading + 180) % 360;
       collided = false;
-    } else
+    }
+    else
     {
       heading = (Settings.RANDOM.nextInt(360) + Settings.RANDOM.nextDouble());
     }
   }
 
   /**
-<<<<<<< Updated upstream
+   * <<<<<<< Updated upstream
    * returns the current image of the zombie (based on stage of animation)
+   *
    * @return img - BufferedImage to be drawn
    */
   @Override

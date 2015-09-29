@@ -2,7 +2,6 @@ package View;
 
 import Model.Level;
 
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -76,6 +75,7 @@ public class ViewManager
 
   /**
    * Called by the controller to check if the Settings have been set and then start the game.
+   *
    * @return true if the game is paused.
    */
   public boolean isPaused()

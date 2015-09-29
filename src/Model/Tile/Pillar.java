@@ -58,6 +58,7 @@ public class Pillar extends Tile
 
   /**
    * Constuctor for pillar tiles
+   *
    * @param location - is the pixel (x,y) cordinates of the Pillar in the house
    */
   public Pillar(Point location)
@@ -67,7 +68,8 @@ public class Pillar extends Tile
     if (Settings.RANDOM.nextBoolean())
     {
       this.PILLAR_TYPE = PillarType.PLANT;
-    } else
+    }
+    else
     {
       this.PILLAR_TYPE = PillarType.TABLE;
     }
@@ -76,6 +78,7 @@ public class Pillar extends Tile
 
   /**
    * Returns the image for Pillar, saved in resources
+   *
    * @return PillarImg - May be plant or table or burned
    */
   @Override

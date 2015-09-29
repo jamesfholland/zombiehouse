@@ -14,8 +14,8 @@ import java.util.LinkedList;
  * From the perspective of the program as a whole, the Level class is essentially a manager for all of the model.
  * Zombiehouse uses Level as a data class, a place to hold all of the game objects which make up a level of zombiehouse.
  * Thus, it contains  an instance of every GameObject type. The view reads from the level to know where to draw game objects,
- * and the controller tells the level to update the moving GameObjects on update calls. 
- *
+ * and the controller tells the level to update the moving GameObjects on update calls.
+ * <p>
  * Many of the Zombiehouse classes use level. GameObjects themselves have a static copy of level so they can check where they are/
  * if they're running into anything/need to know the player location.
  */
@@ -36,6 +36,7 @@ public class Level
 
   /**
    * Level is constructed from the HouseGenerator
+   *
    * @param houseGen - contains all the values needed for a level
    */
   public Level(HouseGeneration houseGen)

@@ -5,6 +5,7 @@ import java.util.Random;
 
 /**
  * This contains the settings for the application.
+ * These are only set either finally or by the Settings Dialog.
  */
 public abstract class Settings
 {
