@@ -1,7 +1,9 @@
 package Model.Unit.Zombie;
 
+import Model.Direction;
 import Model.Settings;
 import Model.Unit.SpriteParser;
+import View.SoundManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,7 +26,7 @@ public class ZombieMaster extends ZombieRandom
   private static final BufferedImage[] WALK_LEFT_IMAGE;
   private static final BufferedImage[] WALK_DOWN_IMAGE;
 
-  private boolean anOtherZombieKnows;
+  private boolean knowsPlayerLocation;
 
   static
   {
@@ -74,10 +76,42 @@ public class ZombieMaster extends ZombieRandom
   @Override
   public void update(long deltaTime)
   {
-    if (anOtherZombieKnows) //if another zombie knows where the player is
+    if (knowsPlayerLocation) //if another zombie knows where the player is
     {
       heading = level.ASTAR.getHeading(getCenterLocation()); //calcuate the quickest path to the player
       move(Settings.zombieSpeed, heading, deltaTime); //move
+
+      direction = null;
+      if (headingVector.y > 0)
+      {
+        direction = Direction.SOUTH;
+      }
+      else if (headingVector.y < 0)
+      {
+        direction = Direction.NORTH;
+      }
+      else if (headingVector.x > 0)
+      {
+        direction = Direction.EAST;
+      }
+      else if (headingVector.x < 0)
+      {
+        direction = Direction.WEST;
+      }
+
+      if (direction != null)
+      {
+        if (this.collided)
+        {
+          SoundManager.playZombieThud(this.getCenterLocation(), level.PLAYER.getCenterLocation());
+        }
+        SoundManager.playZombieWalk(this.getCenterLocation(), level.PLAYER.getCenterLocation());
+        spriteState++;
+        if (spriteState >= WALK_SPRITE_COUNT)
+        {
+          spriteState = 0;
+        }
+      }
     }
     else
     {
@@ -87,19 +121,11 @@ public class ZombieMaster extends ZombieRandom
 
   /**
    * when any other zombie on map knows player location, master zombie knows too
-   * used to turn on member variable anOtherZombieKnows
+   * used to set knowsPlayerLocation
    */
-  public void setAnOtherZombieKnowsTrue()
+  public void setAnOtherZombieKnows(boolean anOtherZombieKnows)
   {
-    anOtherZombieKnows = true;
-  }
-
-  /**
-   * If no other zombie knows where the player is set the player to false
-   */
-  public void setAnOtherZombieKnowsFalse()
-  {
-    anOtherZombieKnows = false;
+    this.knowsPlayerLocation = anOtherZombieKnows;
   }
 
   /**

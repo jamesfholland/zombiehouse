@@ -30,6 +30,7 @@ class Controller
   private final HouseGeneration HOUSE_GENERATOR;
   private Level currentLevel;
   private Point heroDirection;
+  private boolean anOtherZombieKnows;
 
   public Controller()
   {
@@ -49,6 +50,7 @@ class Controller
 
     //Setup fire's static members especially graphics
     Object dump = new Fire(0, 0);
+    anOtherZombieKnows = false;
 
     while (VIEW.isPaused())
     {
@@ -175,8 +177,6 @@ class Controller
             playerWinLevel();
           }
 
-          currentLevel.MASTER.update(deltaTime); //update the master zombie
-
           if (currentLevel.MASTER.checkCollision(currentLevel.PLAYER.getHitbox())) //check if the master zombie has killed the player
           {
             playerDeath();
@@ -191,11 +191,7 @@ class Controller
             //if zombie knows where the player is, let the master zombie know that he also knows where the player is
             if (zombie.knowsPlayerLocation())
             {
-              currentLevel.MASTER.setAnOtherZombieKnowsTrue();
-            }
-            else
-            {
-              currentLevel.MASTER.setAnOtherZombieKnowsFalse();
+              anOtherZombieKnows = true;
             }
 
             //if a zombie hits a player
@@ -257,6 +253,10 @@ class Controller
               break;
             }
           }
+
+          currentLevel.MASTER.setAnOtherZombieKnows(anOtherZombieKnows);
+          currentLevel.MASTER.update(deltaTime);
+          anOtherZombieKnows = false;
         }
 
         VIEW.repaint();
