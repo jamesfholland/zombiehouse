@@ -1,7 +1,5 @@
 package Model;
 
-import com.sun.istack.internal.NotNull;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;

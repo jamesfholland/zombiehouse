@@ -1,9 +1,6 @@
 package Model.Unit.Zombie;
 
-import Model.Direction;
-import Model.Settings;
 import Model.Unit.SpriteParser;
-import View.SoundManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
