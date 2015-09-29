@@ -8,6 +8,20 @@ import Model.Unit.Zombie.Zombie;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * This class is the abstract class for all game units in the zombie house.
+ * Game units include every class of zombie, the player, the fire, and the firetraps.
+ *
+ * The classes which use Unit are primarily the ones which directly extend it: the zombie, the player
+ * the fire, and the firetrap. What separates the Unit class from the Tile class is that the Tile class is not updatable.
+ * That is, when the controller calls for the model to update, only the game objects of type Unit are updatable. Thus,
+ * every zombie, player, etc. has an update method which is declared as an abstract method within Unit.
+ *
+ * Unit holds the data and functions necessary for the player, zombies, fire, and fire traps to update on each update cycle.
+ * This includes a vector which represents the units heading, the exact heading, and all of the game logic responsible
+ * for unit/unit collisions.
+ *
+ */
 public abstract class Unit extends GameObject
 {
   //Shared animation numbers. All units (except fire) share common layout in sprite sheets
@@ -23,11 +37,16 @@ public abstract class Unit extends GameObject
 
   protected Rectangle2D nextHitbox;
 
+  //angle unit is traveling at
   protected double heading;
 
+  //because zombies can move at non cardinal directions
+  //keep track of their location in doubles so it isn't
+  //always cast to an int
   private double locationXD;
   private double locationYD;
 
+  //the location where a zombie/player is trying to move to
   private double nextLocationX;
   private double nextLocationY;
 
@@ -38,15 +57,19 @@ public abstract class Unit extends GameObject
   private double bottomRightCornerY;
 
   protected double speed;
+
+  //boolean to tell if the unit has collided with anythings
+  //only used for zombies
   protected boolean collided = false;
 
   protected Direction direction = Direction.SOUTH;
 
+  //vector which tells the game which direction to check for collisions
   protected Point headingVector;
 
   /**
    * This updates the game object's state as determined by its child class.
-   *  @param deltaTime
+   *  @param deltaTime the time since last update
    *
    */
   public abstract void update(long deltaTime);
@@ -69,7 +92,7 @@ public abstract class Unit extends GameObject
 
   /**
    * Initializes the double variables responsible for keeping track of the
-   * x and y coordinates of the unit
+   * x and y coordinates of the unit in double precision
    */
   public void setDoubleLocation()
   {
@@ -88,7 +111,7 @@ public abstract class Unit extends GameObject
    *
    * @param speed     in tiles per second
    * @param heading   degrees from east
-   * @param deltaTime
+   * @param deltaTime the change in time since last update
    */
   protected void move(double speed, double heading, long deltaTime)
   {
@@ -117,11 +140,7 @@ public abstract class Unit extends GameObject
     }
     catch (ArrayIndexOutOfBoundsException error)
     {
-      if (this instanceof Zombie)
-      {
-        //if zombies are moving outside of the array delete them
-        level.ZOMBIES.remove(this);
-      } else
+      this.heading = -1;
       {
         return;
       }
@@ -130,7 +149,6 @@ public abstract class Unit extends GameObject
     //check for collisions
     checkCollisions();
 
-
     if (this instanceof Zombie)
     {
       checkZombieZombieCollision();
@@ -138,11 +156,9 @@ public abstract class Unit extends GameObject
 
     //set the unit at the appropriate place
     location.setLocation(nextLocationX, nextLocationY);
-    //hitbox.setFrame(nextLocationX, nextLocationY, size.width, size.height);
     locationXD = nextLocationX;
     locationYD = nextLocationY;
   }
-
 
   private void checkCollisions()
   {
@@ -156,7 +172,7 @@ public abstract class Unit extends GameObject
     }
 
     //if moving south east
-    //this check is still buggy, gets units stuck on corners when moving SE
+    //this is a cornercase
     else if (headingVector.x == 1 && headingVector.y == 1)
     {
       checkSE();
@@ -379,7 +395,10 @@ public abstract class Unit extends GameObject
     }
   }
 
-  //sets the heading vector to whatever direction the unit is moving
+  /**
+   * sets the heading vector to whatever angle the unit is moving
+   * 0,0 is directly east
+   */
   protected void setHeadingVector()
   {
     if (heading == 0.0)

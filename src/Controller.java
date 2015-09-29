@@ -72,19 +72,19 @@ class Controller
   {
     int x = 0;
     int y = 0;
-    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_DOWN))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_DOWN) || VIEW.KEYBOARD.keyDown((KeyEvent.VK_S)))
     {
       y += 1;
     }
-    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_UP))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_UP) || VIEW.KEYBOARD.keyDown((KeyEvent.VK_W)))
     {
       y -= 1;
     }
-    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_LEFT))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_LEFT) || VIEW.KEYBOARD.keyDown((KeyEvent.VK_A)))
     {
       x -= 1;
     }
-    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_RIGHT))
+    if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_RIGHT) || VIEW.KEYBOARD.keyDown((KeyEvent.VK_D)))
     {
       x += 1;
     }

@@ -8,49 +8,72 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * SettingsDialog allows the user to change default settings in the application.
+ * The SettingsDialog class is the class responsible for the pop up when zombiehouse opens. It allows the user to
+ * set the default settings before the game begins.
+ *
+ * From a program prospective, only the View touches the the SettingsDialog class.
+ * The SettingsDialog has ability to write over the default settings shown Settings after it reads in the user's input
+ *
  */
 public class SettingsDialog extends JDialog
 {
   SettingsConverter converter = new SettingsConverter();
+
+  //field for the sight range
   JLabel textSightRange = new JLabel("Player sight range (tiles)");
   JTextField jtfSightRange = new JTextField(""+ converter.pixelsToTiles(Settings.sightRange),5); //convert to tiles
+
+  //field for the player hearing
   JLabel textPlayerHearing = new JLabel("Player hearing (tiles)");
   JTextField jtfPlayerHearing = new JTextField("" + converter.pixelsToTiles(Settings.playerHearing),5); //convert to tiles
+
+  //field for the walk speed
   JLabel textWalkSpeed = new JLabel("Player walk speed (tiles/sec)");
   JTextField jtfWalkSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.walkSpeed), 5); //convert to tiles/sec
+
+  //field for the player stamina
   JLabel textPlayerStamina = new JLabel("Player stamina (sec)");
   JTextField jtfPlayerStamina = new JTextField("" + converter.millisecondsToSeconds(Settings.playerStamina),5); //conversions to seconds
+
+  //field for the regen
   JLabel textPlayerRegen = new JLabel("Player stamina regen (stamina/sec)");
   JTextField jtfPlayerRegen = new JTextField("" + Settings.playerRegen, 5); //no conversion
+
+  //field for the zombie speed
   JLabel textZombieSpeed = new JLabel("Zombie speed (tiles/sec)");
   JTextField jtfZombieSpeed = new JTextField("" + converter.pixelsToTileSpeed(Settings.zombieSpeed), 5); //convert to tiles/sec
+
+  //field for the zombie decision rate
   JLabel textZombieDecisionRate = new JLabel("Seconds until decision");
   JTextField jtfZombieDecisionRate = new JTextField("" + converter.millisecondsToSeconds(Settings.zombieDecisionRate), 5); //convert to seconds
+
+  //field for the zombie smell
   JLabel textZombieSmell = new JLabel("Zombie smell distance (tiles)");
   JTextField jtfZombieSmell = new JTextField("" + converter.pixelsToTiles(Settings.zombieSmell), 5); //convert to tiles
+
+  //field for the firetrap spawn rate
   JLabel textFiretrapSpawnRate = new JLabel("Fire trap spawn rate (%/tile)");
   JTextField jtfFiretrapSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.firetrapSpawnRate), 5); //convert to %
-  JLabel textZombieSpawnRate = new JLabel("Zombe spawn rate (%/tile)");
+
+  //field for the zombie spawn rate
+  JLabel textZombieSpawnRate = new JLabel("Zombie spawn rate (%/tile)");
   JTextField jtfZombieSpawnRate = new JTextField("" + converter.decimalToPercent(Settings.zombieSpawnRate), 5); // convert to %
 
-  private ViewManager viewManager;
   SettingsDialog(ViewManager viewManager, JFrame frame, String title)
   {
     super(frame, title);
-    this.viewManager = viewManager;
     setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
     setSize(new Dimension(200, 500));
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-    JButton enter = new JButton("Save Settings");
+    JButton enter = new JButton("Start Game");
     enter.addActionListener(new ActionListener()
     {
       @Override
       public void actionPerformed(ActionEvent actionEvent)
       {
-        viewManager.startGame();
-        convertAndSave();
-        dispose();
+        convertAndSave(); //convert the user inputed settings to values the game reads
+        viewManager.startGame(); //start the game
+        dispose(); //close the jdialogue
       }
     });
 
@@ -106,45 +129,44 @@ public class SettingsDialog extends JDialog
 
     toParse = jtfZombieSpawnRate.getText();
     Settings.zombieSpawnRate = converter.percentToDecimal(Double.parseDouble(toParse));
-
   }
 
   private class SettingsConverter
   {
-    public double tilesToPixels(double tiles)
+    private double tilesToPixels(double tiles)
     {
       return tiles*Settings.TILE_SIZE;
     }
-    public double pixelsToTiles(double pixels)
+    private double pixelsToTiles(double pixels)
     {
       return pixels/Settings.TILE_SIZE;
     }
-    public double pixelsToTileSpeed(double pixels)
+    private double pixelsToTileSpeed(double pixels)
     {
       return (pixels*1000)/Settings.TILE_SIZE;
     }
 
-    public double tilesToPixelSpeed(double tiles)
+    private double tilesToPixelSpeed(double tiles)
     {
       return (tiles * Settings.TILE_SIZE / 1000);
     }
 
-    public double millisecondsToSeconds(double milliseconds)
+    private double millisecondsToSeconds(double milliseconds)
     {
       return (milliseconds/1000);
     }
 
-    public double secondsToMilliseconds(double seconds)
+    private double secondsToMilliseconds(double seconds)
     {
       return (seconds*1000);
     }
 
-    public double decimalToPercent(double decimal)
+    private double decimalToPercent(double decimal)
     {
       return decimal * 100;
     }
 
-    public double percentToDecimal(double percent)
+    private double percentToDecimal(double percent)
     {
       return percent/100;
     }
