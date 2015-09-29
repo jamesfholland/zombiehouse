@@ -10,7 +10,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * Player contains the logic for the player character
+ * Player class holds the functions and member variables necessary to move/keep track of all the player actions.
+ *
+ * The player is held in the data class level which also holds all the other game objects and units.
+ *
+ * On a program level, Player is part of the model and has some peripheral interactions with the controller.
+ * On a class level, most of Player's interactions are with other GameObjects and calculated within the model. The controller reads in the user input
+ * and tells Player where to go.
  */
 public class Player extends Unit
 {
@@ -63,7 +69,7 @@ public class Player extends Unit
   /**
    * Constuctor for Player
    * A new player is created for every level
-   * @param location
+   * @param location a point location. Which x,y pixel to make the player at on the map
    */
   public Player(Point location)
   {
@@ -119,7 +125,7 @@ public class Player extends Unit
   /**
    * called by the controller to pass the PLAYER the keyboard input
    *
-   * @param p
+   * @param p the vector direction where the user is trying to move to e.g 1,0 for east
    */
   public void setInputVector(Point p)
   {
@@ -328,5 +334,4 @@ public class Player extends Unit
   {
     return stamina;
   }
-
 }

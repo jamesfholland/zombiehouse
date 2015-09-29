@@ -14,11 +14,10 @@ import java.io.IOException;
  * If a ZombieMaster cannot smell the player and another zombie cannot smell the player then the ZombieMaster behaves like a random zombie.
  * If a ZombieMaster can smell the player then it knows the quickest route to the player.
  * If a ZombieMaster cannot smell the player but an other zombie can smell the player, the the ZombieMaster knows the quickest route to the player.
- * The master zombie is immune to fire and starts at the exit and does not obey the zombie decision update cycle
+ * The master zombie is immune to fire and starts at the exit
  *
  * From the program perspective, ZombieMaster is added once to the level in HouseGeneration.
  * The controller updates the data in the level on each update cycle. The view draws the ZombieMaster based on the data held in the level.
->>>>>>> Stashed changes
  */
 public class ZombieMaster extends ZombieRandom
 {
@@ -87,12 +86,8 @@ public class ZombieMaster extends ZombieRandom
   }
 
   /**
-<<<<<<< Updated upstream
    * when any other zombie on map knows player location, master zombie knows too
    * used to turn on member variable anOtherZombieKnows
-=======
-   * If an other zombie knows where the player is set the player to true
->>>>>>> Stashed changes
    */
   public void setAnOtherZombieKnowsTrue()
   {
@@ -113,7 +108,6 @@ public class ZombieMaster extends ZombieRandom
   /**
    * returns the appropriate sprite based on the direction the zombie is walking and the moment of animation
    * @return BufferedImage of the sprite
->>>>>>> Stashed changes
    */
   @Override
   public BufferedImage getImage()

@@ -10,6 +10,7 @@ import java.awt.*;
  *
  * Abstract class Zombie is the parent of all Zombie units (Linewalk, Random and Master).
  * If a zombie can smell the player, then it knows the quickest route to the player.
+ * Zombies find the shortest path by using the AStar class, an instance of which is found in the level data structure
  *
  * Holds all the common variables and methods used by Zombie units such as if the zombie can smell the player
  * and the time since the zombie's last decision.

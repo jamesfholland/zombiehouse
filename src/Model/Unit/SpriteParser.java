@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 
 /**
  * SpriteParser handles splitting sprite sheets into individual animation cells
+ * On a program level, the SpriteParser does not interact with any of the larger abstract classes
+ * Every unit which has an animation uses SpriteParser to get which sprite should be played at the current update
  */
 public class SpriteParser
 {

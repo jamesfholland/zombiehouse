@@ -4,44 +4,47 @@ import Model.Settings;
 import Model.Unit.Fire;
 import Model.Unit.Firetrap;
 import Model.Unit.Zombie.Zombie;
-import Model.Unit.Zombie.ZombieLine;
-import Model.Unit.Zombie.ZombieMaster;
-import Model.Unit.Zombie.ZombieRandom;
 import View.ViewManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
-import java.util.Set;
 
 /**
- * This class controls the running of the program. It contains the main game loop and signals the gui to refresh.
+ * The Controller class is responsible for holding and updating the game loop. It tries to update every 1/60th of a second.
+ *
+ * On the program level, Controller is responsible for dictating when things move.
+ *
+ * On the class level, the Controller has touches both the model and the view. It has a pointer to the current level which is essentially the model
+ * and a pointer to the view. It tells both to update. It goes through the data in the model and tells it to update.
+ * It checks for death conditions for the zombies and the player and updates the model accordingly. It also tells the view to repaint
+ * after every update cycle.
+ *
+ * only the Main class has an instance of the controller as that is where zombiehouse is entered from
  */
+
 public class Controller
 {
   private final ViewManager VIEW;
 
   private HouseGeneration houseGenerator;
-  private Level currentLevel;
+  private  Level currentLevel;
   private Point heroDirection;
 
   public Controller()
   {
-    VIEW = new ViewManager();
     //Ask for defaults
+    VIEW = new ViewManager();
 
     heroDirection = new Point(0, 0);
+
     // Run house generator
     houseGenerator = new HouseGeneration();
 
     currentLevel = houseGenerator.getCurrentLevel();
-    //ZOMBIES = currentLevel.ZOMBIES;
-
 
     VIEW.setLevel(currentLevel);
     currentLevel.PLAYER.setDoubleLocation();
-
-
 
 
     //Setup fire's static members especially graphics
@@ -56,12 +59,14 @@ public class Controller
       {
         e.printStackTrace();
       }
-
     }
 
     startGameLoop();
   }
 
+  /**
+   * A simple function which spawns and starts the GameLoop
+   */
   public void startGameLoop()
   {
     Thread gameLoop = new GameLoop();
@@ -72,6 +77,7 @@ public class Controller
   {
     int x = 0;
     int y = 0;
+    //movement checks
     if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_DOWN) || VIEW.KEYBOARD.keyDown((KeyEvent.VK_S)))
     {
       y += 1;
@@ -88,6 +94,8 @@ public class Controller
     {
       x += 1;
     }
+
+    //picking up firetrap checks
     if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_P))
     {
       if (currentLevel.PLAYER.pickingOrPlacing())
@@ -110,6 +118,7 @@ public class Controller
       }
     }
 
+    //running checks
     if (VIEW.KEYBOARD.keyDown(KeyEvent.VK_R))
     {
       currentLevel.PLAYER.setSpeedRun();
@@ -117,6 +126,8 @@ public class Controller
     {
       currentLevel.PLAYER.setSpeedWalk();
     }
+
+    //set the hero direction to the user's input e.g 1,0 for holding the right/D key
     heroDirection.setLocation(x, y);
   }
 
@@ -155,29 +166,31 @@ public class Controller
 
         synchronized (currentLevel)
         {
-          VIEW.KEYBOARD.poll();
-          processInput();
+          VIEW.KEYBOARD.poll(); //find what keys are pressed this update
+          processInput(); //get the direciton the player wants to move
           currentLevel.PLAYER.setInputVector(heroDirection);
-          currentLevel.PLAYER.update(deltaTime);
+          currentLevel.PLAYER.update(deltaTime); //update the player
 
           if( currentLevel.PLAYER.checkCollision(currentLevel.EXIT.getHitbox()))
           {
+            //if the player finds the exit, win the live
             playerWinLevel();
           }
 
-          currentLevel.MASTER.update(deltaTime);
+          currentLevel.MASTER.update(deltaTime); //update the master zombie
 
-          if (currentLevel.MASTER.checkCollision(currentLevel.PLAYER.getHitbox()))
+          if (currentLevel.MASTER.checkCollision(currentLevel.PLAYER.getHitbox())) //check if the master zombie has killed the player
           {
             playerDeath();
             continue;
           }
 
-          Iterator<Zombie> zlIterator = currentLevel.ZOMBIES.iterator();
+          Iterator<Zombie> zlIterator = currentLevel.ZOMBIES.iterator(); //loop through the existing zombies on the level
           while (zlIterator.hasNext())
           {
             Zombie zombie = zlIterator.next();
-            zombie.update(deltaTime);
+            zombie.update(deltaTime); //update zombie
+            //if zombie knows where the player is, let the master zombie know that he also knows where the player is
             if (zombie.knowsPlayerLocation())
             {
               currentLevel.MASTER.setAnOtherZombieKnowsTrue();
@@ -187,6 +200,7 @@ public class Controller
               currentLevel.MASTER.setAnOtherZombieKnowsFalse();
             }
 
+            //if a zombie hits a player
             if (currentLevel.PLAYER.checkCollision(zombie.getHitbox()))
             {
               //GAME OVER
@@ -194,15 +208,17 @@ public class Controller
               break;
             }
 
+            //iterate over all the firetraps in the level
             Iterator<Firetrap> ftIterator = currentLevel.FIRETRAPS.iterator();
             while (ftIterator.hasNext())
             {
               Firetrap ft = ftIterator.next();
-              if (ft.checkCollision(zombie.getHitbox()))
+              if (ft.checkCollision(zombie.getHitbox())) //if zombie hits fire trap, make sure it explodes
               {
                 ft.spawnFire();
                 ftIterator.remove();
               }
+              //if a player is running and hits a fire trap, explode it
               if (currentLevel.PLAYER.isRunning() && currentLevel.PLAYER.checkCollision(ft.getHitbox()))
               {
                 ft.spawnFire();
@@ -210,6 +226,7 @@ public class Controller
               }
             }
 
+            //remove zombies who hit fires
             for (Fire fire : currentLevel.FIRES)
             {
               if (fire.checkCollision(zombie.getHitbox()))
@@ -234,6 +251,7 @@ public class Controller
               break;
             }
 
+            //if player intersects with fire, reset level
             if (fire.checkCollision(currentLevel.PLAYER.getHitbox()))
             {
               //GAME OVER
