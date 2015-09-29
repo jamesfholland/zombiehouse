@@ -1,12 +1,9 @@
 package Model.Unit;
 
-import Model.Level;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Firetraps are objects placed around map at random
