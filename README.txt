@@ -66,14 +66,10 @@ Rob Doyle:
 House Generation
 
 Julian Weisburd:
-Units, Collision, Keyboard Input
+Units, Keyboard Input
 
 Everyone:
 Controller
-
-#### Bugs
-Other zombies can pass through the Master Zombie. Probably a feature actually.
-If the game lags, the player or zombie can find themselves outside of the level which might lead to an ArrayOutOfBounds exception
 
 #### Image Credits
 wood.png http://opengameart.org/node/9288<br>
@@ -93,6 +89,6 @@ Basic fire http://www.freesound.org/people/tc630/sounds/47835/
 * Fires need set off fire traps
 * Game starts to lag after playing for ~10 minutes (yes I played that long) Probably a memory leak somewhere.
 * If said lag occurs the player may fly off the map and crash the game.
-
+* Other zombies can pass through the Master Zombie. Probably a feature actually.
 
 *Not required
