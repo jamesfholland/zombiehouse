@@ -17,7 +17,7 @@ import java.util.LinkedList;
  * and the controller tells the level to update the moving GameObjects on update calls. 
  *
  * Many of the Zombiehouse classes use level. GameObjects themselves have a static copy of level so they can check where they are/
- * if they're running into anything/need to know the player location. 
+ * if they're running into anything/need to know the player location.
  */
 public class Level
 {
